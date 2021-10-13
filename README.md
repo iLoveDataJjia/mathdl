@@ -11,7 +11,7 @@
 - You are ready to edit the document!
 - To export as PDF click on the PDF file icon on top of the UI.
 
-# References used
+# References
 
 - [Neural Networks from Scratch](https://www.youtube.com/watch?v=Wo5dMEP_BbI&list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3)
 - [Multivariable chain rule examples](https://mathinsight.org/chain_rule_multivariable_examples#:~:text=The%20chain%20rule%20says%20that,g(s%2Ct).&text=Then%2C%20we%27ll%20end%20up,(x%2Cy)%5D)
