@@ -1,8 +1,8 @@
-# MathDL - A mathematical understanding of deep learning
+# MathDL - A deep mathematical understanding of DNNs
 
 ![](docs/mathdl-front-img.jpg)
 
-🤓📐 An explanation of deep learning in a complete mathematical approach. The purpose of this project is using the open source software `Libre Office` to do a theoretical explanation with - definitions, propositions, theorems and proofs.
+🤓📐 An explanation of dense neural networks in a complete mathematical approach. The purpose of this project is using the open source software `Libre Office` to do a theoretical explanation with - definitions, propositions, theorems and proofs.
 
 # Want to edit the document yourself ?
 
