@@ -1,4 +1,4 @@
-# MathDL - A deep mathematical understanding of DNNs
+# MathDNN - A deep mathematical understanding of DNNs
 
 ![](docs/mathdl-front-img.jpg)
 
