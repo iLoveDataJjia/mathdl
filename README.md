@@ -1,5 +1,7 @@
 # MathDNN - A deep mathematical understanding of DNNs
 
+[![Generic badge](https://img.shields.io/badge/LibreOffice-7.1.3.2-brightgreen.svg?style=plastic)](https://fr.libreoffice.org/)
+
 ![](docs/mathdl-front-img.jpg)
 
 🤓📐 An explanation of dense neural networks in a complete mathematical approach. The purpose of this project is using the open source software `Libre Office` to do a theoretical explanation with - definitions, propositions, theorems and proofs.
