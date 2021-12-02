@@ -16,3 +16,8 @@
 - [Neural Networks from Scratch](https://www.youtube.com/watch?v=Wo5dMEP_BbI&list=PLQVvvaa0QuDcjD5BAw2DxE6OF2tius3V3)
 - [Matrix Differentiation](https://atmos.washington.edu/~dennis/MatrixCalculus.pdf)
 - [Jacobian and Chain Rule](https://www.youtube.com/watch?v=GvwsCscqAjk)
+
+# Draft references
+
+- [10-725: Optimization](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/scribes/lec6.pdf)
+- [Convergence Theorems for Gradient Descent](https://gowerrobert.github.io/pdf/M2_statistique_optimisation/grad_conv.pdf)
