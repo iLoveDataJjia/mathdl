@@ -24,3 +24,4 @@
 - [10-725: Optimization](https://www.stat.cmu.edu/~ryantibs/convexopt-F13/scribes/lec6.pdf)
 - [Convergence Theorems for Gradient Descent](https://gowerrobert.github.io/pdf/M2_statistique_optimisation/grad_conv.pdf)
 - [L1 Analyse : démonstration de la formule de Taylor avec reste intégral](https://www.youtube.com/watch?v=Hr6BaVbrkOw)
+- [COURS OPTIMISATION](http://math.univ-lyon1.fr/~ciuperca/optim-M1-sitn/cours-optim-M1-sitn.pdf)
