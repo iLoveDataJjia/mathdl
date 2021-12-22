@@ -1,0 +1,1517 @@
+\documentclass[12pt]{article}
+\usepackage[OT1]{fontenc}
+\usepackage{mickaelpechaud_cours}
+
+\begin{document}
+
+\renewcommand{\labelitemi}{\textbullet}
+
+\date{2008}
+  \title{Développements limités}
+  \author{Mickaël Péchaud}
+  
+  \maketitle
+  
+  \tableofcontents
+
+
+\newpage
+Ce document est sous licence Creative Commons ccpnc2.0 :
+
+
+\href{http://creativecommons.org/licenses/by-nc/2.0/fr/}{http://creativecommons.org/licenses/by-nc/2.0/fr/} 
+
+
+En gros, vous pouvez faire ce que bon vous semble avec ce document, y
+compris l'utiliser pour faire des papillotes, ou faire une performance
+publique (gratuite) durant lequel vous le mangez feuille par feuille (ce
+que je déconseille tout de même), aux conditions expresses que :
+
+
+
+\begin{itemize}
+\item vous en citiez l'auteur.
+
+\item vous n'en fassiez pas d'utilisation commerciale.
+\end{itemize}
+
+\bigskip
+
+Par respect pour l'environnement, merci de ne pas imprimer ce document si
+ça n'est pas indispensable (et ça n'est pas indispensable).
+
+\newpage
+
+Ce document est un cours introductif sur les développements limités. Il se place à
+un niveau MPSI.
+
+\spe{
+  Ceci est de niveau MP
+}
+
+\;
+
+\spepp{
+  Ceci est de niveau au delà de la MP
+}
+
+
+\newpage
+
+\section{Définitions, premières propriétés}
+
+Les développements limités sont un produit de la théorie des comparaisons
+de fonctions. L'idée sous-jacente est de comparer toute une classe de
+fonctions à une certaine famille de fonctions fixées. Dans le cadre des
+développements limités, il s'agira de polynômes. Dit simplement, un
+développement limité est donc une approximation en un point d'une fonction
+par un polynôme.
+
+
+
+% \section{Voisinage}
+
+% \begin{Def}[Voisinage]~
+
+% Soit $I\subset \R$ un intervalle de $R$.
+
+% Soit $a\in I$ ou $I$ une extrémité de $I$. 
+
+% On appelle \defemph{voisinage de $a$} tout intervalle de la forme
+
+
+%   \begin{itemize}
+%   \item $I \cap ]a-\epsilon, a+\epsilon[$
+%   \end{itemize}
+ 
+% \end{Def}
+
+
+\subsection{Développements limités}
+
+\begin{Def}[Développement limité]~
+
+Soit $n\inN$.
+
+Soit $I$ un intervalle de $\R$, $a\in I$.
+
+Soit $f$ une fonction de $I$ dans $\R$. 
+
+On dit que $f$ admet un \defemph{développement limité} (DL) à l'ordre $n$
+en $a$ ($\DL_n(a)$) Ssi il existe $P \in \R_n[X]$ et $\epsilon :
+I\rightarrow \R$ tels que pour tout $x\in I$
+
+\begin{center}
+
+ $$f(x)= P(x-a) + (x-a)^{n}\epsilon(x)$$ et 
+ $$\lim_a \epsilon=0$$
+
+\end{center}
+
+
+
+
+$x\mapsto P(x-a)$ est appelée \defemph{partie régulière} du DL,
+$x\mapsto (x-a)^{n}\epsilon(x)$ est appelé \defemph{reste} d'ordre $n$.
+
+On peut également écrire : 
+
+$f(x)\underset{x\rightarrow a}{=} P(x-a) + \text{o}(x-a)^{n}$
+
+\end{Def}
+
+Un développement limité est l'approximation \textbf{locale} d'une fonction
+par un polynôme. L'approximation est d'autant plus précise que l'ordre du
+DL est élevé.
+
+
+\begin{Exems}~
+  \begin{itemize}
+
+  \item Soit $f:x\mapsto x^3-2x^2+3x+1$. Pour tout $x$, on a $f(x)=1+3x-2x^2+x (x^2)$, avec $x^2
+    \underset{x\rightarrow 0}{\rightarrow} 0 $.
+
+    Donc $f$ admet un $\DL_2(0)$, de partie régulière $x\mapsto 1+3x-2x^2$.
+    
+    $f$ admet de même un  $\DL_3(0)$, de partie régulière $x\mapsto 1+3x-2x^2+x^3$,
+    et de reste nul. En fait, il s'agit également d'un $\DL_n(0)$.
+    
+    Plus généralement, on a la propriété suivante :
+    
+    \begin{Prop}~      
+      $$ f \text{admet un } \DL_n(a) \text{de reste nul}
+      \Leftrightarrow f \text{est un polynôme de degré au plus\;} n $$
+    \end{Prop}
+    \begin{demo}~
+      
+      
+      \begin{itemize}
+        \item pour le sens direct, on écrit simplement la définition du DL
+        pour un tel ordre $n$. Le reste étant nul, la fonction est égale à
+        sa partie régulière, qui est un polynôme de degré au plus $n$.
+        
+        \item pour le sens réciproque, on pose $g(.)=f(.+a)$, et on écrit
+        pour tout $x\inR$ $f(x)=g(x-a)=g(x-a)+\text{o}((x-a)^n)$, qui est un $\DL_n(a)$ de reste
+        nul.
+      \end{itemize}
+
+
+    \end{demo}
+
+    Les DLs ne sont donc pas un outil très intéressant pour étudier les
+    polynômes\dots
+    
+  \item Soit $f$ définie par
+
+\[
+f : \left\{
+\begin{array}{rcl}
+]-1,1[ & \to & \R \\
+x & \mapsto & \frac{1}{1-x}
+\end{array}
+\right.
+\]
+
+On montre par récurrence que pour tout $n \inN$ et pour tout $x\inR\backslash\{1\}$, $$\frac{1}{1-x} = 1 + x +
+\dots + x^n + x^n \left(\frac{x}{1-x}\right)$$
+
+$x\mapsto \frac{x}{1-x}$ étant de limite nulle en $0$, $f$ admet donc un
+$\DL_n(0)$, de partie régulière $ x\mapsto 1 + x + \dots + x^n$.
+
+  \end{itemize}
+\end{Exems}
+
+\paragraph{Remarque:}$f$ admet un $\DL_n(a)$ Ssi $f(.-a)$ admet un
+$\DL_n(0)$. On pourra donc faire l'étude des propriétés théoriques des DLs
+en $0$.
+
+\subsection{Troncature}
+
+Si on a un DL a un certain ordre $n$, on obtient facilement un DL d'ordre
+$p<n$ en tronquant la partie régulière du $\DL_n(a)$ à l'ordre $p$.
+
+\begin{Prop}~
+
+Si $f$ admet un $\DL_n(a)$, alors $f$ admet un $\DL_p(a)$ pour tout $p<n$.
+
+Sa partie régulière est celle du $\DL_n(a)$ tronquée à l'ordre $p$.
+
+
+\end{Prop}
+
+
+\begin{demo}~
+  
+Sans perte de généralité, étudions le cas $a=0$.
+
+$f(x)\underset{x\rightarrow 0}{=} a_0 + x a_1 + \dots + x^p a_p + x^{p+1} a_{p+1} + \dots + x^n a_n  + \text{o}(x)^{n}$
+
+Or, $x^{p+1} a_{p+1} + \dots + x^n a_n  + \text{o}(x)^{n}
+\underset{x\rightarrow 0}{=} \text{o}(x)^{p}$
+
+D'où $f(x) \underset{x\rightarrow 0}{=} a_0 + x a_1 + \dots + x^p a_p + \text{o}(x)^{p}$
+
+
+\end{demo}
+
+
+
+\subsection{Unicité}
+
+Bonne nouvelle, il y a unicité du développement limité.
+
+\begin{Theo}[Unicité du DL]~
+
+Soit $f:I\rightarrow \R$, $a\in I$, $n\inN$. Il y a unicité de la partie
+régulière du $\DL_n(a)$.
+
+\end{Theo}
+
+\begin{demo}~
+
+Sans perte de généralité, traitons le cas $a=0$.
+
+Supposons l'existence de deux polynômes $P$ et $Q \in \R_n[X]$ tels que 
+
+$f(x)\underset{x\rightarrow 0}{=} P(x) + \text{o}(x)^{n}$
+
+et 
+
+$f(x)\underset{x\rightarrow 0}{=} Q(x) + \text{o}(x)^{n}$
+
+On en déduit donc que $(P-Q) (x) \underset{x\rightarrow 0}{=} \text{o}(x)^{n}$. Or $\deg(P-Q)\leq n$. On
+en déduit immédiatement $P-Q=0$.
+
+\end{demo}
+
+
+\begin{Cor}~
+
+
+\begin{itemize}
+\item Soit $f$ une fonction paire. La partie régulière du $\DL_n(0)$ est un
+polynôme pair.
+
+\item Soit $f$ une fonction impaire. La partie régulière du $\DL_n(0)$ est un
+polynôme impair.
+\end{itemize}
+
+\end{Cor}
+
+\begin{demo}~
+
+On écrit $f(x)\underset{x\rightarrow 0}{=}P(x)+\text{o}(x^n)$. Par parité de $f$, on obtient
+$P(-x)+\text{o}(x^n)\underset{x\rightarrow 0}{=}f(-x)\underset{x\rightarrow 0}{=}f(x)\underset{x\rightarrow 0}{=}P(x)+\text{o}(x^n)$. Par unicité du DL, on
+en déduit $P(X)=P(-X)$.
+
+On raisonne de même pour les fonctions impaires.
+
+\end{demo}
+
+\subsection{Liens avec la continuité et la dérivabilité}
+
+À l'ordre 0, nous avons une caractérisation très simple pour l'existence de
+DLs. 
+
+\begin{Prop}~
+
+$f$ admet un $\DL_0(a)$ Ssi $f$ est continue en $a$.
+
+\end{Prop}
+
+En effet, la définition se réecrit $f(x)\underset{x\rightarrow 0}{=}a_0+\text{o}(1)$. En passant à la
+limite, on a $a_0=f(a)$. On a donc $f(x)\underset{x\rightarrow
+  0}{=}f(a)+\text{o}(1)$, ce qui est exactement
+la définition de la continuité en $a$.
+
+\medskip
+
+À l'ordre 1, cela va encore. Comme ci-dessus, on peut écrire :
+
+\begin{Prop}~
+
+$f$ admet un $\DL_1(a)$ Ssi $f$ est dérivable en $a$.
+
+\end{Prop}
+
+et on montre que la partie régulière du DL est $x\mapsto f(a)+f'(a)(x-a)$.
+
+
+\medskip
+
+Dans la section suivante, nous allons partiellement généraliser ces
+résultats aux ordres supérieurs. 
+
+\section{Taylor-Young}
+
+\subsection{Le théorème}
+
+Voici maintenant un théorème qui assure l'existence de DLs à des ordres
+supérieurs pour une grande classe de fonctions, et permet de plus de les
+calculer simplement.
+
+\begin{Theo}[Taylor-Young]~ 
+
+\label{TaylorYoung}
+
+Soit $n \inN^*$, $I$ un intervalle de $\mathbb{R}$, $a$ dans l'intérieur de
+$I$. Soit $f$ une fonction de $I$ dans $\mathbb{R}$, $n$ fois dérivable
+dans $I$.
+
+Alors, $f$ admet un $\DL_n(a)$, de partie réulière
+$\sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(X-a)^k$, i.e.
+
+$$f(x)\underset{x\rightarrow a}{=}\sum_{k=0}^n\frac{f^{(k)}(a)}{k!}(x-a)^k+\text{o}((x-a)^n)$$
+
+\end{Theo}
+
+\begin{demo}~
+
+Effectuons la démonstration par récurrence.
+  
+\begin{description}
+\item[Initialisation:] si $n=1$, $f$ est dérivable, et on a par définition
+  $f'(a)=\underset{x\rightarrow a}{\lim}\frac{f(x)-f(a)}{x-a}$, i.e. $f(x)-f(a)\underset{x\rightarrow a}{\sim} f'(a)(x-a)$ ou
+  encore $f(x)-f(a) \underset{x\rightarrow a}{=} f'(a)(x-a)+\text{o}((x-a)^1)$
+
+\item[Hérédité:] supposons le résultat vrai pour $n$. Soit $f$ $n+1$ fois dérivable
+  dans $I$. Alors $f'$ est $n$ fois dérivable. On lui applique l'hypothèse
+  de récurrence, et on peut écrire :
+
+$$f'(x)-\sum_{k=0}^n\frac{f^{(k+1)}(a)}{k!}(x-a)^k\underset{x\rightarrow a}{=}\text{o}(x-a)^n$$
+
+Pour tout $\ep>0$ il existe donc $\eta$ tel que $$\forall x\in I\;\;|x-a|\leq\eta \Rightarrow
+\left|f'(x)-\sum_{k=0}^n\frac{f^{(k+1)}(a)}{k!}(x-a)^k\right| \leq \ep |x-a|^n$$
+
+Nous voudrions primitiver cette inégalité, mais les valeurs absolues sont
+génantes. Distinguons deux cas :
+
+\begin{itemize}
+
+\item Soit $x\in [a, a+\eta]$. On a $$-\ep (x-a)^n \leq f'(x)-\sum_{k=0}^n\frac{f^{(k+1)}(a)}{k!}(x-a)^k \leq \ep (x-a)^n$$
+
+Primitivons entre $a$ et $x$. D'après l'inégalité des accroissements finis, on a 
+
+
+$$-\frac{\ep}{n+1}(x-a)^{n+1}\leq f(x)-\sum_{k=0}^n\frac{f^{(k+1)}(a)}{(k+1)!}(x-a)^{k+1}-f(a)\leq\frac{\ep}{n+1} (x-a)^{n+1}$$
+
+Soit 
+
+$$\forall x\in [a, a+\eta]\;\;\;\;\left|f(x)-\sum_{k=0}^{n+1}\frac{f^{(k)}(a)}{k!}(x-a)^{k}\right|\leq\frac{\ep}{n+1} |x-a|^{n+1}$$
+
+\item Soit $x\in [a-\eta, a]$. On a $$-\ep (a-x)^n \leq f'(x)-\sum_{k=0}^n\frac{f^{(k+1)}(a)}{k!}(x-a)^k \leq \ep (a-x)^n$$
+
+et on conclut de la même manière.
+
+\end{itemize}
+
+On obtient donc finalement 
+
+$$\forall x\in [a-\eta, a+\eta]\;\;\;\;\left|f(x)-\sum_{k=0}^{n+1}\frac{f^{(k)}(a)}{k!}(x-a)^{k}\right|\leq\frac{\ep}{n+1} |x-a|^{n+1}$$
+
+et quitte à poser $\ep'=\frac{\ep}{n+1}$, on a donc bien le résultat voulu.
+
+\end{description}
+
+\end{demo}
+
+En revanche, la réciproque est fausse. À partir de l'ordre $n=2$, on peut
+trouver des fonctions admettant des $\DL_n$, mais qui ne sont pas $n$ fois
+dérivables.
+
+\begin{Exem}~
+
+Considérons
+
+\[
+f : \left\{
+\begin{array}{rcl}
+\R  & \to & \R \\
+x & \mapsto & \left\{
+\begin{array}{cl} 
+  x^3 \sin(\frac{1}{x}) & \text{si}\;\; x\neq 0\\
+  0 & \text{si}\;\; x=0 
+\end{array}
+\right.
+\end{array}
+\right.
+\]
+
+$f$ est $\cinf$ sur $\R^*$
+
+Un calcul rapide montre que pour $x\inR^*$, 
+
+$$f'(x)=3x^2\sin(\frac{1}{x}) - x
+\cos(\frac{1}{x})$$
+
+qui est de limite nulle quand $x$ tend vers 0.
+
+Par ailleurs, en considérant le taux d'accroissement en 0, on voit
+facilement que $f$ est dérivable en $0$ et que $f'(0)=0$ -- d'où l'on déduit
+que $f \in \mathcal{C}^1$.
+
+Analysons la dérivabilité de $f'$ en $0$ :
+
+$$\frac{f'(x) - f'(0)}{x-0}=3x\sin(\frac{1}{x}) - 
+\cos(\frac{1}{x})$$
+
+qui n'a pas de limite lorsque $x$ tend vers 0.
+
+D'où $f
+\notin \Delta^2$.
+
+ 
+En revanche, en posant $g:x\mapsto x\sin(\frac{1}{x})$ prolongée pas $0$ en
+$0$, on peut écrire pour tout $x\inR^*$ $f(x)=0+0x+0x^2+x^2(g(x))$, qui
+est un $\DL_2(0)$ de $f$. 
+
+
+
+\end{Exem}
+
+
+\subsection{Calculs de DLs}
+
+Ce théorème nous permet de calculer immédiatement des DLs pour de
+nombreuses fonctions usuelles.
+
+\subsubsection{Exponentielle}
+
+$\exp$ est $\cinf$, et sa dérivée n\textsuperscript{ème} est
+elle-même. D'après Taylor-Young (\ref{TaylorYoung}), elle admet un DL à
+tout ordre $n$ en 0 :
+
+\begin{align}
+\exp(x)&\underset{x\rightarrow 0}{=}\sum_{k=0}^n \frac{x^k}{k!}+\text{o}(x^n)\\
+&\underset{x\rightarrow 0}{=}1+x+\frac{x^2}{2!}+\frac{x^3}{3!}+\dots
+\end{align}
+
+
+Par définition de $\sh$ et $\ch$ (comme partie impaires et paires de
+$\exp$), on obtient immédiatement leur DL respectif :
+
+\begin{align}
+  \ch(x)=\frac{e^x+e^{-x}}{2}&\underset{x\rightarrow 0}{=}\sum_{k=0}^{n/2} \frac{x^{2k}}{(2k)!}+\text{o}(x^n)\\
+  &\underset{x\rightarrow 0}{=}1+\frac{x^2}{2!}+\frac{x^4}{4!}+\dots
+\end{align}
+
+\begin{align}
+  \sh(x)=\frac{e^x-e^{-x}}{2}&\underset{x\rightarrow 0}{=}\sum_{k=0}^{(n-1)/2} \frac{x^{2k+1}}{(2k+1)!}+\text{o}(x^n)\\
+  &\underset{x\rightarrow 0}{=}x+\frac{x^3}{3!}+\frac{x^5}{5!}+\dots
+\end{align}
+
+
+Remarquez que la parité de $\ch$ entraine la nullité des termes impairs,
+et nous permet donc de gagner un ordre à la fin : ainsi, on a par exemple 
+
+$$  \ch(x) \underset{x\rightarrow 0}{=}1+\frac{x^2}{2!}+\frac{x^4}{4!}+\text{o}(x^{\mathbf{5}})\dots
+$$
+
+et de même pour $\sh$.
+
+
+\subsubsection{Fonctions trigonométriques}
+
+$\cos$ et $\sin$ sont $\cinf$, et admettent donc un développement limité à
+tout ordre en $0$.
+
+
+Par ailleurs, on a $\cos'=-\sin$, $\cos^{(2)}=-\cos$, $\cos^{(3)}=\sin$,
+$\cos^{(4)}=\cos$, et ainsi de suite. 
+
+Les valeurs des dérivées successives
+en $0$ sont donc $1$, $0$, $-1$, $0$, $1$, $0$, $-1$, $0$\dots 
+ 
+
+On en déduit simplement la partie régulière du DL$_{2n+1,0}$ de $\cos$ :
+
+\begin{align}
+\cos(x)&\underset{x\rightarrow 0}{=}\sum_{k=0}^{n} (-1)^k\frac{x^{2k}}{(2k)!}+\text{o}(x^{2n+1})\\
+&\underset{x\rightarrow 0}{=}1-\frac{x^2}{2!}+\frac{x^4}{4!}+\dots
+\end{align}
+
+
+
+De même, pour $\sin$, 
+
+\begin{align}
+\sin(x)&\underset{x\rightarrow 0}{=}\sum_{k=0}^{n} (-1)^k\frac{x^{2k+1}}{(2k+1)!}+\text{o}(x^{2n+2})\\
+&\underset{x\rightarrow 0}{=}x-\frac{x^3}{3!}+\frac{x^5}{5!}+\dots
+\end{align}
+
+Ici aussi, la nullité d'un terme sur deux permet de gagner un ordre à la
+fin.
+
+
+
+\subsubsection{Puissances}
+
+Soit $\alpha \inR$.
+
+Considérons la fonction $f:x\mapsto(1+x)^\alpha$. Elle est $\cinf$ en $0$, et on
+calcule sans peine ses dérivées pour $x$ au voisinage de $0$ :
+$f'(x)=\alpha(1+x)^{\alpha-1}$,
+$f''(x)=\alpha(\alpha-1)(1+x)^{\alpha-2}$\dots \;(les dérivées finissent par s'annuler si $\alpha\inN$, i.e. si $f$ est un polynôme).
+
+On a donc
+
+$$(1+x)^\alpha \underset{x\rightarrow 0}{=} 1+\alpha x + \frac{\alpha(\alpha-1)}{2!} x^2 +
+\frac{\alpha(\alpha-1)(\alpha-2)}{3!} x^3 + \dots$$
+
+Quelques cas particuliers fréquents : pour tout $n$, on a :
+
+\begin{description}
+
+\item[$\alpha=1/2$]
+
+$$\sqrt{1+x} \underset{x\rightarrow 0}{=} 1 +\frac{1}{2} x - \frac{1}{8}
+  x^2 - (-1)^n \frac{1.3.5\dots(2n-3)}{2.4\dots(2n)} x^n+  \text{o}(x^n)$$
+
+\item[$\alpha=-1/2$]
+
+$$\frac{1}{\sqrt{1+x}} \underset{x\rightarrow 0}{=} 1 -\frac{1}{2} x + \frac{3}{8} x^2 + (-1)^n \frac{1.3.5\dots(2n-1)}{2.4\dots(2n)} x^n+ \text{o}(x^n)$$
+
+\item[$\alpha=-1$]
+
+$$\frac{1}{1+x} \underset{x\rightarrow 0}{=} 1 - x +  x^2 - x^3 + x^4 +
+  \dots + (-1)^nx^n + \text{o}(x^n)$$
+
+\end{description}
+
+
+\section{Opérations sur les DLs}
+
+Voyons mainenant comment combiner ces formules.
+
+Dans toute cette section, $n$ est un entier quelconque. 
+
+\subsection{Combinaison linéaire}
+
+\begin{Prop}~
+
+Soient $f$ et $g$ admettant un $\DL_n(a)$, et $(\lambda,
+\mu)\inR^2$. Soient $P$ et $Q$ les parties régulières de ces DLs. Alors
+$\lambda f + \mu g$ admet un $\DL_n(a)$ de partie régulière $\lambda P +
+\mu Q$.
+
+\end{Prop}
+
+\begin{demo}~
+
+Soient $f$ et $g$ comme dans l'énoncé.
+
+On a $$f(x)\underset{x\rightarrow a}{=}P(x-a)+\text{o}((x-a)^n)$$ et
+$$g(x)\underset{x\rightarrow a}{=}Q(x-a)+\text{o}((x-a)^n)$$ 
+
+On en déduit 
+$$(\lambda f+\mu g)(x)\underset{x\rightarrow a}{=}(\lambda P+\mu Q)(x-a)+\text{o}((x-a)^n)$$
+
+\end{demo}
+
+
+\subsection{Produit}
+
+\begin{Prop}~
+
+Soient $f$ et $g$ admettant un $\DL_n(a)$. Soient $P$ et $Q$ les parties
+régulières de ces DLs. Alors $f g$ admet un $\DL_n(a)$. Sa partie régulière
+est obtenue comme troncature à l'ordre $n$ de $PQ$.
+
+\end{Prop}
+
+\begin{demo}~
+
+ Plaçons-nous en $a=0$ sans perte de
+généralité. 
+Soient $f$ et $g$ comme dans l'énoncé.
+
+On a $$f(x)\underset{x\rightarrow 0}{=}P(x)+\text{o}(x^n)$$ et
+$$g(x)\underset{x\rightarrow 0}{=}Q(x)+\text{o}(x^n)$$ 
+
+On en déduit par produit
+$$(fg)(x)\underset{x\rightarrow 0}{=}(PQ)(x)+\text{o}(x^n)$$
+
+Notons $\widetilde{PQ}$ la troncature à l'ordre $n$ de $PQ$. On a
+$\widetilde{PQ}(x)\underset{x\rightarrow 0}{=}PQ(x)+\text{o}(x^n)$ d'où 
+
+$$(fg)(x)\underset{x\rightarrow 0}{=}(\widetilde{PQ})(x)+\text{o}(x^n)$$
+
+De plus, $d^o(\widetilde{PQ}) \leq n$, et $\widetilde{PQ}$ est donc bien la partie
+régulière du $\DL_n(0)$ de $fg$.
+
+\end{demo}
+
+\begin{Exem}~
+
+Soit à obtenir un $\DL_4(0)$ de $\cos\sin$.
+
+On écrit 
+
+$$\cos(x)\underset{x\rightarrow 0}{=}1-\frac{x^2}{2}+\frac{x^4}{4!}+\text{o}(x^4)$$
+
+$$\sin(x)\underset{x\rightarrow 0}{=}x-\frac{x^3}{3!}+\text{o}(x^4)$$
+
+Le produit des parties régulières donne :
+
+$$(1-\frac{x^2}{2}+\frac{x^4}{4!})(x-\frac{x^3}{3!}) = x - \frac{2x^3}{3}   + \frac{x^5}{8}  - \frac{ x^7}{144}
+\underset{x\rightarrow 0}{=} x-\frac{2x^3}{3} + \text{o}(x^4)$$ 
+
+D'où $$\cos(x)\sin(x)\underset{x\rightarrow 0}{=}x-\frac{2x^3}{3} + \text{o}(x^4)$$ 
+
+\end{Exem}
+
+\begin{Exem}~
+
+Voici une autre méthode pour obtenir un $\DL_4(0)$ de $\cos\sin$.
+
+On écrit pour tout $x$ réel $\cos(x)\sin(x)=\frac{\sin(2x)}{2}$.
+
+On sait de plus que $\sin(x)\underset{x\rightarrow 0}{=}x-\frac{x^3}{3!}+\text{o}(x^4)$. 
+
+Par composition à droite, on a donc $\sin(2x)\underset{x\rightarrow
+  0}{=}2x-\frac{8 x^3}{3!}+\text{o}(x^4)$. 
+
+D'où 
+
+$$\cos(x)\sin(x)\underset{x\rightarrow
+  0}{=}x-\frac{2 x^3}{3}+\text{o}(x^4)$$
+
+\end{Exem}
+
+
+\subsection{Composition}
+
+\begin{Prop}~
+
+\label{compoDL}
+
+Soient $f$ admettant un $\DL_n(a)$  et $g$ admettant un
+$\DL_n(b)$. Supposons de plus $g(b)=a$. Soient $P$ et $Q$ les parties
+régulières de ces DLs. Alors $f\text{o} g$ admet un $\DL_n(a)$. Sa partie régulière
+est obtenue comme troncature à l'ordre $n$ de $P \text{o} Q$.
+
+\end{Prop}
+
+\begin{demo}~
+
+Quitte à effectuer un changement de variable et à poser $g\rightarrow
+g-g(a)$, on peut sans perte de généralité se ramener au cas où $a=b=0$.
+
+On a pour tout $x$ sur un voisinage de $0$ $$f(x)=P(x)+x^n\ep_f(x)$$ et
+$$g(x)=Q(x)+x^n\ep_g(x)$$ 
+
+avec $\ep_f$ et $\ep_g$ de limite nulle en 0.
+
+Écrivons $P(X)=a_n X^n + \dots +a_0$.
+
+On a alors
+
+\begin{align*}
+f\text{o}g(x)&=a_n g(x)^n+ \dots + a_1 g(x) + a_0 +x^n\ep_f(x)\\
+&=a_n (Q(x)+x^n \ep_g(x))^n+ \dots + a_1 (Q(x)+x^n \ep_g(x)) + a_0 +x^n\ep_f(x)
+\end{align*}
+
+Or, pour tout $i\in [0,n]$, $$(Q(x)+x^n \ep_g(x))^i=\sum_{k=0}^i
+\binom{k}{i}Q(x)^{i-k} (x^n \ep_g(x))^{k}=Q(x)^i + x^n \sum_{k=1}^i
+\left(\binom{k}{i}Q(x)^{i-k} x^{n(k-1)}\right) \ep_g(x)^{k} $$
+
+Chacun des termes de la somme tend vers $0$ lorsque $x$ tend vers $0$.
+
+On en déduit $$(Q(x)+x^n \ep_g(x))^i=Q(x)^i+x^n\ep_i(x)$$
+
+où $\ep_i$ est de limite nulle en 0.
+
+En réinjectant dans l'expression de $f\text{o} g$, on obtient
+
+\begin{align*}
+f\text{o}g(x)&=a_n Q(x)^n+ \dots + a_1 Q(x) + a_0
++x^n(\ep_f(x)+\ep_1(x)+\dots+\ep_n(x) )\\
+&=P\text{o}Q(x)+x^n(\ep_f(x)+\ep_1(x)+\dots+\ep_n(x) )\\
+\end{align*}
+
+Par troncature, on en déduit le résultat annoncé.
+
+\end{demo}
+
+
+
+
+\subsection{Inverse}
+
+\begin{Prop}~
+
+Soient $f$ admettant un $\DL_n(a)$ et telle que $f(a)\neq 0$. Alors $\frac{1}{f}$ admet un $\DL_n(a)$. 
+\end{Prop}
+
+\begin{demo}~
+
+Soit $n\inN$, et $f$ vérifiant les hypothèses de l'énoncé.
+
+Posons $$g:x\mapsto \frac{1}{x+f(a)}$$ $g$ admet un $\DL_n(0)$.
+
+On a alors pour tout $x$ au voisinage de $a$
+$$\frac{1}{f(x)}=\frac{1}{f(x)-f(a)+f(a)} = g\text{o}(f-f(a))(x)$$ 
+
+D'après \ref{compoDL}, $\frac{1}{f(x)}$ admet donc un $\DL_n(a)$.
+
+\end{demo}
+
+La démonstration nous fournit également le moyen de calculer ce
+développement limité.
+
+\begin{Exem}~
+
+Voici un exemple de calcul pratique :
+
+Soit $f:x\mapsto \frac{1}{cos(x)}$
+
+Cherchons un $\DL_4(0)$ de $f$. D'après la proposition, comme $cos(0)=1$,
+un tel DL existe.
+
+Écrivons pour tout $x$ au voisinage de 0 
+
+$$f(x)=\frac{1}{\cos(x)-1+1}$$
+
+On a $$1-\cos(x)\underset{x\rightarrow
+  0}{=}\frac{x^2}{2}-\frac{x^4}{4!}+\text{o}(x^4)$$
+
+et $$\frac{1}{1-x}\underset{x\rightarrow
+  0}{=}1+x+x^2+x^3+x^4+\text{o}(x^4)$$
+
+D'après \ref{compoDL}, la partie régulière recherchée est la composée de
+ces parties régulières tronquée à l'ordre $4$, i.e.
+
+$$f(x)\underset{x\rightarrow
+  0}{=}1+\left(\frac{x^2}{2}-\frac{x^4}{4!}\right)+\left(\frac{x^2}{2}\right)^2+\text{o}(x^4)\underset{x\rightarrow
+  0}{=}1+\frac{x^2}{2}+\frac{5x^4}{4!}+\text{o}(x^4)$$ 
+
+
+On peut vérifier la cohérence de ce résultat effectuant le produit avec le
+$\DL_4(0)$ de $\cos$.
+
+\end{Exem}
+
+
+
+\subsection{Primitivation de DLs}
+
+\begin{Prop}~
+
+\label{primiDL}
+  Soit $f:I\rightarrow \R$ dérivable. Si $f'$ admet un $\DL_n(a)$, de partie
+  régulière $x\rightarrow a_0+a_1x+\dots a_nx^n$, alors $f$ admet un $\DL_{n+1}(a)$ de partie régulière $x\rightarrow f(a)+a_0x+a_1\frac{x^2}{2}+\dots a_n\frac{x^{n+1}}{n+1}$.
+
+  
+\end{Prop}
+
+En d'autres termes, on peut primitiver terme à terme un DL.
+
+\begin{demo}~
+
+Il suffit de reprendre la preuve de Taylor-Young (\ref{TaylorYoung}).
+  
+\end{demo}
+
+Ce théorème permet de calculer facilement certains DLs.
+
+
+\subsubsection{Logarithme}
+
+Nous avons déjà vu que pour tout $n$, 
+
+$$\frac{1}{1-x} \underset{x\rightarrow 0}{=} 1 + x +  x^2 + x^3 + \dots + x^n +
+\text{o}(x^n)$$
+
+Par primitivation de DL, on en déduit immédiatement que 
+
+$$\ln(1-x) \underset{x\rightarrow 0}{=} x + \frac{x^2}{2} + \frac{x^3}{3}
+\dots + \frac{x^n}{n} + \text{o}(x^n)$$
+
+
+\subsubsection{Arctangente}
+
+On a $\arctan'= x\rightarrow \frac{1}{1+x^2}$.
+
+Or par composée de DLs, 
+
+$$\frac{1}{1+x^2}\underset{x\rightarrow 0}{=} 1-x^2+x^4-x^6+x^8 \dots +(-1)^{n}x^{2n}+\text{o}(x^{2n+1})$$
+
+Par primitivation de DLs, on obtient 
+
+$$\arctan(x)\underset{x\rightarrow 0}{=}
+x-\frac{x^3}{3}+\frac{x^{5}}{5}-\frac{x^{7}}{7}+ \dots +
+(-1)^{n}\frac{x^{2n+1}}{2n+1}+\text{o}(x^{2n+2}) $$
+
+
+\subsubsection{Fonctions circulaires réciproques}
+
+On a $\arcsin'= x\rightarrow \frac{1}{\sqrt{1-x^2}}$.
+
+De même que précédemment, on obtient pour tout $n$
+
+$$\frac{1}{\sqrt{1-x^2}} \underset{x\rightarrow 0}{=} 1 +\frac{1}{2} x^2 + \frac{3}{8} x^4 + 1 \frac{1.3.5\dots(2n-1)}{2.4\dots(2n)} x^{2n}+ \text{o}(x^{2n+1})$$
+
+d'où en primitivant 
+
+$$\arcsin(x) \underset{x\rightarrow 0}{=} x +\frac{1}{2.3} x^3 +
+\frac{3}{8.5} x^5 +  \frac{1.3.5\dots(2n-1)}{2.4\dots(2n)} \frac{x^{2n+1}}{(2n+1)} + \text{o}(x^{2n+2})$$
+
+Le $\DL_n(0)$ de $\arccos$ s'obtient immédiatement en remarquant que
+$\arccos+\arcsin=\pi/2$ sur $[-1,1]$ :
+
+$$\arccos(x) \underset{x\rightarrow 0}{=} \pi/2 - x -\frac{1}{2.3} x^3 -
+\frac{3}{8.5} x^5 -  \frac{1.3.5\dots(2n-1)}{2.4\dots(2n)} \frac{x^{2n+1}}{(2n+1)} + \text{o}(x^{2n+2})$$
+
+
+\subsection{Dérivation de DLs}
+
+Pour les dérivations de DLs, ça ne se passe pas aussi bien.
+
+\begin{Prop}~
+
+  Soit $f:I\rightarrow \R$ dérivable. Si $f$ admet un $\DL_{n+1}(a)$ de
+  partie régulière $P$ et si $f'$ admet un $\DL_n(a)$ de partie régulière
+  $Q$, alors $P'=Q$.
+  
+\end{Prop}
+
+\begin{demo}~
+
+C'est un corrolaire immédiat de \ref{primiDL}.
+
+\end{demo}
+
+
+Ce qui nous dit que l'on peut dériver des Dls d'ordre $n+1$
+  \textbf{uniquement si l'on sait que la dérivée admet un DL d'ordre
+  $n$}. Repenser à notre exemple :
+
+\[
+f : \left\{
+\begin{array}{rcl}
+\R  & \to & \R \\
+x & \mapsto & \left\{
+\begin{array}{cl} 
+  x^3 \sin(\frac{1}{x}) & \text{si}\;\; x\neq 0\\
+  0 & \text{si}\;\; x=0 
+\end{array}
+\right.
+\end{array}
+\right.
+\]
+
+qui admet un $\DL_2(0)$, mais n'est pas $\Delta^2$.
+
+$f'$ n'est pas donc pas dérivable, et n'admet donc pas de $\DL_1(0)$.
+
+\section{Aller jusqu'à l'infini ?}
+
+Une question que l'on peut naturellement se poser est \og que se passe-t-il
+si on effectue un DL jusqu'à l'infini \fg, et en particulier \og la partie
+régulière d'un DL tend-elle vers la fonction lorsque l'ordre du DL tend
+vers l'infini \fg.
+
+La réponse à cette question est non. Comprendre dans quel cadre ces
+assertions sont vraies relève de la théorie des séries entières, donc
+contentons-nous ici d'un seul exemple.
+
+Soit $f$ définie par
+
+\[
+f : \left\{
+\begin{array}{rcl}
+\R  & \to & \R \\
+x & \mapsto & \left\{
+\begin{array}{cl} 
+  \exp(-\frac{1}{x}) & \text{si}\;\; x > 0\\
+  0 & \text{si}\;\; x\leq 0 
+\end{array}
+\right.
+\end{array}
+\right.
+\]
+
+Montrons que pour tout $n$ $f(x)\underset{x\rightarrow 0}{=}
+\text{o}(x^n)$. 
+
+Considérons pour tout $x\neq 0$ le rapport $f(x)/x^n$. 
+
+\begin{itemize}
+
+\item Si $x<0$, ce rapport est nul. 
+
+\item Si $x>0$, effectuons le changement de variable $t=1/x$. On obtient
+  $f(x)/x^n = t^n exp(-t)$. Par croissance comparée des puissances et de
+  l'exponentielle en $+\infty$, on a donc $\lim_{x\rightarrow
+  0}f(x)/x^n=0$.
+ 
+\end{itemize}
+
+On en déduit que $f$ admet un $\DL_n(0)$ à tout ordre $n$ :
+
+$$f(x)\underset{x\rightarrow 0}{=} 0+0x+0x^2+\dots+0x^n+\text{o}(x^n)$$
+
+Le DL à tout ordre de $n$ est donc nul ! Il n'est donc pas question que le
+DL \og converge \fg\; vers la fonction pour tout réel positif.
+
+\section{Calculs pratiques de DLs}
+
+\begin{itemize}
+
+\item Calculons un $\DL_4(1)$ de $f:x\rightarrow \frac{1}{\exp(x)}$.
+
+Pas besoin ici de sortir des calculs compliqués. On a pour tout $x\inR$
+$f(x)=\exp(-x)$, et Taylor-Young nous donne immédiatement le résultat :
+
+$$f(x)\underset{x\rightarrow 1}{=} \frac{1}{e} - \frac{(x-1)}{e} +
+\frac{(x-1)^2}{2! e}
+- \frac{(x-1)^3}{3! e} +  \frac{(x-1)^4}{4! e} + \text{o}((x-1)^4) $$
+
+\textbf{Pas la peine d'aller faire des calculs de DLs pénibles si les
+  dérivées sont triviales à calculer\dots}
+
+\item Calculons un $\DL_3(1)$ de $f:x\rightarrow \frac{1}{\exp(x)+x}$.
+
+Les dérivées successives sont ici un peu plus pénibles à calculer. C'est
+parti pour un calcul de $\DL$.
+
+Les formules que nous connaissons pour les DLs sont en $0$. Commençons par
+effectuer un changement de variable $x \leftrightarrow t+1$.
+
+On obtient $$\frac{1}{\exp(x)+x}=\frac{1}{\exp(t+1)+t+1} $$ 
+
+À l'ordre 3 en 0, on a 
+
+$$\exp(t+1)+t+1=e\exp(t)+t+1\underset{t\rightarrow o}{=} e+1 +(e+1)t
++\frac{e}{2} t^2 + \frac{e}{3!} t^3 + \text{o}(t^3) $$
+
+Pour calculer le DL d'un quotient, on cherche à se ramener à une
+composition avec $x\rightarrow \frac{1}{1\pm x}$ avec $x\rightarrow 0$.
+
+Il va falloir visiblement factoriser par $e+1$ pour arriver à quelquechose
+de cette forme.
+
+Écrivons avec un abus de notation\footnote{l'abus de notation consiste à
+  écrire des $\text{o}$ sous le trait de fraction, ou plus généralement à
+  l'intérieur d'une formule. Il faut penser le $\text{o}$ comme une
+  fonction négligeable devant la quantité indiquée.}
+
+\begin{align*}
+\frac{e+1}{\exp(t+1)+t+1} &\underset{t\rightarrow 0}{=}  \frac{1}{1+t +\frac{e}{2(e+1)} t^2
+  + \frac{e}{3!(e+1)} t^3 + \text{o}(t^3)}\\
+&= 1- (t +\frac{e}{2(e+1)} t^2 + \frac{e}{3!(e+1)} t^3 +
+  \text{o}(t^3)) \\&+  (t +\frac{e}{2(e+1)} t^2
+  + \frac{e}{3!(e+1)} t^3 + \text{o}(t^3))^2 \\&- (t +\frac{e}{2(e+1)} t^2
+  + \frac{e}{3!(e+1)} t^3 + \text{o}(t^3))^3 + \text{o}(t^3)
+\end{align*}
+
+En développant et tronquant, on obtient
+
+\begin{align*}
+\frac{1+e}{\exp(t+1)+t+1} &\underset{t\rightarrow 0}{=} 1 -
+ t + 1/2 \frac{e+2}{e+1} t^2 - 1/6 \frac{e+6}{e+1} t^3 + \text{o}(t^3)
+\end{align*}
+
+soit, en revenant à la variable de départ :
+
+\begin{align*}
+f(x) &\underset{x\rightarrow 1}{=} \frac{1}{e+1} - \frac{1}{e+1}
+ (x-1) + 1/2 \frac{e+2}{(e+1)^2} (x-1)^2 - 1/6 \frac{e+6}{(e+1)^2} (x-1)^3 + \text{o}((x-1)^3)
+\end{align*}
+
+
+
+\end{itemize}
+
+
+
+\section{Applications}
+
+
+
+\subsection{Calculs de limites/équivalents}
+
+Quand l'utilisation d'équivalent ne suffit pas à lever des
+indéterminations, on peut souvent utiliser des DLs. 
+
+\begin{Exem}~
+
+Soit à calculer $\underset{x\rightarrow \infty}{\lim} \left(x\sin\frac{1}{x}\right)^{x^2}$
+
+Remarquons tout d'abord que la fonction proposée est bien définie pour $x >
+1/\pi$.
+
+
+Commençons par passer au log. Pour tout $x>1/\pi$ :
+
+$$ \ln \left(x\sin\frac{1}{x}\right)^{x^2} = x^2 \ln(x\sin\frac{1}{x}) $$
+
+Effectuons le changement de variable $x=\frac{1}{t}$
+
+$$ x^2 \ln\left(x\sin\frac{1}{x}\right) = \frac{1}{t^2}\ln \left(\frac{\sin(t)}{t}\right)$$
+
+Un simple équivalent à l'ordre 0 ne nous permet pas de calculer la limite
+de ectte expression quand $t$ tend vers 0. En effet, $\frac{\sin(t)}{t}
+\underset{t\rightarrow 0}{\sim} 1$, et le log est de limite nulle. Nous
+n'avons pas levé l'indétermination.
+
+Allons un cran plus loin :
+
+$$\frac{\sin(t)}{t}\underset{t\rightarrow 0}{=} 1 - \frac{t^2}{6}
++\text{o}(t^3)$$
+
+et par composition de DLs
+
+$$\ln\left(\frac{\sin(t)}{t}\right)\underset{t\rightarrow 0}{=} - \frac{t^2}{6}
++\text{o}(t^3)$$
+
+D'où $$\underset{t\rightarrow 0}{\lim}\; \frac{1}{t^2}\ln
+\left(\frac{\sin(t)}{t}\right)=-\frac{1}{6}$$
+
+et la limite recherchée est donc
+
+$$\underset{x\rightarrow \infty}{\lim} \left(x\sin\frac{1}{x}\right)^{x^2}
+= \exp\left(-\frac{1}{6}\right)$$
+
+
+
+
+\end{Exem}
+
+\subsection{Étude de points singuliers de courbes du plan}
+
+Commençons par quelques rappels sur les courbes du plan.
+
+
+\begin{Def}[Points (bi)-réguliers et singuliers]~
+
+\begin{itemize}
+\item 
+Soit $I$ un intervalle de $\R$, $f:I\ra \R^2$ un arc paramétré
+$\mathcal{C}^1$, et $a\in I$.
+
+
+On dit que le $f$ est \defemph{régulière} en $a$ (ou que le point $f(a)$
+est régulier\footnotemark) Ssi $f'(a)\neq(0,0)$.
+
+Dans le cas contraire, on dit que $f$ est \defemph{singulière} en $a$ (ou
+que le point $f(a)$ est singulier).
+
+\item 
+Soit $I$ un intervalle de $\R$ et $f:I\ra \R^2$ un arc paramétré
+$\mathcal{C}^2$.
+
+
+On dit que $f$ est \defemph{birégulière}  en $a$ (ou que le point $f(a)$
+  est birégulier) Ssi
+  $(f'(a),f''(a))$ est libre.
+\end{itemize}
+
+
+\end{Def}
+
+\footnotetext{ce vocabulaire posant un problème quand la courbe n'est pas simple\dots}
+
+
+\begin{Def}[Demi-tangentes]~
+
+Soit $f:I\ra \R^2$ un arc paramétré, et $a\in I$
+\begin{itemize}
+
+
+\item Supposons que pour $t$ assez proche de $a$ et $t<a$, $f(t)-f(a)$ ne
+  s'annule pas et que $\vec{u}_g=\underset{t\ra a^-}{\lim}\frac{f(t)-f(a)}{||f(t)-f(a)||}$ existe. 
+
+On appelle alors \defemph{demi-tangente à gauche} la droite passant par
+$f(a)$ et dirigée par $\vec{u}_g$.
+
+\item Supposons que pour $t$ assez proche de $a$ et $t>a$, $f(t)-f(a)$ ne
+  s'annule pas et que $\vec{u}_d=\underset{t\ra
+  a^+}{\lim}\frac{f(t)-f(a)}{||f(t)-f(a)||}$ existe. 
+
+On appelle alors \defemph{demi-tangente à droite} la droite passant par
+$f(a)$ et dirigée par $\vec{u}_d$.
+
+\item Si les demi-tangentes à droite et à gauche existent et sont
+  confondues (i.e. si $\vec{u}_d$ et $\vec{u}_g$ sont colinéaires), on appelle
+  simplement \defemph{tangente} la droite passant par $f(a)$ et dirigée par
+  l'un des vecteurs.
+
+
+\end{itemize}
+
+
+\end{Def}
+
+\begin{center}
+\input{images/DLdemit.pdftex_t}  
+
+Deux demi-tangentes non colinéaires.
+\end{center}
+
+
+
+\begin{center}
+\input{images/DLtan.pdftex_t}  
+
+Deux demi-tangentes colinéaires.
+\end{center}
+
+
+Dans le cas d'un point régulier, nous avons la propriété suivante :
+
+\begin{Prop}~
+
+Soit $I$ un intervalle de $\R$ et $f:I\ra \R^2$ un arc paramétré
+$\mathcal{C}^1$, et $a\in I$ tel que $f$ est régulière en $a$.
+
+Alors $f$ admet une tangente en $a$, dirigée par $f'(a)$.
+
+\end{Prop}
+
+\begin{demo}~
+
+Pour commencer, la régularité nous garantit que $f(t)-f(a)$ ne s'annule pas
+pour $t\neq a$ au voisinage de $a$.
+
+Notons $f(.)=(x(.),y(.))$.
+
+Écrivons alors pour $t<a$ au voisinage de $a$ $$\frac{f(t)-f(a)}{||f(t)-f(a)||} = \left(\frac{x(t)-x(a)}{||f(t)-f(a)||} ,\frac{y(t)-y(a)}{||f(t)-f(a)||}\right)=\frac{1}{||\frac{f(t)-f(a)}{t-a}||} \left(\frac{x(t)-x(a)}{t-a} ,\frac{y(t)-y(a)}{t-a}\right)$$
+
+En passant à la limite, on obtient donc
+
+$$\underset{x\ra a^-}{\lim} \frac{f(t)-f(a)}{||f(t)-f(a)||}=\frac{(x'(a),
+  y'(a))}{||f'(a)||}= \frac{f'(a)}{||f'(a)||}$$
+
+D'où l'existence d'une demi-tangente à gauche. On obtient de même une
+demi-tangente à droite dirigée par le même vecteur, et donc l'existence
+d'une tangente dirigée par $f'(a)$.
+
+\end{demo}
+
+Nous pouvons encore raffiner dans le cadre d'un point birégulier.
+
+\begin{Prop}~
+
+Soit $I$ un intervalle de $\R$ et $f:I\ra \R^2$ un arc paramétré
+$\mathcal{C}^2$, et $a\in I$ tel que $f$ est birégulière en $a$.
+
+Alors $f$ admet une tangente en $a$, dirigée par $f'(a)$ et de plus, au
+voisinage de $a$, la courbe est située dans le demi-plan induit par la
+tangente et contenant $f''(a)$.
+
+\end{Prop}
+
+\begin{center}
+\input{images/DLtan2.pdftex_t}  
+\end{center}
+
+
+\begin{demo}~
+
+Pour la partie spécifique de cette proposition, écrivons, à l'aide de
+Taylor-Young (\ref{TaylorYoung})
+
+$$
+\left\{
+\begin{array}{ccc}
+x(t)&\underset{t\ra
+  a}{=}&x(a)+x'(a)(t-a)+x''(a)\frac{(t-a)^2}{2}+\text{o}((t-a)^2)\\
+y(t)&\underset{t\ra
+  a}{=}&y(a)+y'(a)(t-a)+y''(a)\frac{(t-a)^2}{2}+\text{o}((t-a)^2)\\
+\end{array}
+\right.
+$$
+
+Par hypothèse, $(f(a), f'(a), f''(a))$ est un repère du plan. Si l'on écrit
+$f(t)=(X(t), Y(t)) $ dans ce repère, on a donc :
+
+$$
+\left\{
+\begin{array}{ccc}
+X(t)&\underset{t\ra
+  a}{=}&(t-a)+\text{o}((t-a)^2)\\
+Y(t)&\underset{t\ra
+  a}{=}&\frac{(t-a)^2}{2}+\text{o}((t-a)^2)\\
+\end{array}
+\right.
+$$
+
+Au voisinage de $a$, $Y\geq0$, i.e. la projection de $f$ sur la droite
+passant par $f(a)$ et dirigée par $f''(a)$ est donc orientée dans le même
+sens que $f''(a)$.
+
+\end{demo}
+
+
+Cette propriété se généralise en fait aux points qui ne sont pas
+biréguliers, de la façon suivante :
+
+
+\begin{Prop}~
+
+Soit $k\geq 2$.
+
+Soit $I$ un intervalle de $\R$ et $f:I\ra \R^2$ un arc paramétré
+$\mathcal{C}^k$, et $a\in I$.
+
+Soit $p$, s'il existe, le plus petit entier strictement positif tel que $f^{(p)}(a)$ est
+non nul. 
+
+Alors $f$ admet une tangente en $a$, dirigée par $f^{(p)}(a)$.
+
+Soit de plus $q$, s'il existe, le plus petit entier strictement supérieur à
+$p$ tel que $f^{(p)}$ et $f^{(q)}$ ne soient pas colinéaires.
+
+Alors, suivant les parités de $p$ et de $q$, on a l'une des 4 configurations
+suivantes. 
+\begin{tabular}{cc}
+\input{images/DLip.pdftex_t}&\input{images/DLii.pdftex_t}\\
+$p$ impair, $q$ pair & $p$ impair, $q$ impair \\
+Point ordinaire & Point d'inflexion\\
+\input{images/DLpi.pdftex_t}&\input{images/DLpp.pdftex_t}\\
+$p$ pair, $q$ impair & $p$ pair, $q$ pair \\
+Point de rebroussement de 1\textsuperscript{ère} espèce &
+Point de rebroussement de 2\textsuperscript{nde} espèce \\
+\end{tabular}
+
+\end{Prop}
+
+En particulier, dans le cas d'un point birégulier, on a un point ordinaire.
+
+
+\begin{demo}~
+
+Reprenons les notations de la propriété.
+
+$$
+\left\{
+\begin{array}{ccc}
+x(t)&\underset{t\ra
+  a}{=}&x(a)+x^{(p)}(a)\frac{(t-a)^p}{p!}+x^{(p+1)}(a)\frac{(t-a)^{p+1}}{p+1!}+\dots +x^{(q)}(a)\frac{(t-a)^q}{q!}+\text{o}((t-a)^q)\\
+y(t)&\underset{t\ra
+  a}{=}&y(a)+y^{(p)}(a)\frac{(t-a)^p}{p!}+y^{(p+1)}(a)\frac{(t-a)^{p+1}}{p+1!}+\dots +y^{(q)}(a)\frac{(t-a)^q}{q!}+\text{o}((t-a)^q)\\
+\end{array}
+\right.
+$$
+
+Or par hypothèse, $f^{(p)}(a), f^{(p+1)}(a), \dots f^{(q-1)}(a)$ sont
+colinéaires. On peut donc écrire :
+
+$$
+\left\{
+\begin{array}{ccc}
+x(t)&\underset{t\ra
+  a}{=}&x(a)+x^{(p)}(a)\frac{(t-a)^p}{p!}(1+\lambda_{p+1}(t-a)+\dots+\lambda_{q-1}(t-a)^{q-1-p}) +x^{(q)}(a)\frac{(t-a)^q}{q!}+\text{o}((t-a)^q)\\
+y(t)&\underset{t\ra
+  a}{=}&y(a)+y^{(p)}(a)\frac{(t-a)^p}{p!}(1+\lambda_{p+1}(t-a)+\dots+\lambda_{q-1}(t-a)^{q-1-p}) +y^{(q)}(a)\frac{(t-a)^q}{q!}+\text{o}((t-a)^q)\\
+\end{array}
+\right.
+$$
+
+
+Par hypothèse, $(f(a), f^{(p)}(a), f^{(q)}(a))$ est un repère du plan. Si l'on écrit
+$f(t)=(X(t), Y(t)) $ dans ce repère, on a donc :
+
+$$
+\left\{
+\begin{array}{ccc}
+X(t)&\underset{t\ra
+  a}{=}&\frac{(t-a)^p}{p!}+\text{o}((t-a)^p)\\
+Y(t)&\underset{t\ra
+  a}{=}&\frac{(t-a)^q}{q!}+\text{o}((t-a)^q)\\
+\end{array}
+\right.
+$$
+
+L'étude des signes de $X(t)$ et $Y(t)$ au voisinage de $a$ suivant les
+parités de $p$ et $q$ donnent alors le résultat.
+\end{demo}
+
+
+\begin{Ex}~
+
+\'Etudier la courbe param\'etr\'ee d\'efinie pour tout $r\in R$ par
+
+$$
+\left\{ \begin{array}{rcl}
+x(t)&=&\cos^3(t)\\
+y(t)&=&\sin^3(t)\\
+\end{array}\right.
+$$
+
+\end{Ex}
+
+\begin{demo}~
+
+  \begin{description}
+  \item[R\'eduction de l'intervalle d'\'etude:]~
+
+    \begin{itemize}
+    \item     $x$ et $y$ sont $2\pi$ p\'eriodiques. On peut donc
+      restreindre l'intervalle d'\'etude \`a $[-\pi,\pi]$.
+    \item $x$ est paire et $y$ est impaire. Par sym\'etrie par rapport au
+      premier axe, on peut restreindre l'intervalle d'\'etude \`a $[0,\pi]$.
+    \item On a $\forall t\in [0,\pi]$, $x(\pi-t)=-x(t)$ et
+      $y(\pi-t)=y(t)$. Par sym\'etrie par rapport au second axe, on peut
+      restreindre l'intervalle d'\'etude \`a $[0,\pi/2]$.
+    \item  On a $\forall t\in [0,\pi/2]$, $x(\pi/2-t)=y(t)$ et $\forall
+      t\in [0,\pi/2]$, $y(\pi/2-t)=x(t)$. Par sym\'etrie par rapport \`a la
+      premi\`ere bissectrice des axes, on peut
+      restreindre l'intervalle d'\'etude \`a $[0,\pi/4]$.
+
+    \end{itemize}
+
+  \item[\'Etude des variations:]~
+
+    Sur $[0, \pi/4]$, $x$ est d\'ecroissante et $y$ croissante. On a donc
+    le tableau de variation suivant :
+    
+$$
+    \begin{array}{|c|ccc|}
+      \hline 
+      & 0 & & \pi/4\\
+      \hline 
+      x(t) & 1 & & 0\\
+      \hline 
+      y(t) & 0 & & 1\\
+\hline
+    \end{array}
+ $$
+  
+\item[\'Etude des points singuliers:]~
+ 
+La courbe admet un point singulier en $t$ Ssi 
+
+$$
+\left\{ \begin{array}{lcccr}
+x'(t)&=&-3\sin(t) \cos^2(t)&=&0\\
+y'(t)&=&3\cos(t)\sin^2(t)&=&0\\
+\end{array}\right. 
+\Leftrightarrow \cos(t)=0\; \text{ou}\; \sin(t)=0
+\Leftrightarrow t=0\left[\frac{\pi}{2}\right]
+$$
+
+\'Etant donn\'e notre intervalle d'\'etude, nous allons regarder ce qui se
+passe en 0. Effectuons des DLs de $x$ et $y$ en 0 :
+
+$$
+\left\{ \begin{array}{rcl}
+x(t)&\underset{t\ra 0}{=}&1-\frac{3x^2}{2}+\frac{7x^4}{8}+\text{o}(t^5)\\
+y(t)&\underset{t\ra 0}{=}&x^3-\frac{x^5}{2}+\text{o}(t^5)\\
+\end{array}\right.
+$$
+
+\'Ecrivons les d\'eriv\'ees vectorielles successives :
+
+$$f'(t)=(0,0)\;\;\;f^{(2)}(t)=(3,0)\;\;\;f^{(3)}(t)=(0,6)$$
+
+Avec les notations du th\'eor\`eme pr\'ec\'edent, $p=2$ et $q=3$.
+
+La courbe admet donc une tangente horizontale en $0$, et un point de
+rebroussement de seconde esp\`ece en ce point (ce qui assez rassurant au vu
+des symétries de la courbe.)
+
+  \end{description}
+
+Nous obtenons donc la courbe que voici, que l'on appelle \emph{astroïde} :
+
+\begin{center}
+\includegraphics[width=8cm]{images/astroide.png}
+
+\end{center}
+
+\end{demo}
+
+
+\section{Développements asymptotiques}
+
+Toute la théorie que nous avons présentée ici permet d'effectuer des
+approximations de fonctions au voisinage d'un point réel par des
+polynômes. Or, il est parfois important de trouver des approximations de
+fonctions au voisinage de $+\infty$, ce qui permet en particulier de
+trouver des asymptotes.
+
+Tout comme dans l'exercice précédent, on va se ramener à un calcul de DL en
+0 de la façon suivante :
+
+\smallskip
+Soit $f:[m,+\infty[ \rightarrow \R$, dont nous voulons trouver une
+    approximation en $+\infty$.
+
+
+\begin{itemize}
+
+
+\item On pose $g:t \rightarrow f(1/t)$ pour $t<1/m$
+
+\item On étudie la fonction $g$ au voisinage de 0. Supposons par exemple
+  que $g$ admette un $\DL_n(0)$ pour un certain $n\inN$ :
+  $g(t)\underset{t\rightarrow 0^+}{=}P(t)+\text{o}(t)^n$
+
+\item En composant à droite, on obtient   $f(x)\underset{x\rightarrow +\infty}{=}P(1/x)+\text{o}(1/x)^n$
+
+\end{itemize}
+
+et on a donc approché $f$ par une fraction rationnelle au voisinage de
+$+\infty$.
+
+\begin{Exems}~
+
+\begin{itemize}
+
+\item Formons un développement asymptotique de $x\rightarrow \sqrt{x(x+1)}$ à la
+  précision $\frac{1}{x}$. 
+
+
+Pour $t>0$, posons $$g:t\rightarrow \sqrt{\frac{1+t}{t^2}}=\frac{1}{t}\sqrt{1+t}$$
+
+On a donc $$g(t)\underset{t\rightarrow 0^+}{=} \frac{1}{t} (1+\frac{t}{2}-\frac{t^2}{8}+\text{o}(t^2))=\frac{1}{t}+\frac{1}{2}-\frac{t}{8}+\text{o}(t)$$
+
+En revenant à $f$,
+
+$$f(x)\underset{x\rightarrow +\infty}{=} x+\frac{1}{2}-\frac{1}{8x}+\text{o}\left(\frac{1}{x}\right)$$
+
+Ce qui nous dit $f$ admet la droite d'équation $y=x+1/2$ comme asymptote en
+$+\infty$, et que de plus, elles est en dessous de cette droite.
+
+\item Tentons de trouver une approximation en $+\infty$ de $f:x\ra
+  \sqrt{x+1}\ln(x) - \sqrt{x}\ln(1+x)$.
+
+Chacun des termes est équivalent à $x\ra \sqrt{x}\ln(x)$ en
+$+\infty$. Commençons donc par factoriser par cette quantité pour y voir
+plus clair. Pour $x$ assez grand, on a 
+
+$$f(x)=\sqrt{x}\ln(x)\left(\sqrt{\frac{x+1}{x}}-\frac{\ln(x+1)}{\ln(x)}\right) $$
+
+Effectuons le changement de variable $g(t)=f(1/t)$, et calculons un peu.
+
+\begin{align*}
+g(t)
+&=-\sqrt{1/t}\ln(t)\left(\sqrt{t+1}-\frac{\ln(1/t+1)}{\ln(1/t)}\right)\\
+&= -\sqrt{1/t}\ln(t)\left(\sqrt{t+1}-1+\frac{\ln(t+1)}{-\ln(t)}\right) \\
+\end{align*}
+
+Nous connaissons les DLs à tout ordre en 0 de $\sqrt{t+1}$ et de
+$\ln(t+1)$. Pas moyen cependant de se débarasser du $\ln(t)$. Nous
+pouvons donc écrire :
+
+$$\sqrt{t+1}-1\underset{t\rightarrow 0}{=}
+\frac{t}{2}-\frac{t^2}{8}+ \dots$$ 
+
+et 
+
+$$
+\frac{\ln(t+1)}{-\ln(t)}\underset{t\rightarrow 0}{=}-\frac{t}{ln(t)}+\frac{t^2}{2ln(t)}+\dots
+$$
+
+Ce second développement fait appel à une échelle différente de l'échelle à
+laquelle nous sommes habitués avec les DLs (1, $t$, $t^2$, \dots). Ici,
+nous avons des $\frac{t}{\ln(t)}$, $\frac{t^2}{\ln(t)}$,
+$\frac{t^3}{\ln(t)}$\dots
+
+On peut montrer, à l'aide des comparaisons des vitesses de convergence de
+fonctions classiques, que l'on a les imbrications suivantes :
+
+$\dots \text{o}(\frac{t^2}{\ln(t)})\underset{t\ra 0}{\subset} \text{o}(t^2)\underset{t\ra 0}{\subset} \text{o}(\frac{t}{\ln(t)})\underset{t\ra 0}{\subset} \text{o}(t)$
+
+Allons par exemple jusqu'à la précision $t^2$
+
+\begin{align*}
+g(t)
+&=-\sqrt{1/t}\ln(t)\left(\frac{t}{2}-\frac{t^2}{8}-\frac{t}{\ln(t)}+\text{o}(t^2)\right)\\
+&= -\frac{\sqrt{t}\ln(t)}{2}+\frac{t\sqrt{t}\ln(t)}{8}+\sqrt{t}+\text{o}(\ln(t)t\sqrt{t})
+\end{align*}
+
+
+Soit, en revenant à $f$, 
+
+\begin{align*}
+f(x)
+&= \frac{\ln(x)}{2\sqrt{x}}+\frac{1}{\sqrt{x}}-\frac{\ln(x)}{8x\sqrt{x}}+\text{o}\left(\frac{\ln(x)}{x\sqrt{x}}\right)
+\end{align*}
+
+
+\end{itemize}
+
+Le développement obtenu fait ici intervenir autre chose que des fractions
+rationnelles (et cette fonction n'est en fait équivalente à aucune fraction
+rationnelle en $+\infty$, comme on peut aisément s'en convaincre).
+
+\end{Exems}
+
+
+\newpage
+\section*{Correction des exercices}
+
+\addcontentsline{toc}{section}{Correction des exercices}
+
+\Closesolutionfile{test}
+   \Readsolutionfile{test}
+   \Closesolutionfile{testtwo}
+   \Readsolutionfile{testtwo}
+
+
+%%%%%%%%%%%TODO : exemples avec des propositions du type x>4
+
+\end{document}
