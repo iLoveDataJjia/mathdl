@@ -1,6 +1,6 @@
 # MathDNN - A deep mathematical understanding of DNNs
 
-[![Generic badge](https://img.shields.io/badge/LaTeX-7.1.3.2-brightgreen.svg?style=plastic)](https://fr.libreoffice.org/)
+[![Generic badge](https://img.shields.io/badge/TeXLive-3.141592653-brightgreen.svg?style=plastic)](https://www.tug.org/texlive/)
 
 ![](docs/mathdl-front-img.jpg)
 
