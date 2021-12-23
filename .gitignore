@@ -1,3 +1,7 @@
+.~lock.*.odt#
+*.bbl
+*.blg
+*.out
 *.aux
 *.fdb_latexmk
 *.fls

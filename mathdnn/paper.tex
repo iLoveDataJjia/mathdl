@@ -1,46 +1,200 @@
-\documentclass[12pt]{article}
-\usepackage{lingmacros}
-\usepackage{tree-dvips}
+\documentclass[11pt,en]{elegantpaper}
+
+% Docs
+\title{MathDNN - A deep mathematical understanding of DNNs}
+\author{James JIANG \\ Data Engineer / Scientist \\ France \and Alex JIANG \\ Preparatory class for the Grandes Écoles \\ France}
+\institute{\href{https://github.com/iLoveDataJjia}{iLoveDataJjia Github}}
+
+\version{0.00}
+\date{\today}
+
+% Packages
+\usepackage{array}
+\usepackage{amsthm}
+\usepackage{amsmath}
+\usepackage{fourier}
+\usepackage{accents}
+\newtheorem{convention}{Convention}
+\newtheorem{notation}{Notation}
+
+% Custom commands
+\newcommand\norm[1]{\left\lVert#1\right\rVert}
+
+% Start build
 \begin{document}
 
-\section*{Notes for My Paper}
+\maketitle
 
-Don't forget to include examples of topicalization.
-They look like this:
+\begin{abstract}
+  Frameworks such as TensorFlow or PyTorch make deep learning developments easy.
+  They have made this field wide spread for every enthusiast.
+  Implementations only needs an instinctive understanding of deep learning.
+  The proper math aspect is little by little forgotten.
+  Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
+  Finite dimensional linear algebra and Linear application matrix theories are supposed known.
+  The objective is to do a collection of the important propositions explaining dense neural
+  network (DNN) theories. These propositions will be mathematically proven.
+  The subject used as reference is a multi-class classification problem with
+  – dense layers, andactivation layers, Categorical cross-entropy loss and Stochastic
+  gradient descent optimizer. But all the elements below can be easily re-used or re-defined
+  to cover regressions.
+  \keywords{Dense neural network, Equation, Asumption, Proof}
+\end{abstract}
 
-{\small
-\enumsentence{Topicalization from sentential subject:\\ 
-\shortex{7}{a John$_i$ [a & kltukl & [el & 
-  {\bf l-}oltoir & er & ngii$_i$ & a Mary]]}
-{ & {\bf R-}clear & {\sc comp} & 
-  {\bf IR}.{\sc 3s}-love   & P & him & }
-{John, (it's) clear that Mary loves (him).}}
-}
+\section{Fundamentals and notations}
 
-\subsection*{How to handle topicalization}
+\subsection{Matrices}
 
-I'll just assume a tree structure like (\ex{1}).
+% Matrix notation
+\begin{notation}
+  Let $a_{i,j} \in \mathbb{R}$ for $i \in \llbracket 1,n \rrbracket$ and $j \in \llbracket 1,m \rrbracket$.
+  Then a real matrix of dimension $n * m$ will noted as \begin{equation*}
+    A = \begin{bmatrix}
+      a_{1,1} & a_{1,2} & \cdots & a_{1,m} \\
+      a_{2,1} & a_{2,2} & \cdots & a_{2,m} \\
+      \vdots & \vdots & \ddots & \vdots \\
+      a_{n,1} & a_{n,2} & \cdots & a_{n,m}
+    \end{bmatrix}
+  \end{equation*}
 
-{\small
-\enumsentence{Structure of A$'$ Projections:\\ [2ex]
-\begin{tabular}[t]{cccc}
-    & \node{i}{CP}\\ [2ex]
-    \node{ii}{Spec} &   &\node{iii}{C$'$}\\ [2ex]
-        &\node{iv}{C} & & \node{v}{SAgrP}
-\end{tabular}
-\nodeconnect{i}{ii}
-\nodeconnect{i}{iii}
-\nodeconnect{iii}{iv}
-\nodeconnect{iii}{v}
-}
-}
+  The following notations are also considered \begin{gather*}
+    \forall i \in \llbracket 1,n \rrbracket, \forall j \in \llbracket 1,m \rrbracket, A_{i,j} = a_{i,j} \\
+    \forall j \in \llbracket 1,m \rrbracket, A_{:,j} = \begin{bmatrix}
+      a_{1,j} \\
+      \vdots \\
+      a_{n,j}
+    \end{bmatrix} \\
+    \forall i \in \llbracket 1,n \rrbracket, j \in \llbracket 1,m \rrbracket, A_{i,j} = \begin{bmatrix}
+      a_{i,1} & \cdots & a_{i,n}
+    \end{bmatrix}
+  \end{gather*}
 
-\subsection*{Mood}
+  The notation $\mathcal{M}_{n,m}$ means the matrix set of dimension $n \times m$ with coefficients in $\mathbb{R}$. \par
+  The notation $\mathcal{M}_{n,m}(E)$ means the matrix set of dimension $n \times m$ with coefficients in $E \subseteq \mathbb{R}$.
+\end{notation}
 
-Mood changes when there is a topic, as well as when
-there is WH-movement.  \emph{Irrealis} is the mood when
-there is a non-subject topic or WH-phrase in Comp.
-\emph{Realis} is the mood when there is a subject topic
-or WH-phrase.
+% Vector convention to matrix row
+\begin{convention}
+  A vector is a matrix with only one row. Thus, the real vector set $\mathbb{R}^n$ is equivalent to $\mathcal{M}_{1,n}$.
+\end{convention}
+
+% Matrix product
+\begin{notation}
+  Let $A \in \mathcal{M}_{n,m}$ and $B \in \mathcal{M}_{m,p}$. Let the product noted $A * B$ be \begin{gather*}
+    C = A * B
+  \end{gather*}
+  where $C \in \mathcal{M}_{n,p}$ with \begin{gather*}
+    \forall i \in \llbracket 1,n \rrbracket, \forall j \in \llbracket 1,p \rrbracket, C_{i,j} = \sum_{k=1}^n A_{i,k} * B_{k,j}
+  \end{gather*}
+
+\end{notation}
+
+% Matrix transpose
+\begin{notation}
+  The matrix transpose operation will be noted as $A^T$.
+\end{notation}
+
+% Norm
+\begin{notation}
+  Let $a \in \mathbb{R}^n$. The eucliean norm on $\mathbb{R}^n$ will be noted as $\norm a _n$.
+  \begin{gather*}
+    \norm a _n = \sqrt{a * a^T}
+  \end{gather*}
+\end{notation}
+
+\subsection{Differential calculus}
+
+% Set not empty
+\begin{convention}
+  All sets considered are not empty.
+\end{convention}
+
+% Base notations
+\begin{notation}
+  Let $E \subseteq \mathbb{R}^n$ and $F \subseteq \mathbb{R}^m$. \par
+  The notation $\mathring{E}$ means the set with only the interior point of $E$. \par
+  The notation $f : E \longrightarrow F$ means the application from $E$ to $F$. \par
+  The notation $\mathcal{C}(E,F)$ means the set of continuous applications from $E$ to $F$. \par
+  The notation $\mathcal{L}(E,F)$ means the set of linear applications from $E$ to $F$.
+\end{notation}
+
+% Differentiable definition
+\begin{definition}
+  Let $E \subseteq \mathbb{R}^n$ and $F \subseteq \mathbb{R}^m$.
+  Then $f$ differentiable on $E$ is equivalent to \begin{equation}\label{eq:differentiable}
+    \begin{gathered}
+      \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m), \\
+      \forall h \in \mathbb{R}^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
+    \end{gathered}
+  \end{equation}
+
+  $\frac{\partial f}{\partial \cdot}(a)$ is named differential of $f$ on $a$. \par
+  The notation $\mathcal{D}(E,F)$ means the set of differentiable applications from $E$ to $F$.
+\end{definition}
+
+% Differentiable properties
+\begin{proposition}\label{prop:differential_unique}
+  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
+  Then $\frac{\partial f}{\partial \cdot}(a)$ is unique and $\mathcal{D}(E,F) \subset \mathcal{C}(E,F)$.
+\end{proposition}
+
+\begin{proof}
+  Suppose $\phi_1$ and $\phi_2$ two differentiales of $f$ on $a$. \begin{equation*}
+    \begin{gathered}
+      \forall h \in \mathbb{R}^n, \phi_2(h) - \phi_1(h) \underset{(\ref{eq:differentiable})} = \underset{h \to 0}o(\norm h _n)
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{split}
+      & \underset{def} \implies \forall \epsilon > 0, \exists \eta > 0, \forall h \in \mathbb{R}^n, (\norm h _n \leq \eta \Rightarrow \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon) \\
+      & \underset{\phi_2 - \phi_1 \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)} \implies \forall \epsilon > 0, \forall h \in \mathbb{R}^n, \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
+      & \underset{\epsilon \to 0} \implies \forall h \in \mathbb{R}^n, \phi_2(h) = \phi_1(h)
+    \end{split}
+  \end{equation*}
+  
+  Let $f \in \mathcal{D}(E,F).$ and $a \in \mathring{E}$. \begin{equation*}
+    \begin{split}
+      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m), \frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m} \\
+      & \underset{(\ref{eq:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
+    \end{split}
+  \end{equation*}
+\end{proof}
+
+% Jacobian definition
+\begin{definition}
+  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$.
+  Then $f_i$ is differentiable on $E$ for all $i \in \llbracket 1,m \rrbracket$. The jacobian is defined as \begin{equation}
+    \begin{array}{llll}
+      \mathcal{J}_f & : & \mathring{E} & \longrightarrow \mathcal{M}_{m,n} \\
+        &   & a & \longmapsto \begin{bmatrix}
+        \frac{\partial f}{\partial e_1}(a) & \cdots & \frac{\partial f}{\partial e_n}(a)
+      \end{bmatrix} = \begin{bmatrix}
+        \frac{\partial f_1}{\partial e_1}(a) & \cdots & \frac{\partial f_1}{\partial e_n}(a) \\
+        \vdots & \ddots & \vdots \\
+        \frac{\partial f_m}{\partial e_1}(a) & \cdots & \frac{\partial f_m}{\partial e_n}(a) \\
+      \end{bmatrix}
+    \end{array}
+  \end{equation}
+
+  $(e_i)_{i \in \llbracket 1,n \rrbracket}$ means the matrices $e_i = \begin{bmatrix}
+    0 & \cdots & \underset{\text{at index 0}} 1 & \cdots & 0
+  \end{bmatrix}$ corresponding to $\mathbb{R}^n$ standard basis. \par
+  $\frac{\partial f}{\partial e_i}$ is named the partial derivative of $f$ according the $i^{th}$ variable. \par
+  The jacobian is also named gradient when $m=1$ and is noted as $\nabla_f = \mathcal{J}_f$.
+\end{definition}
+
+\begin{proof}
+  Suppose $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$. Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \mathbb{R}^n$.
+  \begin{equation*}
+    \begin{split}
+      f_i (a + h) & = f(a + h)_i \\
+      & = f(a)_i + \frac{\partial f}{\partial h}(a)_i + \underset{h \to 0}o(\norm h _n)_i \\
+      & = f_i(a) + \frac{\partial f}{\partial h}(a)_i + \underset{h \to 0}o(\norm h _n)_i
+    \end{split}
+  \end{equation*}
+  \begin{equation*}
+    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}) \underset{\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
+  \end{equation*}
+\end{proof}
 
 \end{document}
