@@ -134,8 +134,8 @@
 
 % Differentiable properties
 \begin{proposition}\label{prop:differential_unique}
-  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
-  Then $\frac{\partial f}{\partial \cdot}(a)$ is unique and $\mathcal{D}(E,F) \subset \mathcal{C}(E,F)$.
+  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
+  Then $\frac{\partial f}{\partial \cdot}(a)$ is unique and $\mathcal{D}(E,F) \subset \mathcal{C}(E,F)$.}
 \end{proposition}
 
 \begin{proof}
@@ -154,7 +154,7 @@
   
   Let $f \in \mathcal{D}(E,F).$ and $a \in \mathring{E}$. \begin{equation*}
     \begin{split}
-      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m), \frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m} \\
+      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m), \frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m} \label{} \\
       & \underset{(\ref{eq:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
     \end{split}
   \end{equation*}
@@ -193,8 +193,123 @@
     \end{split}
   \end{equation*}
   \begin{equation*}
-    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}) \underset{\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
+    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}) \underset{prop\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
   \end{equation*}
 \end{proof}
+
+% Jacobian definition corollary
+\begin{corollary}
+  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
+  The jacobian of $f$ on $a \in \mathring{E}$ fixed is the canonical associated matrix to the differential of $f$ on $a$.} \par
+  \normalfont{\textbf{Notes:} It means a function differentiability can also be shown by exhibing its jacobian.} \par
+\end{corollary}
+
+\begin{proof}
+  Let $a \in \mathring{E}$.
+  $\frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)$ and any linear application in finite dimension
+  with values in $\mathbb{R}$ has an unique associated matrix in the standard basis called canonical associated matrix. \par
+\end{proof}
+
+% Function composition notation
+\begin{notation}
+  Let $f : E \longrightarrow F$ and $g : F \longrightarrow G$.
+  Then the notation $g \circ f$ means the application \begin{equation*}
+    \begin{array}{llll}
+      g \circ f & : & E & \longrightarrow G \\
+        &   & x & \longmapsto g(f(x))
+    \end{array}
+  \end{equation*} \par
+
+  Let $f_i : E_i \longrightarrow E_{i+1}$ for $i \in \llbracket 1,n \rrbracket$.
+  Then the notation $\underset{i=1}{\overset{n}\circ} f_i$ means the application \begin{equation*}
+    \begin{array}{llll}
+      \underset{i=1}{\overset{n}\circ} f_i & : & E_1 & \longrightarrow E_{n+1} \\
+        &   & x & \longmapsto f_n( \ldots f_2(f_1(x)))
+    \end{array}
+  \end{equation*}
+\end{notation}
+
+% Chain rule
+\begin{theorem}
+  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$, $G \subseteq \mathbb{R}^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
+  Then $g \circ f \in \mathcal{D}(E,G)$ and} \begin{equation}
+    \begin{array}{llll}
+      \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
+      &   & a & \longmapsto \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
+    \end{array}
+  \end{equation}
+\end{theorem}
+
+\begin{proof}
+  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$, $G \subseteq \mathbb{R}^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(F,G)$.
+  Let $a \in \mathring{E}$ and $h \in \mathbb{R}^n$.
+  \begin{equation*}
+    \begin{split}
+      (g \circ f)(a+h) & = g(f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)) \\
+      & = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n))}(f(a))
+        + \underset{h \to 0}o(\norm{\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)}_n) \\
+      & \underset{\frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m),\frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m}}
+        = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n))}(f(a)) + \underset{h \to 0}o(\norm h _n) \\
+      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^m,\mathbb{R}^p)}
+        = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a))}(f(a)) + \frac{\partial g}{\partial (\underset{h \to 0}o(\norm h _n))}(f(a)) + \underset{h \to 0}o(\norm h _n) \\
+      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^m,\mathbb{R}^p),\frac{\partial g}{\partial 0_{\mathbb{R}^m}}(a) = 0_{\mathbb{R}^p}}
+        = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a))}(f(a)) + \underset{h \to 0}o(\norm h _n)
+    \end{split}
+  \end{equation*}
+  \begin{equation*}
+    \begin{split}
+      \frac{\partial g}{\partial (\frac{\partial f}{\partial \cdot}(a))}(f(a)) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^p)
+      & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(\mathbb{R}^n, \mathbb{R}^p), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
+      & \underset{mat}\implies \mathcal{J}_{g \circ f}(a) = \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
+    \end{split}
+  \end{equation*} \par
+
+  \textbf{Note:} $mat$ indicates in canonical associated matrix way. \par
+\end{proof}
+
+\subsection{Others}
+ 
+% Indicator function
+\begin{notation}
+  Let $E \subseteq \mathbb{R}^n$. The notation $\mathbb{1}_E$ means the $E$ indicator function on $\mathbb{R}^n$.
+  \begin{equation*}
+    \begin{array}{llll}
+      \mathbb{1}_E & : & E & \longrightarrow \{1,0\}^n \\
+      &   & x & \longmapsto \begin{array}{ll}
+        1 & x \in E \\
+        0 & x \notin E
+      \end{array}
+    \end{array}
+  \end{equation*}
+\end{notation}
+
+% Fixed variable function
+\begin{notation}
+  Let $f$ an application with $n$ inputs and $m$ outputs.
+  \begin{equation*}
+    \begin{array}{llll}
+      f & : & E_1 \times \ldots \times E_n & \longrightarrow F_1 \times \ldots \times F_m \\
+      &   & (x_1, \ldots, x_n) & \longmapsto f(x_1, \ldots, x_n)
+    \end{array}
+  \end{equation*} \par
+
+  Let $k \in \llbracket 1,n \rrbracket$. The notation $f(x_1, \ldots, x_{k-1}, \cdots, x_{k+1}, \ldots, x_n)$ means \begin{equation*}
+    \begin{array}{llll}
+      f(x_1, \ldots, x_{k-1}, \cdots, x_{k+1}, \ldots, x_n) & : & E_k & \longrightarrow F_1 \times \ldots \times F_m \\
+      &   & x_k & \longmapsto f(x_1, \ldots, x_{k-1}, x_k, x_{k+1}, \ldots, x_n)
+    \end{array}
+  \end{equation*}
+\end{notation}
+
+\section{Activation functions}
+
+% ReLU
+\begin{definition}
+  Let $F_{act} \in \mathcal{D}(\mathbb{R}^m,\mathbb{R}^m)$. The $F_{act}$ is an activation function.
+\end{definition}
+
+\begin{definition}
+  Let the application $ReLU$ 
+\end{definition}
 
 \end{document}
