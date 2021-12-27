@@ -11,9 +11,9 @@
 - I am using `Visual Code Studio` as my editor and `TeX Live` as my TeX distribution.
 - Download the VS extension `LaTeX Workshop` by James Yu.
 - Then follow his tutorial [`Installation and basic settings`](https://github.com/James-Yu/LaTeX-Workshop/wiki/Install).
-- Open the [document](mathdl/paper.tex) with your LaTeX editor.
+- Open the [document](mathdnn/paper.tex) with your LaTeX editor.
 - You are ready to edit the document! 🎉🎉
-- To export as PDF from the `paper.tex` file click on the icon ▶️ on top right of your VS UI.
+- To export as PDF from the [`paper.tex`](mathdnn/paper.tex) file click on the icon ▶️ on top right of your VS UI.
 
 # References
 
