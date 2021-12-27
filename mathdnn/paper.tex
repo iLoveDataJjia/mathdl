@@ -16,9 +16,11 @@
 \usepackage{accents}
 \newtheorem{convention}{Convention}
 \newtheorem{notation}{Notation}
+\newtheorem{assumption}{Assumption}
 
 % Custom commands
-\newcommand\norm[1]{\left\lVert#1\right\rVert}
+\newcommand{\norm}[1]{\left\lVert#1\right\rVert}
+\newcommand{\Real}{\mathbb{R}}
 
 % Start build
 \begin{document}
@@ -26,18 +28,13 @@
 \maketitle
 
 \begin{abstract}
-  Frameworks such as TensorFlow or PyTorch make deep learning developments easy.
-  They have made this field wide spread for every enthusiast.
-  Implementations only needs an instinctive understanding of deep learning.
-  The proper math aspect is little by little forgotten.
-  Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
-  Finite dimensional linear algebra and Linear application matrix theories are supposed known.
-  The objective is to do a collection of the important propositions explaining dense neural
-  network (DNN) theories. These propositions will be mathematically proven.
-  The subject used as reference is a multi-class classification problem with
-  – dense layers, andactivation layers, Categorical cross-entropy loss and Stochastic
-  gradient descent optimizer. But all the elements below can be easily re-used or re-defined
-  to cover regressions.
+  Frameworks such as \href{https://www.tensorflow.org/?hl=en}{TensorFlow} or \href{https://pytorch.org/}{PyTorch} make deep learning developments
+  easy. They have made this field wide spread for every enthusiast. Implementations only needs an instinctive understanding of deep learning.
+  The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
+  Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective is to do a collection of the
+  important propositions explaining dense neural network (DNN) theories. These propositions will be mathematically proven. The subject used
+  as reference is a multi-class classification problem with – dense layers, andactivation layers, Categorical cross-entropy loss and Stochastic
+  gradient descent optimizer. But all the elements below can be easily re-used or re-defined to cover regressions.
   \keywords{Dense neural network, Equation, Asumption, Proof}
 \end{abstract}
 
@@ -47,7 +44,7 @@
 
 % Matrix notation
 \begin{notation}
-  Let $a_{i,j} \in \mathbb{R}$ for $i \in \llbracket 1,n \rrbracket$ and $j \in \llbracket 1,m \rrbracket$.
+  Let $a_{i,j} \in \Real$ for $i \in \llbracket 1,n \rrbracket$ and $j \in \llbracket 1,m \rrbracket$.
   Then a real matrix of dimension $n * m$ will noted as \begin{equation*}
     A = \begin{bmatrix}
       a_{1,1} & a_{1,2} & \cdots & a_{1,m} \\
@@ -69,13 +66,13 @@
     \end{bmatrix}
   \end{gather*}
 
-  The notation $\mathcal{M}_{n,m}$ means the matrix set of dimension $n \times m$ with coefficients in $\mathbb{R}$. \par
-  The notation $\mathcal{M}_{n,m}(E)$ means the matrix set of dimension $n \times m$ with coefficients in $E \subseteq \mathbb{R}$.
+  The notation $\mathcal{M}_{n,m}$ means the matrix set of dimension $n \times m$ with coefficients in $\Real$. \par
+  The notation $\mathcal{M}_{n,m}(E)$ means the matrix set of dimension $n \times m$ with coefficients in $E \subseteq \Real$.
 \end{notation}
 
 % Vector convention to matrix row
 \begin{convention}
-  A vector is a matrix with only one row. Thus, the real vector set $\mathbb{R}^n$ is equivalent to $\mathcal{M}_{1,n}$.
+  A vector is a matrix with only one row. Thus, the real vector set $\Real^n$ is equivalent to $\mathcal{M}_{1,n}$.
 \end{convention}
 
 % Matrix product
@@ -96,7 +93,7 @@
 
 % Norm
 \begin{notation}
-  Let $a \in \mathbb{R}^n$. The eucliean norm on $\mathbb{R}^n$ will be noted as $\norm a _n$.
+  Let $a \in \Real^n$. The eucliean norm on $\Real^n$ will be noted as $\norm a _n$.
   \begin{gather*}
     \norm a _n = \sqrt{a * a^T}
   \end{gather*}
@@ -111,7 +108,7 @@
 
 % Base notations
 \begin{notation}
-  Let $E \subseteq \mathbb{R}^n$ and $F \subseteq \mathbb{R}^m$. \par
+  Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$. \par
   The notation $\mathring{E}$ means the set with only the interior point of $E$. \par
   The notation $f : E \longrightarrow F$ means the application from $E$ to $F$. \par
   The notation $\mathcal{C}(E,F)$ means the set of continuous applications from $E$ to $F$. \par
@@ -120,11 +117,11 @@
 
 % Differentiable definition
 \begin{definition}
-  Let $E \subseteq \mathbb{R}^n$ and $F \subseteq \mathbb{R}^m$.
+  Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$.
   Then $f$ differentiable on $E$ is equivalent to \begin{equation}\label{eq:differentiable}
     \begin{gathered}
-      \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m), \\
-      \forall h \in \mathbb{R}^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
+      \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m), \\
+      \forall h \in \Real^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
     \end{gathered}
   \end{equation}
 
@@ -134,27 +131,27 @@
 
 % Differentiable properties
 \begin{proposition}\label{prop:differential_unique}
-  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
+  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f \in \mathcal{D}(E,F)$.
   Then $\frac{\partial f}{\partial \cdot}(a)$ is unique and $\mathcal{D}(E,F) \subset \mathcal{C}(E,F)$.}
 \end{proposition}
 
 \begin{proof}
   Suppose $\phi_1$ and $\phi_2$ two differentiales of $f$ on $a$. \begin{equation*}
     \begin{gathered}
-      \forall h \in \mathbb{R}^n, \phi_2(h) - \phi_1(h) \underset{(\ref{eq:differentiable})} = \underset{h \to 0}o(\norm h _n)
+      \forall h \in \Real^n, \phi_2(h) - \phi_1(h) \underset{(\ref{eq:differentiable})} = \underset{h \to 0}o(\norm h _n)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
     \begin{split}
-      & \underset{def} \implies \forall \epsilon > 0, \exists \eta > 0, \forall h \in \mathbb{R}^n, (\norm h _n \leq \eta \Rightarrow \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon) \\
-      & \underset{\phi_2 - \phi_1 \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)} \implies \forall \epsilon > 0, \forall h \in \mathbb{R}^n, \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
-      & \underset{\epsilon \to 0} \implies \forall h \in \mathbb{R}^n, \phi_2(h) = \phi_1(h)
+      & \underset{def} \implies \forall \epsilon > 0, \exists \eta > 0, \forall h \in \Real^n, (\norm h _n \leq \eta \Rightarrow \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon) \\
+      & \underset{\phi_2 - \phi_1 \in \mathcal{L}(\Real^n,\Real^m)} \implies \forall \epsilon > 0, \forall h \in \Real^n, \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
+      & \underset{\epsilon \to 0} \implies \forall h \in \Real^n, \phi_2(h) = \phi_1(h)
     \end{split}
   \end{equation*}
   
   Let $f \in \mathcal{D}(E,F).$ and $a \in \mathring{E}$. \begin{equation*}
     \begin{split}
-      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m), \frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m} \label{} \\
+      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\Real^n,\Real^m), \frac{\partial f}{\partial 0_{\Real^n}}(a) = 0_{\Real^m} \label{} \\
       & \underset{(\ref{eq:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
     \end{split}
   \end{equation*}
@@ -162,7 +159,7 @@
 
 % Jacobian definition
 \begin{definition}
-  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$.
+  Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$.
   Then $f_i$ is differentiable on $E$ for all $i \in \llbracket 1,m \rrbracket$. The jacobian is defined as \begin{equation}
     \begin{array}{llll}
       \mathcal{J}_f & : & \mathring{E} & \longrightarrow \mathcal{M}_{m,n} \\
@@ -178,13 +175,14 @@
 
   $(e_i)_{i \in \llbracket 1,n \rrbracket}$ means the matrices $e_i = \begin{bmatrix}
     0 & \cdots & \underset{\text{at index 0}} 1 & \cdots & 0
-  \end{bmatrix}$ corresponding to $\mathbb{R}^n$ standard basis. \par
+  \end{bmatrix}$ corresponding to $\Real^n$ standard basis. \par
   $\frac{\partial f}{\partial e_i}$ is named the partial derivative of $f$ according the $i^{th}$ variable. \par
-  The jacobian is also named gradient when $m=1$ and is noted as $\nabla_f = \mathcal{J}_f$.
+  The jacobian is also named gradient when $m=1$ and is noted as $\nabla_f = \mathcal{J}_f$. \par
+  The jacobian is also named derivative when $m=1$ with $n=1$ and is noted as $f' = \nabla_f = \mathcal{J}_f$.
 \end{definition}
 
 \begin{proof}
-  Suppose $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$. Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \mathbb{R}^n$.
+  Suppose $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$. Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \Real^n$.
   \begin{equation*}
     \begin{split}
       f_i (a + h) & = f(a + h)_i \\
@@ -193,21 +191,21 @@
     \end{split}
   \end{equation*}
   \begin{equation*}
-    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}) \underset{prop\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
+    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\Real^n,\Real) \underset{prop\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
   \end{equation*}
 \end{proof}
 
 % Jacobian definition corollary
 \begin{corollary}
-  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$ and $f \in \mathcal{D}(E,F)$.
+  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f \in \mathcal{D}(E,F)$.
   The jacobian of $f$ on $a \in \mathring{E}$ fixed is the canonical associated matrix to the differential of $f$ on $a$.} \par
   \normalfont{\textbf{Notes:} It means a function differentiability can also be shown by exhibing its jacobian.} \par
 \end{corollary}
 
 \begin{proof}
   Let $a \in \mathring{E}$.
-  $\frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n,\mathbb{R}^m)$ and any linear application in finite dimension
-  with values in $\mathbb{R}$ has an unique associated matrix in the standard basis called canonical associated matrix. \par
+  $\frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m)$ and any linear application in finite dimension
+  with values in $\Real$ has an unique associated matrix in the standard basis called canonical associated matrix. \par
 \end{proof}
 
 % Function composition notation
@@ -231,7 +229,7 @@
 
 % Chain rule
 \begin{theorem}
-  {\normalfont Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$, $G \subseteq \mathbb{R}^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
+  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
   Then $g \circ f \in \mathcal{D}(E,G)$ and} \begin{equation}
     \begin{array}{llll}
       \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
@@ -241,25 +239,25 @@
 \end{theorem}
 
 \begin{proof}
-  Let $E \subseteq \mathbb{R}^n$, $F \subseteq \mathbb{R}^m$, $G \subseteq \mathbb{R}^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(F,G)$.
-  Let $a \in \mathring{E}$ and $h \in \mathbb{R}^n$.
+  Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(F,G)$.
+  Let $a \in \mathring{E}$ and $h \in \Real^n$.
   \begin{equation*}
     \begin{split}
       (g \circ f)(a+h) & = g(f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)) \\
       & = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n))}(f(a))
         + \underset{h \to 0}o(\norm{\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)}_n) \\
-      & \underset{\frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^n,\mathbb{R}^m),\frac{\partial f}{\partial 0_{\mathbb{R}^n}}(a) = 0_{\mathbb{R}^m}}
+      & \underset{\frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\Real^n,\Real^m),\frac{\partial f}{\partial 0_{\Real^n}}(a) = 0_{\Real^m}}
         = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n))}(f(a)) + \underset{h \to 0}o(\norm h _n) \\
-      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^m,\mathbb{R}^p)}
+      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{L}(\Real^m,\Real^p)}
         = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a))}(f(a)) + \frac{\partial g}{\partial (\underset{h \to 0}o(\norm h _n))}(f(a)) + \underset{h \to 0}o(\norm h _n) \\
-      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{C}(\mathbb{R}^m,\mathbb{R}^p),\frac{\partial g}{\partial 0_{\mathbb{R}^m}}(a) = 0_{\mathbb{R}^p}}
+      & \underset{\frac{\partial g}{\partial \cdot}(a) \in \mathcal{C}(\Real^m,\Real^p),\frac{\partial g}{\partial 0_{\Real^m}}(a) = 0_{\Real^p}}
         = g(f(a)) + \frac{\partial g}{\partial (\frac{\partial f}{\partial h}(a))}(f(a)) + \underset{h \to 0}o(\norm h _n)
     \end{split}
   \end{equation*}
   \begin{equation*}
     \begin{split}
-      \frac{\partial g}{\partial (\frac{\partial f}{\partial \cdot}(a))}(f(a)) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\mathbb{R}^n, \mathbb{R}^p)
-      & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(\mathbb{R}^n, \mathbb{R}^p), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
+      \frac{\partial g}{\partial (\frac{\partial f}{\partial \cdot}(a))}(f(a)) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n, \Real^p)
+      & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(\Real^n, \Real^p), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
       & \underset{mat}\implies \mathcal{J}_{g \circ f}(a) = \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
     \end{split}
   \end{equation*} \par
@@ -268,13 +266,26 @@
 \end{proof}
 
 \subsection{Others}
- 
+
+%Kronecker delta
+\begin{notation}
+  The notation $\delta_{i,j}$ means the kronecker delta application \begin{equation*}
+    \begin{array}{llll}
+      \delta_{\cdot,\cdot} & : & \mathbb{Z} \times \mathbb{Z} & \longrightarrow \{0,1\} \\
+      &   & (i,j) & \longmapsto \begin{array}{ll}
+        1 & i = j \\
+        0 & i \neq j
+      \end{array}
+    \end{array}
+  \end{equation*}
+\end{notation}
+
 % Indicator function
 \begin{notation}
-  Let $E \subseteq \mathbb{R}^n$. The notation $\mathbb{1}_E$ means the $E$ indicator function on $\mathbb{R}^n$.
+  Let $E \subseteq \Real^n$. The notation $\mathbb{1}_E$ means the $E$ indicator function on $\Real^n$.
   \begin{equation*}
     \begin{array}{llll}
-      \mathbb{1}_E & : & E & \longrightarrow \{1,0\}^n \\
+      \mathbb{1}_E & : & E & \longrightarrow \{0,1\}^n \\
       &   & x & \longmapsto \begin{array}{ll}
         1 & x \in E \\
         0 & x \notin E
@@ -282,6 +293,33 @@
     \end{array}
   \end{equation*}
 \end{notation}
+
+% Max function
+\begin{notation}
+  The notation $max(0,\cdot)$ means the application
+  \begin{equation*}
+    \begin{array}{llll}
+      max(0,\cdot) & : & \Real & \longrightarrow \Real^+ \\
+      &   & x & \longmapsto \begin{array}{ll}
+        x & x > 0 \\
+        0 & x \leq 0
+      \end{array}
+    \end{array}
+  \end{equation*}
+\end{notation}
+
+% Max differential assumption
+\begin{assumption}\label{assump:max_differentiable}
+  $max(0,\cdot) \in \mathcal{D}(\Real, \Real^+)$ with
+  \begin{equation*}
+    \begin{array}{lllll}
+      max(0,\cdot)' & : & \Real & \longrightarrow \Real^+ \\
+      &   & x & \longmapsto \mathbb{1}_{\Real^+}(x)
+    \end{array}
+  \end{equation*}\par
+
+  \textbf{Note:} $max(0,\cdot)$ is actually not differentiable on $0$. \par
+\end{assumption}
 
 % Fixed variable function
 \begin{notation}
@@ -303,13 +341,103 @@
 
 \section{Activation functions}
 
-% ReLU
+% Act functions
 \begin{definition}
-  Let $F_{act} \in \mathcal{D}(\mathbb{R}^m,\mathbb{R}^m)$. The $F_{act}$ is an activation function.
+  Let $E \subseteq \Real^m$, $F \subseteq \Real^m$ and $F_{act} \in \mathcal{D}(E,F)$. \par
+  $F_{act}$ is an activation function. \par
+  The notation $\mathcal{F}_{act}(E,F)$ means the set of activation functions from $E$ to $F$.
 \end{definition}
 
+% ReLU definition
 \begin{definition}
-  Let the application $ReLU$ 
+  Let the application $ReLU$ noted as $\mathcal{R}$ be
+  \begin{equation*}
+    \begin{array}{llll}
+      \mathcal{R} & : & \Real^m & \longrightarrow \Real^m \\
+      &   & z & \longmapsto \begin{bmatrix}
+        max(0,z_1) \\
+        \vdots \\
+        max(0,z_m)
+      \end{bmatrix}
+    \end{array}
+  \end{equation*} \par
 \end{definition}
+
+% ReLU differential
+\begin{proposition}
+  {\normalfont
+    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{F}_{act}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
+      \begin{array}{llll}
+        \mathcal{J}_{\mathcal{R}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
+        &   & z & \longmapsto \begin{bmatrix}
+          \mathbb{1}_{\Real^+}(z_1) & 0 & \cdots & 0 \\
+          0 & \mathbb{1}_{\Real^+}(z_2) & \ddots & \vdots \\
+          \vdots & \ddots & \ddots & 0 \\
+          0 & \cdots & 0 & \mathbb{1}_{\Real^+}(z_m) \\
+        \end{bmatrix}
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$.
+  \begin{equation*}
+    \begin{split}
+      \mathcal{R}_i(z) = max(0,z_i) & \underset{assump\ref{assump:max_differentiable}}\implies \frac{\partial \mathcal{R}_i}{\partial e_j}(z)
+        = \begin{array}{ll}
+          \mathbb{1}_{\Real^+}(z_i) & i = j \\
+          0 & i \neq j
+      \end{array}
+    \end{split}
+  \end{equation*}
+\end{proof}
+
+% Softmax definition
+\begin{definition}
+  Let the application $Softmax$ noted as $\mathcal{S}$ be
+  \begin{equation*}
+    \begin{array}{llll}
+      \mathcal{S} & : & \Real^m & \longrightarrow \Real^m \\
+      &   & z & \longmapsto \begin{bmatrix}
+        \frac{e^{z_1}}{\sum_{k=1}^m e^{z_k}} \\
+        \vdots \\
+        \frac{e^{z_m}}{\sum_{k=1}^m e^{z_k}}
+      \end{bmatrix}
+    \end{array}
+  \end{equation*} \par
+\end{definition}
+
+% Softmax differential
+\begin{proposition}
+  {\normalfont
+    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{F}_{act}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
+      \begin{array}{llll}
+        \mathcal{J}_{\mathcal{S}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
+        &   & z & \longmapsto \begin{bmatrix}
+          \mathcal{S}_1 * (1 - \mathcal{S}_1) & - \mathcal{S}_1 * \mathcal{S}_2 & \cdots & - \mathcal{S}_1 * \mathcal{S}_m \\
+          - \mathcal{S}_2 * \mathcal{S}_1 & \mathcal{S}_2 * (1 - \mathcal{S}_2) & \ddots & \vdots \\
+          \vdots & \ddots & \ddots & - \mathcal{S}_{m-1} * \mathcal{S}_m \\
+          - \mathcal{S}_m * \mathcal{S}_1 & \cdots & - \mathcal{S}_m * \mathcal{S}_{m-1} & \mathcal{S}_m * (1 - \mathcal{S}_m) \\
+        \end{bmatrix} (z)
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$. \begin{equation*}
+    \begin{gathered}
+      \mathcal{S}_i(z) = \frac{e^{z_i}}{\sum_{k=1}^m e^{z_k}}
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{lll}
+      & \implies \frac{\partial \mathcal{S}_i}{\partial e_j} & = \frac{(\delta_{i,j} * e^{z_i}) * {\sum_{k=1}^m e^{z_k}} - e^{z_j} * e^{z_i}}{(\sum_{k=1}^m e^{z_k})^2} \\
+      & & = \delta_{i,j} * \mathcal{S}_i(z) - \mathcal{S}_j(z) * \mathcal{S}_i(z) \\
+      & & = \mathcal{S}_i(z) * (\delta_{i,j} - \mathcal{S}_j(z))
+    \end{array}
+  \end{equation*}
+\end{proof}
 
 \end{document}
