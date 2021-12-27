@@ -33,7 +33,7 @@
   The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
   Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective is to do a collection of the
   important propositions explaining dense neural network (DNN) theories. These propositions will be mathematically proven. The subject used
-  as reference is a multi-class classification problem with – dense layers, andactivation layers, Categorical cross-entropy loss and Stochastic
+  as reference is a multi-class classification problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic
   gradient descent optimizer. But all the elements below can be easily re-used or re-defined to cover regressions.
   \keywords{Dense neural network, Equation, Asumption, Proof}
 \end{abstract}
@@ -341,7 +341,7 @@
 
 \section{Activation functions}
 
-% Act functions
+% Act function definition
 \begin{definition}
   Let $E \subseteq \Real^m$, $F \subseteq \Real^m$ and $F_{act} \in \mathcal{D}(E,F)$. \par
   $F_{act}$ is an activation function. \par
@@ -350,7 +350,7 @@
 
 % ReLU definition
 \begin{definition}
-  Let the application $ReLU$ noted as $\mathcal{R}$ be
+  Let the application \textit{ReLU} noted as $\mathcal{R}$ be
   \begin{equation*}
     \begin{array}{llll}
       \mathcal{R} & : & \Real^m & \longrightarrow \Real^m \\
@@ -395,10 +395,10 @@
 
 % Softmax definition
 \begin{definition}
-  Let the application $Softmax$ noted as $\mathcal{S}$ be
+  Let the application \textit{Softmax} noted as $\mathcal{S}$ be
   \begin{equation*}
     \begin{array}{llll}
-      \mathcal{S} & : & \Real^m & \longrightarrow \Real^m \\
+      \mathcal{S} & : & \Real^m & \longrightarrow ]0,1[^m \\
       &   & z & \longmapsto \begin{bmatrix}
         \frac{e^{z_1}}{\sum_{k=1}^m e^{z_k}} \\
         \vdots \\
@@ -411,7 +411,7 @@
 % Softmax differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{F}_{act}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
+    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and its jacobian is \begin{equation}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{S}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -439,5 +439,35 @@
     \end{array}
   \end{equation*}
 \end{proof}
+
+\section{Loss}
+
+% Loss function definition
+\begin{definition}
+  Let $E \subseteq \Real^m$, $y^* \in \Real^m$ and $F_{loss}^{y^*} \in \mathcal{D}(E,\Real)$.
+  $F_{loss}^{y^*}$ is a loss function is equivalent to \begin{equation*}
+    \begin{array}{llll}
+      F_{loss}^{y^*} \circ g & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
+      & & \epsilon & \longmapsto F_{loss}^{y^*}(y^* + \epsilon)
+    \end{array}
+  \end{equation*} \par
+  is an inscreasing function according $\norm{\epsilon}_m$. \par
+  $y^*$ is named the ground truth matrix. \par
+  The notation $\mathcal{F}_{loss}(E)$ means the set of loss functions from $E$ to $\Real$.
+\end{definition}
+
+% Categorical cross-entropy loss definition
+\begin{definition}
+  Let $y^* \in \{0,1\}^m$. Let the application \textit{Categorical cross-entropy} noted as $\xi^{y^*}$ be
+  \begin{equation*}
+    \begin{array}{llll}
+      \xi^{y^*} & : & ]0,1[^m & \longrightarrow \Real^m \\
+      &   & y & \longmapsto - \sum_{k=1}^m y_k^* * \log(y_k)
+    \end{array}
+  \end{equation*} \par
+\end{definition}
+
+% Categorical cross-entropy loss differential
+
 
 \end{document}
