@@ -35,10 +35,10 @@
   important propositions explaining dense neural network (DNN) theories. These propositions will be mathematically proven. The subject used
   as reference is a multi-class classification problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic
   gradient descent optimizer. But all the elements below can be easily re-used or re-defined to cover regressions.
-  \keywords{Dense neural network, Equation, Asumption, Proof}
+  \keywords{Dense neural network, Equation, Proof}
 \end{abstract}
 
-\section{Fundamentals and notations}
+\section{Fundamentals}
 
 \subsection{Matrices}
 
@@ -109,8 +109,10 @@
 % Base notations
 \begin{notation}
   Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$. \par
-  The notation $\mathring{E}$ means the set with only the interior point of $E$. \par
+  The notation $\mathring{E}$ means the interior of $E$. \par
+  The notation $\overline{E}$ means the adherence of $E$. \par
   The notation $f : E \longrightarrow F$ means the application from $E$ to $F$. \par
+  The notation $\mathcal{F}(E,F)$ means the set of applications from $E$ to $F$. \par
   The notation $\mathcal{C}(E,F)$ means the set of continuous applications from $E$ to $F$. \par
   The notation $\mathcal{L}(E,F)$ means the set of linear applications from $E$ to $F$.
 \end{notation}
@@ -199,7 +201,7 @@
 \begin{corollary}
   {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f \in \mathcal{D}(E,F)$.
   The jacobian of $f$ on $a \in \mathring{E}$ fixed is the canonical associated matrix to the differential of $f$ on $a$.} \par
-  \normalfont{\textbf{Notes:} It means a function differentiability can also be shown by exhibing its jacobian.} \par
+  \normalfont{\textbf{Notes:} It means a function differentiability can also be proved by exhibing its jacobian.} \par
 \end{corollary}
 
 \begin{proof}
@@ -210,7 +212,7 @@
 
 % Function composition notation
 \begin{notation}
-  Let $f : E \longrightarrow F$ and $g : F \longrightarrow G$.
+  Let $f \in \mathcal{F}(E,F)$ and $g \in \mathcal{F}(F,G)$.
   Then the notation $g \circ f$ means the application \begin{equation*}
     \begin{array}{llll}
       g \circ f & : & E & \longrightarrow G \\
@@ -218,7 +220,7 @@
     \end{array}
   \end{equation*} \par
 
-  Let $f_i : E_i \longrightarrow E_{i+1}$ for $i \in \llbracket 1,n \rrbracket$.
+  Let $f_i \in \mathcal{F}(E_i,E_{i+1})$ for $i \in \llbracket 1,n \rrbracket$.
   Then the notation $\underset{i=1}{\overset{n}\circ} f_i$ means the application \begin{equation*}
     \begin{array}{llll}
       \underset{i=1}{\overset{n}\circ} f_i & : & E_1 & \longrightarrow E_{n+1} \\
@@ -269,7 +271,7 @@
 
 %Kronecker delta
 \begin{notation}
-  The notation $\delta_{i,j}$ means the kronecker delta application \begin{equation*}
+  The notation $\delta_{\cdot,\cdot}$ means the kronecker delta application \begin{equation*}
     \begin{array}{llll}
       \delta_{\cdot,\cdot} & : & \mathbb{Z} \times \mathbb{Z} & \longrightarrow \{0,1\} \\
       &   & (i,j) & \longmapsto \begin{array}{ll}
@@ -331,9 +333,9 @@
     \end{array}
   \end{equation*} \par
 
-  Let $k \in \llbracket 1,n \rrbracket$. The notation $f(x_1, \ldots, x_{k-1}, \cdots, x_{k+1}, \ldots, x_n)$ means \begin{equation*}
+  Let $k \in \llbracket 1,n \rrbracket$. The notation $f(x_1, \ldots, x_{k-1}, \cdot, x_{k+1}, \ldots, x_n)$ means \begin{equation*}
     \begin{array}{llll}
-      f(x_1, \ldots, x_{k-1}, \cdots, x_{k+1}, \ldots, x_n) & : & E_k & \longrightarrow F_1 \times \ldots \times F_m \\
+      f(x_1, \ldots, x_{k-1}, \cdot, x_{k+1}, \ldots, x_n) & : & E_k & \longrightarrow F_1 \times \ldots \times F_m \\
       &   & x_k & \longmapsto f(x_1, \ldots, x_{k-1}, x_k, x_{k+1}, \ldots, x_n)
     \end{array}
   \end{equation*}
@@ -444,30 +446,85 @@
 
 % Loss function definition
 \begin{definition}
-  Let $E \subseteq \Real^m$, $y^* \in \Real^m$ and $F_{loss}^{y^*} \in \mathcal{D}(E,\Real)$.
-  $F_{loss}^{y^*}$ is a loss function is equivalent to \begin{equation*}
+  Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $F_{loss} \in \mathcal{F}(E \times F,\Real)$
+  with $\forall y^* \in F, F_{loss}(\cdot,y^*) \in \mathcal{D}(E,\Real)$.
+  $F_{loss}$ is a loss function is equivalent to \begin{equation*}
+    \begin{gathered}
+      \forall y^* \in F, \\
+      \exists g \in \mathcal{F}(\{\epsilon \in \Real^m | y^* + \epsilon \in E\},E),
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
     \begin{array}{llll}
-      F_{loss}^{y^*} \circ g & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
-      & & \epsilon & \longmapsto F_{loss}^{y^*}(y^* + \epsilon)
+      F_{loss}(\cdot,y^*) \circ g & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
+      & & \epsilon & \longmapsto F_{loss}(y^* + \epsilon,y^*)
     \end{array}
   \end{equation*} \par
   is an inscreasing function according $\norm{\epsilon}_m$. \par
+  
   $y^*$ is named the ground truth matrix. \par
-  The notation $\mathcal{F}_{loss}(E)$ means the set of loss functions from $E$ to $\Real$.
+  The notation $\mathcal{F}_{loss}(E)$ means the set of loss functions from $E \times F$ (with $F \subseteq \overline{E}$) to $\Real$.
 \end{definition}
+
+% Loss function definition equivalent
+\begin{proposition}
+  {\normalfont
+    Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $F_{loss} \in \mathcal{F}_{loss}(E)$.
+    $F_{loss}$ is a loss function is equivalent to \begin{equation*}
+      \begin{gathered}
+        \forall y^* \in F,
+      \end{gathered}
+    \end{equation*}
+    \begin{equation*}
+      \begin{array}{llll}
+        \phi_{F_{loss}}(\cdot,y^*) & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
+        & & \epsilon & \longmapsto F_{loss}(y^* + \epsilon,y^*)
+      \end{array}
+    \end{equation*} \par
+    is an inscreasing function according $\norm{\epsilon}_m$. \par
+    \textbf{Note:} It means only the increasing aspect as to be proved.
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $y \in E$ and $y^* \in F$. \begin{equation*}
+    \begin{split}
+      \epsilon = y - y^* & \implies y^* + \epsilon \in \{\epsilon \in \Real^m | y^* + \epsilon \in E\} \\
+      & \implies \{\epsilon \in \Real^m | y^* + \epsilon \in E\} \neq \emptyset \\
+      & \implies \exists g \in \mathcal{F}(\{\epsilon \in \Real^m | y^* + \epsilon \in E\},E)
+    \end{split}
+  \end{equation*}
+\end{proof}
 
 % Categorical cross-entropy loss definition
 \begin{definition}
-  Let $y^* \in \{0,1\}^m$. Let the application \textit{Categorical cross-entropy} noted as $\xi^{y^*}$ be
+  Let the application \textit{Categorical cross-entropy} noted as $\xi$ be
   \begin{equation*}
     \begin{array}{llll}
-      \xi^{y^*} & : & ]0,1[^m & \longrightarrow \Real^m \\
-      &   & y & \longmapsto - \sum_{k=1}^m y_k^* * \log(y_k)
+      \xi & : & ]0,1[^m \times \{0,1\}^m & \longrightarrow \Real^m \\
+      &   & (y,y^*) & \longmapsto - \sum_{k=1}^m y_k^* * \log(y_k)
     \end{array}
   \end{equation*} \par
 \end{definition}
 
 % Categorical cross-entropy loss differential
+\begin{proposition}
+  {\normalfont
+    $\xi \in \mathcal{F}_{loss}(]0,1[^m)$ and $\forall y^* \in \{0,1\}^m,$ $\xi(\cdot,y^*)$ gradient is \begin{equation}
+      \begin{array}{llll}
+        \nabla_{\xi(\cdot,y^*)} & : & ]0,1[^m  & \longrightarrow \Real^m \\
+        &   & y & \longmapsto - \begin{bmatrix}
+          \frac{y^*_1}{y_1} & \ldots & \frac{y^*_m}{y_m}
+        \end{bmatrix}
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
 
+\begin{proof}
+  Suppose $E = ]0,1[^m$, $F = \{0,1\}^m$. Then $F \subseteq \overline{E}$. \par
+  Let $y^* \in F$ and suppose $A = \{\epsilon \in \Real^m | y^* + \epsilon \in E\}$.
+  Let $(\epsilon_1, \epsilon_2) \in A^2$ with $\norm{\epsilon_1}_m \leq \norm{\epsilon_2}_m$.
+\end{proof}
 
 \end{document}
