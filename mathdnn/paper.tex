@@ -79,7 +79,7 @@
 \begin{notation}
   Let $A \in \mathcal{M}_{n,m}$ and $B \in \mathcal{M}_{m,p}$. Let the product noted $A * B$ be \begin{gather*}
     C = A * B
-  \end{gather*}
+  \end{gather*} \par
   where $C \in \mathcal{M}_{n,p}$ with \begin{gather*}
     \forall i \in \llbracket 1,n \rrbracket, \forall j \in \llbracket 1,p \rrbracket, C_{i,j} = \sum_{k=1}^n A_{i,k} * B_{k,j}
   \end{gather*}
@@ -120,7 +120,7 @@
 % Differentiable definition
 \begin{definition}
   Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$.
-  Then $f$ differentiable on $E$ is equivalent to \begin{equation}\label{eq:differentiable}
+  Then $f$ differentiable on $E$ is equivalent to \begin{equation}\label{def:differentiable}
     \begin{gathered}
       \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m), \\
       \forall h \in \Real^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
@@ -140,7 +140,7 @@
 \begin{proof}
   Suppose $\phi_1$ and $\phi_2$ two differentiales of $f$ on $a$. \begin{equation*}
     \begin{gathered}
-      \forall h \in \Real^n, \phi_2(h) - \phi_1(h) \underset{(\ref{eq:differentiable})} = \underset{h \to 0}o(\norm h _n)
+      \forall h \in \Real^n, \phi_2(h) - \phi_1(h) \underset{(\ref{def:differentiable})} = \underset{h \to 0}o(\norm h _n)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
@@ -154,7 +154,7 @@
   Let $f \in \mathcal{D}(E,F).$ and $a \in \mathring{E}$. \begin{equation*}
     \begin{split}
       \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\Real^n,\Real^m), \frac{\partial f}{\partial 0_{\Real^n}}(a) = 0_{\Real^m} \label{} \\
-      & \underset{(\ref{eq:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
+      & \underset{(\ref{def:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
     \end{split}
   \end{equation*}
 \end{proof}
@@ -232,7 +232,7 @@
 % Chain rule
 \begin{theorem}
   {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
-  Then $g \circ f \in \mathcal{D}(E,G)$ and} \begin{equation}
+  Then $g \circ f \in \mathcal{D}(E,G)$ and} \begin{equation} \label{theo:chain_rule}
     \begin{array}{llll}
       \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
       &   & a & \longmapsto \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
@@ -343,16 +343,16 @@
 
 \section{Activation functions}
 
-% Act function definition
-\begin{definition}
-  Let $E \subseteq \Real^m$, $F \subseteq \Real^m$ and $F_{act} \in \mathcal{D}(E,F)$. \par
-  $F_{act}$ is an activation function. \par
-  The notation $\mathcal{F}_{act}(E,F)$ means the set of activation functions from $E$ to $F$.
-\end{definition}
+% Act function notation
+\begin{notation}
+  Let $E \subseteq \Real^m$, $F \subseteq \Real^m$. \par
+  The notation $\mathcal{F}_{act}(E,F)$ means the set of activation functions from $E$ to $F$. \par
+  \textbf{Note:} An activation function is an application defined in this section. \par
+\end{notation}
 
 % ReLU definition
 \begin{definition}
-  Let the application \textit{ReLU} noted as $\mathcal{R}$ be
+  Let the activation function \textit{ReLU} noted as $\mathcal{R}$ be
   \begin{equation*}
     \begin{array}{llll}
       \mathcal{R} & : & \Real^m & \longrightarrow \Real^m \\
@@ -368,7 +368,7 @@
 % ReLU differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{F}_{act}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
+    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{D}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{R}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -397,7 +397,7 @@
 
 % Softmax definition
 \begin{definition}
-  Let the application \textit{Softmax} noted as $\mathcal{S}$ be
+  Let the activation function \textit{Softmax} noted as $\mathcal{S}$ be
   \begin{equation*}
     \begin{array}{llll}
       \mathcal{S} & : & \Real^m & \longrightarrow ]0,1[^m \\
@@ -413,7 +413,7 @@
 % Softmax differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and its jacobian is \begin{equation}
+    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{D}(\Real^m,]0,1[^m)$ and its jacobian is \begin{equation} \label{prop:softmax_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{S}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -435,7 +435,7 @@
   \end{equation*}
   \begin{equation*}
     \begin{array}{lll}
-      & \implies \frac{\partial \mathcal{S}_i}{\partial e_j} & = \frac{(\delta_{i,j} * e^{z_i}) * {\sum_{k=1}^m e^{z_k}} - e^{z_j} * e^{z_i}}{(\sum_{k=1}^m e^{z_k})^2} \\
+      & \implies \frac{\partial \mathcal{S}_i}{\partial e_j} (z) & = \frac{(\delta_{i,j} * e^{z_i}) * {\sum_{k=1}^m e^{z_k}} - e^{z_j} * e^{z_i}}{(\sum_{k=1}^m e^{z_k})^2} \\
       & & = \delta_{i,j} * \mathcal{S}_i(z) - \mathcal{S}_j(z) * \mathcal{S}_i(z) \\
       & & = \mathcal{S}_i(z) * (\delta_{i,j} - \mathcal{S}_j(z))
     \end{array}
@@ -444,64 +444,19 @@
 
 \section{Loss}
 
-% Loss function definition
-\begin{definition}
-  Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $F_{loss} \in \mathcal{F}(E \times F,\Real)$
-  with $\forall y^* \in F, F_{loss}(\cdot,y^*) \in \mathcal{D}(E,\Real)$.
-  $F_{loss}$ is a loss function is equivalent to \begin{equation*}
-    \begin{gathered}
-      \forall y^* \in F, \\
-      \exists g \in \mathcal{F}(\{\epsilon \in \Real^m | y^* + \epsilon \in E\},E),
-    \end{gathered}
-  \end{equation*}
-  \begin{equation*}
-    \begin{array}{llll}
-      F_{loss}(\cdot,y^*) \circ g & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
-      & & \epsilon & \longmapsto F_{loss}(y^* + \epsilon,y^*)
-    \end{array}
-  \end{equation*} \par
-  is an inscreasing function according $\norm{\epsilon}_m$. \par
-  
-  $y^*$ is named the ground truth matrix. \par
-  The notation $\mathcal{F}_{loss}(E)$ means the set of loss functions from $E \times F$ (with $F \subseteq \overline{E}$) to $\Real$.
-\end{definition}
-
-% Loss function definition equivalent
-\begin{proposition}
-  {\normalfont
-    Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $F_{loss} \in \mathcal{F}_{loss}(E)$.
-    $F_{loss}$ is a loss function is equivalent to \begin{equation*}
-      \begin{gathered}
-        \forall y^* \in F,
-      \end{gathered}
-    \end{equation*}
-    \begin{equation*}
-      \begin{array}{llll}
-        \phi_{F_{loss}}(\cdot,y^*) & : & \{\epsilon \in \Real^m | y^* + \epsilon \in E\} & \longrightarrow \Real \\
-        & & \epsilon & \longmapsto F_{loss}(y^* + \epsilon,y^*)
-      \end{array}
-    \end{equation*} \par
-    is an inscreasing function according $\norm{\epsilon}_m$. \par
-    \textbf{Note:} It means only the increasing aspect as to be proved.
-  }
-\end{proposition}
-
-\begin{proof}
-  Let $E \subseteq \Real^m$, $F \subseteq \overline{E}$, $y \in E$ and $y^* \in F$. \begin{equation*}
-    \begin{split}
-      \epsilon = y - y^* & \implies y^* + \epsilon \in \{\epsilon \in \Real^m | y^* + \epsilon \in E\} \\
-      & \implies \{\epsilon \in \Real^m | y^* + \epsilon \in E\} \neq \emptyset \\
-      & \implies \exists g \in \mathcal{F}(\{\epsilon \in \Real^m | y^* + \epsilon \in E\},E)
-    \end{split}
-  \end{equation*}
-\end{proof}
+% Loss function notation
+\begin{notation}
+  Let $E \subseteq \Real^m \times \Real^m$, $F \subseteq \Real$. \par
+  The notation $\mathcal{F}_{loss}(E,F)$ means the set of loss functions from $E$ to $F$. \par
+  \textbf{Note:} A loss function is an application defined in this section. \par
+\end{notation}
 
 % Categorical cross-entropy loss definition
 \begin{definition}
-  Let the application \textit{Categorical cross-entropy} noted as $\xi$ be
+  Let the loss function \textit{Categorical cross-entropy} noted as $\xi$ be
   \begin{equation*}
     \begin{array}{llll}
-      \xi & : & ]0,1[^m \times \{0,1\}^m & \longrightarrow \Real^m \\
+      \xi & : & ]0,1[^m \times \{0,1\}^m & \longrightarrow \Real \\
       &   & (y,y^*) & \longmapsto - \sum_{k=1}^m y_k^* * \log(y_k)
     \end{array}
   \end{equation*} \par
@@ -510,9 +465,9 @@
 % Categorical cross-entropy loss differential
 \begin{proposition}
   {\normalfont
-    $\xi \in \mathcal{F}_{loss}(]0,1[^m)$ and $\forall y^* \in \{0,1\}^m,$ $\xi(\cdot,y^*)$ gradient is \begin{equation}
+    Let $y^* \in \{0,1\}^m$. $\xi(\cdot,y^*) \in \mathcal{D}(]0,1[^m, \Real)$ and its gradient is \begin{equation} \label{prop:cce_differential}
       \begin{array}{llll}
-        \nabla_{\xi(\cdot,y^*)} & : & ]0,1[^m  & \longrightarrow \Real^m \\
+        \nabla_{\xi(\cdot,y^*)} & : & ]0,1[^m  & \longrightarrow \Real \\
         &   & y & \longmapsto - \begin{bmatrix}
           \frac{y^*_1}{y_1} & \ldots & \frac{y^*_m}{y_m}
         \end{bmatrix}
@@ -522,9 +477,40 @@
 \end{proposition}
 
 \begin{proof}
-  Suppose $E = ]0,1[^m$, $F = \{0,1\}^m$. Then $F \subseteq \overline{E}$. \par
-  Let $y^* \in F$ and suppose $A = \{\epsilon \in \Real^m | y^* + \epsilon \in E\}$.
-  Let $(\epsilon_1, \epsilon_2) \in A^2$ with $\norm{\epsilon_1}_m \leq \norm{\epsilon_2}_m$.
+  Let $y^* \in \{0,1\}^m$, $j \in \llbracket 1,m \rrbracket$ and $y \in ]0,1[^m$. \begin{equation*}
+    \begin{array}{lll}
+      \xi(y,y^*) = - \sum_{k=1}^m y_k^* * \log(y_k) & \implies \frac{\partial \xi(\cdot,y^*)}{\partial e_j} (y) & = - \frac{y_j^*}{y_j}
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+% Categorical cross-entropy loss composed with Softmax differential
+\begin{proposition}
+  {\normalfont
+    Let $\mathcal{S} \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and $\xi \in \mathcal{F}_{loss}(]0,1[^m \times \{0,1\}^m, \Real)$. \par
+    Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$.
+    $\xi(\cdot,y^*) \circ \mathcal{S} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation} \label{prop:cce_softmax_differential}
+      \begin{array}{llll}
+        \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}} & : & \Real^m  & \longrightarrow \Real \\
+        &   & z & \longmapsto \mathcal{S}(z) - y^*
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$, $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$. \begin{equation*}
+    \begin{gathered}
+      \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}}(z) \underset{(\ref{theo:chain_rule})}{=} \nabla_{\xi(\cdot,y^*)}(\mathcal{S}(z)) * \mathcal{J}_{\mathcal{S}}(z)
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{lll}
+      & \implies \frac{\partial \xi(\cdot,y^*) \circ \mathcal{S}}{\partial e_j} (z)
+        & \underset{(\ref{prop:softmax_differential}) + (\ref{prop:cce_differential})}= - y_j^* + \sum_{k=1}^m {y_k^* * \mathcal{S}_j(z)} \\
+      & & \underset{y^* \in \{0,1\}^m, \norm{y}_m = 1}{=} \mathcal{S}_j(z) - y_j^*
+    \end{array}
+  \end{equation*}
 \end{proof}
 
 \end{document}
