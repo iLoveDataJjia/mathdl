@@ -91,6 +91,18 @@
   The matrix transpose operation will be noted as $A^T$.
 \end{notation}
 
+% Matrix identity
+\begin{notation}
+  The notation $I_n$ means the identity matrix of size $n \times n$. \begin{equation*}
+    I_n = \begin{bmatrix}
+      1 & 0 & \cdots & 0 \\
+      0 & 1 & \ddots & \vdots \\
+      \vdots & \ddots & \ddots & 0 \\
+      0 & \cdots & 0 & 1
+    \end{bmatrix}
+  \end{equation*}
+\end{notation}
+
 % Norm
 \begin{notation}
   Let $a \in \Real^n$. The eucliean norm on $\Real^n$ will be noted as $\norm a _n$.
@@ -110,7 +122,6 @@
 \begin{notation}
   Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$. \par
   The notation $\mathring{E}$ means the interior of $E$. \par
-  The notation $\overline{E}$ means the adherence of $E$. \par
   The notation $f : E \longrightarrow F$ means the application from $E$ to $F$. \par
   The notation $\mathcal{F}(E,F)$ means the set of applications from $E$ to $F$. \par
   The notation $\mathcal{C}(E,F)$ means the set of continuous applications from $E$ to $F$. \par
@@ -269,6 +280,13 @@
 
 \subsection{Others}
 
+% Cartesian products
+\begin{notation}
+  Let $E$ and $F$ two sets and $(E_i)_{i \in \llbracket 1,n \rrbracket}$ $n$ sets. \par
+  The notation $E \times F$ means the cartesian product between $E$ and $F$. \par
+  The notation $\underset{i=1}{\overset{n}\circ} E_i$ means the cartesian product $E_n \times \ldots \times E_1$.
+\end{notation}
+
 %Kronecker delta
 \begin{notation}
   The notation $\delta_{\cdot,\cdot}$ means the kronecker delta application \begin{equation*}
@@ -345,7 +363,7 @@
 
 % Act function notation
 \begin{notation}
-  Let $E \subseteq \Real^m$, $F \subseteq \Real^m$. \par
+  Let $E \subseteq \Real^m \times (\Real^{\cdot})^p$ ($p$ parameter vectors of any sizes) and $F \subseteq \Real^m$. \par
   The notation $\mathcal{F}_{act}(E,F)$ means the set of activation functions from $E$ to $F$. \par
   \textbf{Note:} An activation function is an application defined in this section. \par
 \end{notation}
@@ -512,5 +530,135 @@
     \end{array}
   \end{equation*}
 \end{proof}
+
+\section{Layers}
+
+% Layers notation
+\begin{notation}
+  Let $E \subseteq \Real^n \times (\Real^{\cdot})^p$ ($p$ parameter vectors of any sizes) and $F \subseteq \Real^m$. \par
+  The notation $\mathcal{F}_{layer}(E,F)$ means the set of layer functions from $E$ to $F$. \par
+  \textbf{Note:} A layer function is an application defined in this section. \par
+\end{notation}
+
+% Dense layer definition
+\begin{definition}
+  Let the layer function \textit{Dense Layer} noted as $\mathbb{L}$ be
+  \begin{equation*}
+    \begin{array}{llll}
+      \mathbb{L} & : & \Real^n \times \mathcal{M}_{m,n} \times \Real^m & \longrightarrow \Real^m \\
+      &   & (y,W,b) & \longmapsto y * W^T + b
+    \end{array}
+  \end{equation*} \par
+  \textbf{Note:} $\mathbb{L} : \Real^n \times \mathcal{M}_{m,n} \times \Real^m \longrightarrow \Real^m$
+  is equivalent to $\mathbb{L} : \Real^n \times (\Real^n)^{m+1} \longrightarrow \Real^m$.
+\end{definition}
+
+% Dense layer differential on y
+\begin{proposition}
+  {\normalfont
+    Let $W \in \mathcal{M}_{m,n}$ and $b \in \Real^m$.
+    $\mathbb{L}(\cdot,W,b) = (\mathbb{L}_1(\cdot,W,b) \ldots \mathbb{L}_m(\cdot,W,b)) \in \mathcal{D}(\Real^n, \Real^m)$
+    and its gradient is \begin{equation} \label{prop:densel_y_differential}
+      \begin{array}{llll}
+        \mathcal{J}_{\mathbb{L}(\cdot,W,b)} & : & \Real^n  & \longrightarrow \mathcal{M}_{m,n} \\
+        &   & y & \longmapsto W
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $W \in \mathcal{M}_{m,n}$, $b \in \Real^m$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
+  and $y \in \Real^n$. \begin{equation*}
+    \begin{array}{lll}
+      \mathbb{L}(y,W,b) = y * W^T + b & \implies \mathbb{L}_i(y,W,b) & = y * W_{i,:}^T + b_i \\
+      & \implies \frac{\partial \mathbb{L}_i(\cdot,W,b)}{\partial e_j} (y) & = W_{i,j}
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+% Dense layer differential on W
+\begin{proposition}
+  {\normalfont
+    Let $y \in \Real^n$, $b \in \Real^m$ and
+    $\mathbb{L} = (\mathbb{L}_1 \ldots \mathbb{L}_m) \in \mathcal{F}_{layer}(\Real^n \times (\Real^n)^{m+1},\Real^m)$.
+    $\forall i \in \llbracket 1,m \rrbracket,$ $\mathbb{L}_i(y,\cdot,b) \in \mathcal{D}(\Real^n, \Real)$
+    and gradients are \begin{equation*}
+      \begin{gathered}
+        \forall i \in \llbracket 1,m \rrbracket,
+      \end{gathered}
+    \end{equation*}
+    \begin{equation} \label{prop:densel_W_differential}
+      \begin{array}{llll}
+        \nabla_{\mathbb{L}_i(y,\cdot,b)} & : & \Real^n  & \longrightarrow \Real^n \\
+        &   & w & \longmapsto y
+      \end{array}
+    \end{equation} \par
+    \textbf{Note:} $\mathbb{L}_i(y,\cdot,b) \in \mathcal{F}(\Real^n, \Real)$ instead of $\mathcal{F}((\Real^n)^m, \Real)$
+    because $\mathbb{L}_i$ depends only on $W_{i,:}$.
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $y \in \Real^n$, $b \in \Real^m$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
+  and $w \in \Real^n$. \begin{equation*}
+    \begin{array}{lll}
+      \mathbb{L}_i(y,w,b) = y * w^T + b_i & \implies \frac{\partial \mathbb{L}_i(y,\cdot,b)}{\partial e_j} (w) & = y
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+% Dense layer differential on b
+\begin{proposition}
+  {\normalfont
+    Let $y \in \Real^n$ and $W \in \mathcal{M}_{m,n}$.
+    $\mathbb{L}(y,W,\cdot) = (\mathbb{L}_1(y,W,\cdot) \ldots \mathbb{L}_m(y,W,\cdot)) \in \mathcal{D}(\Real^m, \Real^m)$
+    and its gradient is \begin{equation} \label{prop:densel_b_differential}
+      \begin{array}{llll}
+        \mathcal{J}_{\mathbb{L}(y,W,\cdot)} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
+        &   & y & \longmapsto I_m
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $y \in \Real^n$, $W \in \mathcal{M}_{m,n}$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
+  and $b \in \Real^m$. \begin{equation*}
+    \begin{array}{lll}
+      \mathbb{L}(y,W,b) = y * W^T + b & \implies \mathbb{L}_i(y,W,b) & = y * W_{i,:}^T + b_i \\
+      & \implies \frac{\partial \mathbb{L}_i(y,W,\cdot)}{\partial e_j} (b) & = \delta_{i,j}
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+\section{Neural networks}
+
+% Neural network notation
+\begin{notation}
+  Let $E \subseteq \Real^n \times (\Real^{\cdot})^p$ ($p$ parameter vectors of any sizes) and $F \subseteq \Real^m$. \par
+  The notation $\mathcal{F}_{net}(E,F)$ means the set of neural network functions from $E$ to $F$. \par
+  \textbf{Note:} A neural network is an application defined in this section. \par
+\end{notation}
+
+% DNN definition
+\begin{definition}
+  Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network application
+  \textit{Multi-Class classifier Dense Neural Network} noted as $\mathcal{N}$ be \begin{equation*}
+    \begin{array}{llll}
+      \mathcal{N} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
+      &   & (y,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
+      ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (y)
+    \end{array}
+  \end{equation*}
+  \begin{itemize}
+    \item $(\mathbb{L}^{(k)})_{k \in \llbracket 1,p \rrbracket} \in
+      \underset{k=1}{\overset{p}{\times}} \mathcal{F}_{layer}(\Real^{m_{k-1}} \times \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}}, \Real^{m_{k}})$
+    \item $(\mathcal{R}^{(k)})_{k \in \llbracket 1,p-1 \rrbracket} \in
+      \underset{k=1}{\overset{p-1}{\times}} \mathcal{F}_{act}(\Real^{m_k}, \Real^{m_k})$
+    \item $\mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})$ and $\xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real)$
+  \end{itemize}
+
+\end{definition}
 
 \end{document}
