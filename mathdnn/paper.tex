@@ -44,6 +44,11 @@
 
 \subsection{Matrices}
 
+% Set not empty
+\begin{convention}
+  All sets considered are not empty.
+\end{convention}
+
 % Matrix notation
 \begin{notation}
   Let $a_{i,j} \in \Real$ for $i \in \llbracket 1,n \rrbracket$ and $j \in \llbracket 1,m \rrbracket$.
@@ -74,7 +79,9 @@
 
 % Vector convention to matrix row
 \begin{convention}
-  A vector is a matrix with only one row. Thus, the real vector set $\Real^n$ is equivalent to $\mathcal{M}_{1,n}$.
+  Let $E \subseteq \Real$. \par
+  A vector is a matrix with only one row. Thus, the vector set $E^n$ is equivalent to $\mathcal{M}_{1,n}(E)$. \par
+  A $m$-tuple of vectors is a matrix with $m$ rows. Thus, the cartesian products of vectors $(E^n)^m$ is equivalent to $\mathcal{M}_{m,n}(E)$.
 \end{convention}
 
 % Matrix product
@@ -114,11 +121,6 @@
 \end{notation}
 
 \subsection{Differential calculus}
-
-% Set not empty
-\begin{convention}
-  All sets considered are not empty.
-\end{convention}
 
 % Base notations
 \begin{notation}
@@ -712,7 +714,7 @@
 % Multi-Class DNN objective function differential
 \begin{theorem}
   {\normalfont
-    
+
   }
 \end{theorem}
 
