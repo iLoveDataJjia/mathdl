@@ -14,6 +14,8 @@
 \usepackage{amsmath}
 \usepackage{fourier}
 \usepackage{accents}
+\usepackage[short]{optidef}
+
 \newtheorem{convention}{Convention}
 \newtheorem{notation}{Notation}
 \newtheorem{assumption}{Assumption}
@@ -242,13 +244,16 @@
 
 % Chain rule
 \begin{theorem}
-  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
-  Then $g \circ f \in \mathcal{D}(E,G)$ and} \begin{equation} \label{theo:chain_rule}
-    \begin{array}{llll}
-      \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
-      &   & a & \longmapsto \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
-    \end{array}
-  \end{equation}
+  {\normalfont
+    Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
+    Then $g \circ f \in \mathcal{D}(E,G)$ and \begin{equation} \label{theo:chain_rule}
+      \begin{array}{llll}
+        \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
+        &   & a & \longmapsto \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
+      \end{array}
+    \end{equation} \par
+    \textbf{Note:} This theorem is named the chain rule.
+  }
 \end{theorem}
 
 \begin{proof}
@@ -302,7 +307,7 @@
 
 % Indicator function
 \begin{notation}
-  Let $E \subseteq \Real^n$. The notation $\mathbb{1}_E$ means the $E$ indicator function on $\Real^n$.
+  Let $E \subseteq \Real^n$. The notation $\mathbb{1}_E$ means the indicator function of $E$ on $\Real^n$.
   \begin{equation*}
     \begin{array}{llll}
       \mathbb{1}_E & : & E & \longrightarrow \{0,1\}^n \\
@@ -542,7 +547,7 @@
 
 % Dense layer definition
 \begin{definition}
-  Let the layer function \textit{Dense Layer} noted as $\mathbb{L}$ be
+  Let the layer function \textit{Dense layer} noted as $\mathbb{L}$ be
   \begin{equation*}
     \begin{array}{llll}
       \mathbb{L} & : & \Real^n \times \mathcal{M}_{m,n} \times \Real^m & \longrightarrow \Real^m \\
@@ -550,7 +555,7 @@
     \end{array}
   \end{equation*} \par
   \textbf{Note:} $\mathbb{L} : \Real^n \times \mathcal{M}_{m,n} \times \Real^m \longrightarrow \Real^m$
-  is equivalent to $\mathbb{L} : \Real^n \times (\Real^n)^{m+1} \longrightarrow \Real^m$.
+  is equivalent to $\mathbb{L} : \Real^n \times (\Real^n)^{m} \times \Real^m \longrightarrow \Real^m$.
 \end{definition}
 
 % Dense layer differential on y
@@ -581,7 +586,7 @@
 \begin{proposition}
   {\normalfont
     Let $y \in \Real^n$, $b \in \Real^m$ and
-    $\mathbb{L} = (\mathbb{L}_1 \ldots \mathbb{L}_m) \in \mathcal{F}_{layer}(\Real^n \times (\Real^n)^{m+1},\Real^m)$.
+    $\mathbb{L} = (\mathbb{L}_1 \ldots \mathbb{L}_m) \in \mathcal{F}_{layer}(\Real^n \times (\Real^n)^m \times \Real^m,\Real^m)$.
     $\forall i \in \llbracket 1,m \rrbracket,$ $\mathbb{L}_i(y,\cdot,b) \in \mathcal{D}(\Real^n, \Real)$
     and gradients are \begin{equation*}
       \begin{gathered}
@@ -641,24 +646,74 @@
   \textbf{Note:} A neural network is an application defined in this section. \par
 \end{notation}
 
-% DNN definition
+% Multi-Class DNN definition
 \begin{definition}
-  Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network application
-  \textit{Multi-Class classifier Dense Neural Network} noted as $\mathcal{N}$ be \begin{equation*}
+  Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network
+  \textit{Multi-class dense neural network} noted as $\mathcal{N}_{c^+}$ be \begin{equation*}
     \begin{array}{llll}
-      \mathcal{N} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
-      &   & (y,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
-      ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (y)
+      \mathcal{N}_{c^+} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
+      &   & (x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
+      ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (x)
+    \end{array}
+  \end{equation*} \par
+
+  where \begin{equation*}
+    \begin{array}{ll}
+      & (\mathbb{L}^{(k)})_{k \in \llbracket 1,p \rrbracket} \in
+        \underset{k=1}{\overset{p}{\times}} \mathcal{F}_{layer}(\Real^{m_{k-1}} \times \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}}, \Real^{m_{k}}) \\
+      & (\mathcal{R}^{(k)})_{k \in \llbracket 1,p-1 \rrbracket} \in
+        \underset{k=1}{\overset{p-1}{\times}} \mathcal{F}_{act}(\Real^{m_k}, \Real^{m_k}) \\
+      & \mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})
     \end{array}
   \end{equation*}
-  \begin{itemize}
-    \item $(\mathbb{L}^{(k)})_{k \in \llbracket 1,p \rrbracket} \in
-      \underset{k=1}{\overset{p}{\times}} \mathcal{F}_{layer}(\Real^{m_{k-1}} \times \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}}, \Real^{m_{k}})$
-    \item $(\mathcal{R}^{(k)})_{k \in \llbracket 1,p-1 \rrbracket} \in
-      \underset{k=1}{\overset{p-1}{\times}} \mathcal{F}_{act}(\Real^{m_k}, \Real^{m_k})$
-    \item $\mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})$ and $\xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real)$
-  \end{itemize}
-
+  \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} )
+    \longrightarrow \Real^{m_p}$
+  is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} )
+  \longrightarrow \Real^{m_p}$.
 \end{definition}
+
+% Multi-Class DNN properties
+\begin{corollary}
+  \normalfont{
+    Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$ and $\mathcal{N}_{c^+} \in
+      \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} ), \Real^{m_p})$. \par
+    $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} ), \Real^{m_p})$
+    and the total number of parameter is \begin{equation*}
+      \sum_{k=1}^{p} m_{k} * (m_{k-1} + 1)
+    \end{equation*}
+  }
+\end{corollary}
+
+\begin{proof}
+  $\mathcal{N}_{c^+}$ is a composition of differentiable applications so $\mathcal{N}_{c^+}$ is differentiable by the \hyperref[theo:chain_rule]{chain rule} theorem.
+  Let $a \in (\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}})$
+  then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + m_{k}$ coefficients. \par
+\end{proof}
+
+% Multi-Class DNN objective function
+\begin{definition}
+  Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
+    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ), \Real^{m_p})$
+    and $(x,y^*) \in \Real^n \times \Real^m$. \par
+  Let the \textit{Multi-class optimization problem} noted as $\mathcal{P}_{c^+}$ be \begin{mini}
+    {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
+    {\xi(y,y^*)}{}{(\mathcal{P}_{c^+})\text{ : }}
+  \end{mini} \par
+  where \begin{equation*}
+    \begin{array}{ll}
+      & \xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real) \\
+      & y = \mathcal{N}_{c^+}(x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})
+    \end{array}
+  \end{equation*} \par
+
+  $\xi (\cdot, y^*) \circ \mathcal{N}_{c^+}(x,\cdot,\cdot)$ is named the objective function.
+\end{definition}
+
+% Multi-Class DNN objective function differential
+\begin{theorem}
+  {\normalfont
+    
+  }
+\end{theorem}
 
 \end{document}
