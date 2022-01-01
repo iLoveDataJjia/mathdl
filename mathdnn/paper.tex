@@ -191,7 +191,7 @@
   \end{equation}
 
   $(e_i)_{i \in \llbracket 1,n \rrbracket}$ means the matrices $e_i = \begin{bmatrix}
-    0 & \cdots & \underset{\text{at index 0}} 1 & \cdots & 0
+    0 & \cdots & \underset{\text{at column $i$}} 1 & \cdots & 0
   \end{bmatrix}$ corresponding to $\Real^n$ standard basis. \par
   $\frac{\partial f}{\partial e_i}$ is named the partial derivative of $f$ according the $i^{th}$ variable. \par
   The jacobian is also named gradient when $m=1$ and is noted as $\nabla_f = \mathcal{J}_f$. \par
@@ -294,7 +294,7 @@
   The notation $\underset{i=1}{\overset{n}\circ} E_i$ means the cartesian product $E_n \times \ldots \times E_1$.
 \end{notation}
 
-%Kronecker delta
+% Kronecker delta
 \begin{notation}
   The notation $\delta_{\cdot,\cdot}$ means the kronecker delta application \begin{equation*}
     \begin{array}{llll}
@@ -587,31 +587,52 @@
 % Dense layer differential on W
 \begin{proposition}
   {\normalfont
-    Let $y \in \Real^n$, $b \in \Real^m$ and
-    $\mathbb{L} = (\mathbb{L}_1 \ldots \mathbb{L}_m) \in \mathcal{F}_{layer}(\Real^n \times (\Real^n)^m \times \Real^m,\Real^m)$.
-    $\forall i \in \llbracket 1,m \rrbracket,$ $\mathbb{L}_i(y,\cdot,b) \in \mathcal{D}(\Real^n, \Real)$
-    and gradients are \begin{equation*}
+    Let $y \in \Real^n$, $(w^{(k)})_{k \in \llbracket 1,m-1 \rrbracket} \in (\Real^n)^{m-1}$, $b \in \Real^m$. \par
+    $\forall i^* \in \llbracket 1,m \rrbracket,$
+    $\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b) \in \mathcal{D}(\Real^n, \Real^m)$
+    and jacobians are \begin{equation*}
       \begin{gathered}
-        \forall i \in \llbracket 1,m \rrbracket,
+        \forall i^* \in \llbracket 1,m \rrbracket,
       \end{gathered}
     \end{equation*}
     \begin{equation} \label{prop:densel_W_differential}
       \begin{array}{llll}
-        \nabla_{\mathbb{L}_i(y,\cdot,b)} & : & \Real^n  & \longrightarrow \Real^n \\
-        &   & w & \longmapsto y
+        \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \mathcal{M}^{m,n} \\
+        &   & w & \longmapsto \begin{bmatrix}
+          & (0) & \\
+          y_1 & \cdots & y_n \\
+          & (0) &
+        \end{bmatrix} \text{\small{at row $i^*$}}
       \end{array}
     \end{equation} \par
-    \textbf{Note:} $\mathbb{L}_i(y,\cdot,b) \in \mathcal{F}(\Real^n, \Real)$ instead of $\mathcal{F}((\Real^n)^m, \Real)$
-    because $\mathbb{L}_i$ depends only on $W_{i,:}$.
+    \textbf{Note:} For $i^*=1$ or $i^*=m$,
+    the applications $\mathbb{L}(y,\cdot,w^{(1)},\ldots,w^{(m-1)},b)$ or $\mathbb{L}(y,w^{(1)},\ldots,w^{(m-1)},\cdot,b)$ are meant respectively.
   }
 \end{proposition}
 
 \begin{proof}
-  Let $y \in \Real^n$, $b \in \Real^m$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
-  and $w \in \Real^n$. \begin{equation*}
-    \begin{array}{lll}
-      \mathbb{L}_i(y,w,b) = y * w^T + b_i & \implies \frac{\partial \mathbb{L}_i(y,\cdot,b)}{\partial e_j} (w) & = y
-    \end{array}
+  Let $y \in \Real^n$, $(w^{(k)})_{k \in \llbracket 1,m-1 \rrbracket} \in (\Real^n)^{m-1}$, $b \in \Real^m$,
+  $i^* \in \llbracket 1,m \rrbracket$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$ and $w \in \Real^n$. \begin{equation*}
+    \begin{gathered}
+      \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)(w) \\
+      = \begin{bmatrix}
+        y * {w^{(1)}}^T &
+        \cdots &
+        y * {w^{(i^*-1)}}^T &
+        y * w^T &
+        y * {w^{(i^*)}}^T &
+        \cdots &
+        y * {w^{(m-1)}}^T
+      \end{bmatrix} + b
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{gathered}
+      \implies \frac{\partial \mathbb{L}_i(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}{\partial e_j} (w) = \begin{array}{ll}
+        y_j & i = i^* \\
+        0 & i \neq i^*
+      \end{array}
+    \end{gathered}
   \end{equation*}
 \end{proof}
 
@@ -668,6 +689,7 @@
       & \mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})
     \end{array}
   \end{equation*}
+  
   \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} )
     \longrightarrow \Real^{m_p}$
   is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} )
