@@ -168,7 +168,7 @@
   
   Let $f \in \mathcal{D}(E,F).$ and $a \in \mathring{E}$. \begin{equation*}
     \begin{split}
-      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\Real^n,\Real^m), \frac{\partial f}{\partial 0_{\Real^n}}(a) = 0_{\Real^m} \label{} \\
+      \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m) & \implies \frac{\partial f}{\partial \cdot}(a) \in \mathcal{C}(\Real^n,\Real^m), \frac{\partial f}{\partial 0_{\Real^n}}(a) = 0_{\Real^m} \\
       & \underset{(\ref{def:differentiable})} \implies f(a + h) \underset{h \to 0} \to f(a)
     \end{split}
   \end{equation*}
@@ -225,6 +225,40 @@
   with values in $\Real$ has an unique associated matrix in the standard basis called canonical associated matrix. \par
 \end{proof}
 
+% Jacobian of two applications sum
+\begin{proposition}\label{prop:jacobians_sum}
+  {\normalfont
+    Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
+    Then $g + f \in \mathcal{D}(E,F)$ and \begin{equation}
+      \begin{array}{llll}
+        \mathcal{J}_{g + f} & : & \mathring{E} & \longrightarrow F \\
+        &   & a & \longmapsto \mathcal{J}_{g}(a) + \mathcal{J}_{f}(a)
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $a \in \mathring{E}$ and $h \in \Real^n$.
+  \begin{equation*}
+    \begin{split}
+      (g + f)(a+h) & = g(a+h) + f(a+h) \\
+      & \underset{(\ref{def:differentiable})}{=} g(a) + f(a) + \frac{\partial g}{\partial h}(a) + \frac{\partial f}{\partial h}(a) + 2 * \underset{h \to 0}o(\norm h _n) \\
+      & = (g + f)(a) + \frac{\partial g}{\partial h}(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
+    \end{split}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{split}
+      \frac{\partial g}{\partial \cdot}(a) + \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n, \Real^m)
+      & \underset{prop\ref{prop:differential_unique}}\implies g + f \in \mathcal{D}(E,F), \frac{\partial (g + f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(a) + \frac{\partial f}{\partial \cdot}(a) \\
+      & \underset{mat}\implies \mathcal{J}_{g + f}(a) = \mathcal{J}_{g}(a) + \mathcal{J}_{f}(a)
+    \end{split}
+  \end{equation*} \par
+
+  \textbf{Note:} $mat$ indicates in canonical associated matrix way. \par
+\end{proof}
+
 % Function composition notation
 \begin{notation}
   Let $f \in \mathcal{F}(E,F)$ and $g \in \mathcal{F}(F,G)$.
@@ -245,10 +279,10 @@
 \end{notation}
 
 % Chain rule
-\begin{theorem}
+\begin{theorem}\label{theo:chain_rule}
   {\normalfont
-    Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(E,F)$.
-    Then $g \circ f \in \mathcal{D}(E,G)$ and \begin{equation} \label{theo:chain_rule}
+    Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(F,G)$.
+    Then $g \circ f \in \mathcal{D}(E,G)$ and \begin{equation}\label{theo:chain_rule_eq}
       \begin{array}{llll}
         \mathcal{J}_{g \circ f} & : & \mathring{E} & \longrightarrow G \\
         &   & a & \longmapsto \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
@@ -276,7 +310,7 @@
   \begin{equation*}
     \begin{split}
       \frac{\partial g}{\partial (\frac{\partial f}{\partial \cdot}(a))}(f(a)) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n, \Real^p)
-      & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(\Real^n, \Real^p), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
+      & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(E,G), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
       & \underset{mat}\implies \mathcal{J}_{g \circ f}(a) = \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
     \end{split}
   \end{equation*} \par
@@ -392,7 +426,7 @@
 % ReLU differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{D}(\Real^m,\Real^m)$ and its jacobian is \begin{equation} \label{prop:relu_differential}
+    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{D}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}\label{prop:relu_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{R}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -437,7 +471,7 @@
 % Softmax differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{D}(\Real^m,]0,1[^m)$ and its jacobian is \begin{equation} \label{prop:softmax_differential}
+    $\mathcal{S} = (\mathcal{S}_1 \ldots \mathcal{S}_m) \in \mathcal{D}(\Real^m,]0,1[^m)$ and its jacobian is \begin{equation}\label{prop:softmax_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{S}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -489,7 +523,7 @@
 % Categorical cross-entropy loss differential
 \begin{proposition}
   {\normalfont
-    Let $y^* \in \{0,1\}^m$. $\xi(\cdot,y^*) \in \mathcal{D}(]0,1[^m, \Real)$ and its gradient is \begin{equation} \label{prop:cce_differential}
+    Let $y^* \in \{0,1\}^m$. $\xi(\cdot,y^*) \in \mathcal{D}(]0,1[^m, \Real)$ and its gradient is \begin{equation}\label{prop:cce_differential}
       \begin{array}{llll}
         \nabla_{\xi(\cdot,y^*)} & : & ]0,1[^m  & \longrightarrow \Real \\
         &   & y & \longmapsto - \begin{bmatrix}
@@ -535,7 +569,7 @@
   {\normalfont
     Let $W \in \mathcal{M}_{m,n}$ and $b \in \Real^m$.
     $\mathbb{L}(\cdot,W,b) = (\mathbb{L}_1(\cdot,W,b) \ldots \mathbb{L}_m(\cdot,W,b)) \in \mathcal{D}(\Real^n, \Real^m)$
-    and its gradient is \begin{equation} \label{prop:densel_y_differential}
+    and its gradient is \begin{equation}\label{prop:densel_y_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathbb{L}(\cdot,W,b)} & : & \Real^n  & \longrightarrow \mathcal{M}_{m,n} \\
         &   & y & \longmapsto W
@@ -565,7 +599,7 @@
         \forall i^* \in \llbracket 1,m \rrbracket,
       \end{gathered}
     \end{equation*}
-    \begin{equation} \label{prop:densel_W_differential}
+    \begin{equation}\label{prop:densel_W_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \mathcal{M}^{m,n} \\
         &   & w & \longmapsto \begin{bmatrix}
@@ -610,7 +644,7 @@
   {\normalfont
     Let $y \in \Real^n$ and $W \in \mathcal{M}_{m,n}$.
     $\mathbb{L}(y,W,\cdot) = (\mathbb{L}_1(y,W,\cdot) \ldots \mathbb{L}_m(y,W,\cdot)) \in \mathcal{D}(\Real^m, \Real^m)$
-    and its gradient is \begin{equation} \label{prop:densel_b_differential}
+    and its gradient is \begin{equation}\label{prop:densel_b_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathbb{L}(y,W,\cdot)} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & b & \longmapsto I_m
@@ -670,8 +704,6 @@
 % Multi-Class DNN properties
 \begin{corollary}
   \normalfont{
-    Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$ and $\mathcal{N}_{c^+} \in
-      \mathcal{F}_{net}( \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
     $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
     and the total number of parameter is \begin{equation*}
       \sum_{k=1}^{p} m_{k} * (m_{k-1} + 1)
@@ -690,7 +722,7 @@
   Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
     \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
     and $((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0} \times \Real^{m_p})^n$. \par
-  Let the \textit{Multi-class optimization problem} noted as $\mathcal{P}_{c^+}$ be \begin{mini}
+  Let the \textit{Multi-class optimization problem} noted as $(\mathcal{P}_{c^+})$ be \begin{mini}
     {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
     {\sum_{i=1}^{n}{\xi(y^{(i)},{y^*}^{(i)})}}
     {}{(\mathcal{P}_{c^+})\text{ : }}
@@ -702,8 +734,24 @@
     \end{array}
   \end{equation*} \par
 
-  $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function.
+  $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function
+  and will be noted as $\mathcal{O}_{c^+}$.
 \end{definition}
+
+% Multi-Class DNN objective function differentiability
+\begin{corollary}
+  {\normalfont
+    $\mathcal{O}_{c^+} \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
+    \textbf{Note:} Its gradients for each variable can be computed recursively using
+    $(\ref{prop:jacobians_sum})$, $(\ref{theo:chain_rule_eq})$,
+    $(\ref{prop:densel_y_differential})$, $(\ref{prop:densel_W_simplified_differential})$, $(\ref{prop:densel_b_differential})$,
+    $(\ref{prop:relu_simplified_differential})$ and $(\ref{prop:cce_softmax_differential})$.
+  }
+\end{corollary}
+
+\begin{proof}
+  $\mathcal{O}_{c^+}$ is a sum and composition of differentiable applications so $\mathcal{O}_{c^+}$ is differentiable by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
+\end{proof}
 
 \subsection{Simplified differentials}
 
@@ -712,7 +760,7 @@
   {\normalfont
     Let $\mathcal{F}^{(upstream)} \in \mathcal{D}(\Real^m,\Real)$ and
     $\mathcal{R} \in \mathcal{F}_{act}(\Real^m,\Real^m)$.
-    $\mathcal{F}^{(upstream)} \circ \mathcal{R} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation}
+    $\mathcal{F}^{(upstream)} \circ \mathcal{R} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation} \label{prop:relu_simplified_differential}
       \begin{array}{llll}
         \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} & : & \Real^m  & \longrightarrow \Real^m \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -725,7 +773,7 @@
       y = \mathcal{R}(z)
     \end{equation*}
 
-    \textbf{Note:} It means such a gradient can be computed without matrix multiplication.
+    \textbf{Note:} It means such a gradient can be implemented without matrix multiplication.
   }
 \end{proposition}
 
@@ -733,7 +781,7 @@
   Let $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$.
   \begin{equation*}
     \begin{split}
-      \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} \underset{(\ref{theo:chain_rule})}{=}
+      \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} \underset{(\ref{theo:chain_rule_eq})}{=}
         \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z)) * \mathcal{J}_{\mathcal{R}}(z) &
       \underset{(\ref{prop:relu_differential})}\implies \frac{\partial \mathcal{F}^{(upstream)} \circ \mathcal{R}}{\partial e_j}(z)
         = \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z))_j * \mathbb{1}_{\Real^+}(z_j)
@@ -754,7 +802,7 @@
         \forall i^* \in \llbracket 1,m \rrbracket,
       \end{gathered}
     \end{equation*}
-    \begin{equation}
+    \begin{equation} \label{prop:densel_W_simplified_differential}
       \begin{array}{llll}
         \nabla_{\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \Real^n \\
         &  & w & \longmapsto \nabla_{\mathcal{F}^{(upstream)}}(z)_{i^*} * y
@@ -764,7 +812,7 @@
       z = \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},w,w^{(i^*)},\ldots,w^{(m-1)},b)
     \end{equation*}
 
-    \textbf{Note:} It means these gradients for $i^* \in \llbracket 1,m \rrbracket$ can be computed with a single operation $\nabla_{\mathcal{F}^{(upstream)}}(z)^T * y$.
+    \textbf{Note:} It means these gradients for $i^* \in \llbracket 1,m \rrbracket$ can be implemented with $\nabla_{\mathcal{F}^{(upstream)}}(z)^T * y$.
   }
 \end{proposition}
 
@@ -773,7 +821,7 @@
   Let $z = \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},w,w^{(i^*)},\ldots,w^{(m-1)},b)$. \begin{equation*}
     \begin{gathered}
       \nabla_{\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}(w)
-        \underset{(\ref{theo:chain_rule})}{=} \nabla_{\mathcal{F}^{(upstream)}}(z) *
+        \underset{(\ref{theo:chain_rule_eq})}{=} \nabla_{\mathcal{F}^{(upstream)}}(z) *
         \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}(w)
     \end{gathered}
   \end{equation*}
@@ -791,7 +839,7 @@
   {\normalfont
     Let $\mathcal{S} \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and $\xi \in \mathcal{F}_{loss}(]0,1[^m \times \{0,1\}^m, \Real)$. \par
     Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$.
-    $\xi(\cdot,y^*) \circ \mathcal{S} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation} \label{prop:cce_softmax_differential}
+    $\xi(\cdot,y^*) \circ \mathcal{S} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation}\label{prop:cce_softmax_differential}
       \begin{array}{llll}
         \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}} & : & \Real^m  & \longrightarrow \Real \\
         &   & z & \longmapsto \mathcal{S}(z) - y^*
@@ -803,7 +851,7 @@
 \begin{proof}
   Let $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$. \begin{equation*}
     \begin{gathered}
-      \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}}(z) \underset{(\ref{theo:chain_rule})}{=} \nabla_{\xi(\cdot,y^*)}(\mathcal{S}(z)) * \mathcal{J}_{\mathcal{S}}(z)
+      \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}}(z) \underset{(\ref{theo:chain_rule_eq})}{=} \nabla_{\xi(\cdot,y^*)}(\mathcal{S}(z)) * \mathcal{J}_{\mathcal{S}}(z)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
