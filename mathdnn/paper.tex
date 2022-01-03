@@ -645,7 +645,7 @@
   Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network
   \textit{Multi-class dense neural network} noted as $\mathcal{N}_{c^+}$ be \begin{equation*}
     \begin{array}{llll}
-      \mathcal{N}_{c^+} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
+      \mathcal{N}_{c^+} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
       &   & (x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
       ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (x)
     \end{array}
@@ -661,9 +661,9 @@
     \end{array}
   \end{equation*}
   
-  \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} )
+  \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
     \longrightarrow \Real^{m_p}$
-  is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} )
+  is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
   \longrightarrow \Real^{m_p}$.
 \end{definition}
 
@@ -671,8 +671,8 @@
 \begin{corollary}
   \normalfont{
     Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$ and $\mathcal{N}_{c^+} \in
-      \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} ), \Real^{m_p})$. \par
-    $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} \times \Real^{m_{k}} ), \Real^{m_p})$
+      \mathcal{F}_{net}( \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
+    $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
     and the total number of parameter is \begin{equation*}
       \sum_{k=1}^{p} m_{k} * (m_{k-1} + 1)
     \end{equation*}
@@ -681,30 +681,31 @@
 
 \begin{proof}
   $\mathcal{N}_{c^+}$ is a composition of differentiable applications so $\mathcal{N}_{c^+}$ is differentiable by the \hyperref[theo:chain_rule]{chain rule} theorem.
-  Let $a \in (\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}})$
-  then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + m_{k}$ coefficients. \par
+  Let $a \in ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )$
+  then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + \sum_{k=1}^{p} m_{k}$ coefficients. \par
 \end{proof}
 
 % Multi-Class DNN objective function
 \begin{definition}
   Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
-    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ), \Real^{m_p})$
-    and $(x,y^*) \in \Real^{m_0} \times \Real^{m_p}$. \par
+    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
+    and $((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0} \times \Real^{m_p})^n$. \par
   Let the \textit{Multi-class optimization problem} noted as $\mathcal{P}_{c^+}$ be \begin{mini}
     {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
-    {\xi(y,y^*)}{}{(\mathcal{P}_{c^+})\text{ : }}
+    {\sum_{i=1}^{n}{\xi(y^{(i)},{y^*}^{(i)})}}
+    {}{(\mathcal{P}_{c^+})\text{ : }}
   \end{mini} \par
   where \begin{equation*}
     \begin{array}{ll}
       & \xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real) \\
-      & y = \mathcal{N}_{c^+}(x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})
+      & y^{(i)} = \mathcal{N}_{c^+}(x^{(i)},(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})
     \end{array}
   \end{equation*} \par
 
-  $\xi (\cdot, y^*) \circ \mathcal{N}_{c^+}(x,\cdot,\cdot)$ is named the objective function.
+  $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function.
 \end{definition}
 
-\subsection{Main differentials}
+\subsection{Simplified differentials}
 
 % F^upstream circ ReLU differential
 \begin{proposition}
