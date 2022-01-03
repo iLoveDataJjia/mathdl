@@ -148,12 +148,12 @@
 
 % Differentiable properties
 \begin{proposition}\label{prop:differential_unique}
-  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f \in \mathcal{D}(E,F)$.
+  {\normalfont Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $f \in \mathcal{D}(E,F)$ and $a \in \mathring{E}$.
   Then $\frac{\partial f}{\partial \cdot}(a)$ is unique and $\mathcal{D}(E,F) \subset \mathcal{C}(E,F)$.}
 \end{proposition}
 
 \begin{proof}
-  Suppose $\phi_1$ and $\phi_2$ two differentiales of $f$ on $a$. \begin{equation*}
+  Suppose $\phi_1$ and $\phi_2$ two differentials of $f$ on $a$. \begin{equation*}
     \begin{gathered}
       \forall h \in \Real^n, \phi_2(h) - \phi_1(h) \underset{(\ref{def:differentiable})} = \underset{h \to 0}o(\norm h _n)
     \end{gathered}
@@ -199,7 +199,7 @@
 \end{definition}
 
 \begin{proof}
-  Suppose $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$. Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \Real^n$.
+  Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \Real^n$.
   \begin{equation*}
     \begin{split}
       f_i (a + h) & = f(a + h)_i \\
@@ -259,7 +259,6 @@
 \end{theorem}
 
 \begin{proof}
-  Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $G \subseteq \Real^p$, $f \in \mathcal{D}(E,F)$ and $g \in \mathcal{D}(F,G)$.
   Let $a \in \mathring{E}$ and $h \in \Real^n$.
   \begin{equation*}
     \begin{split}
@@ -393,7 +392,7 @@
 % ReLU differential
 \begin{proposition}
   {\normalfont
-    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{D}(\Real^m,\Real^m)$ and its jacobian is \begin{equation}
+    $\mathcal{R} = (\mathcal{R}_1 \ldots \mathcal{R}_m) \in \mathcal{D}(\Real^m,\Real^m)$ and its jacobian is \begin{equation} \label{prop:relu_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{R}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
@@ -502,38 +501,9 @@
 \end{proposition}
 
 \begin{proof}
-  Let $y^* \in \{0,1\}^m$, $j \in \llbracket 1,m \rrbracket$ and $y \in ]0,1[^m$. \begin{equation*}
+  Let $j \in \llbracket 1,m \rrbracket$ and $y \in ]0,1[^m$. \begin{equation*}
     \begin{array}{lll}
       \xi(y,y^*) = - \sum_{k=1}^m y_k^* * \log(y_k) & \implies \frac{\partial \xi(\cdot,y^*)}{\partial e_j} (y) & = - \frac{y_j^*}{y_j}
-    \end{array}
-  \end{equation*}
-\end{proof}
-
-% Categorical cross-entropy loss composed with Softmax differential
-\begin{proposition}
-  {\normalfont
-    Let $\mathcal{S} \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and $\xi \in \mathcal{F}_{loss}(]0,1[^m \times \{0,1\}^m, \Real)$. \par
-    Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$.
-    $\xi(\cdot,y^*) \circ \mathcal{S} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation} \label{prop:cce_softmax_differential}
-      \begin{array}{llll}
-        \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}} & : & \Real^m  & \longrightarrow \Real \\
-        &   & z & \longmapsto \mathcal{S}(z) - y^*
-      \end{array}
-    \end{equation}
-  }
-\end{proposition}
-
-\begin{proof}
-  Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$, $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$. \begin{equation*}
-    \begin{gathered}
-      \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}}(z) \underset{(\ref{theo:chain_rule})}{=} \nabla_{\xi(\cdot,y^*)}(\mathcal{S}(z)) * \mathcal{J}_{\mathcal{S}}(z)
-    \end{gathered}
-  \end{equation*}
-  \begin{equation*}
-    \begin{array}{lll}
-      & \implies \frac{\partial \xi(\cdot,y^*) \circ \mathcal{S}}{\partial e_j} (z)
-        & \underset{(\ref{prop:softmax_differential}) + (\ref{prop:cce_differential})}= - y_j^* + \sum_{k=1}^m {y_k^* * \mathcal{S}_j(z)} \\
-      & & \underset{y^* \in \{0,1\}^m, \norm{y}_m = 1}{=} \mathcal{S}_j(z) - y_j^*
     \end{array}
   \end{equation*}
 \end{proof}
@@ -575,7 +545,7 @@
 \end{proposition}
 
 \begin{proof}
-  Let $W \in \mathcal{M}_{m,n}$, $b \in \Real^m$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
+  Let $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
   and $y \in \Real^n$. \begin{equation*}
     \begin{array}{lll}
       \mathbb{L}(y,W,b) = y * W^T + b & \implies \mathbb{L}_i(y,W,b) & = y * W_{i,:}^T + b_i \\
@@ -589,7 +559,7 @@
   {\normalfont
     Let $y \in \Real^n$, $(w^{(k)})_{k \in \llbracket 1,m-1 \rrbracket} \in (\Real^n)^{m-1}$, $b \in \Real^m$. \par
     $\forall i^* \in \llbracket 1,m \rrbracket,$
-    $\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b) \in \mathcal{D}(\Real^n, \Real^m)$
+    $\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\underset{\text{at index $i^*$}}{\cdot},w^{(i^*)},\ldots,w^{(m-1)},b) \in \mathcal{D}(\Real^n, \Real^m)$
     and jacobians are \begin{equation*}
       \begin{gathered}
         \forall i^* \in \llbracket 1,m \rrbracket,
@@ -605,14 +575,13 @@
         \end{bmatrix} \text{\small{at row $i^*$}}
       \end{array}
     \end{equation} \par
-    \textbf{Note:} For $i^*=1$ or $i^*=m$,
-    the applications $\mathbb{L}(y,\cdot,w^{(1)},\ldots,w^{(m-1)},b)$ or $\mathbb{L}(y,w^{(1)},\ldots,w^{(m-1)},\cdot,b)$ are meant respectively.
+    \textbf{Note:} For $i^*=1$ and $i^*=m$,
+    the applications $\mathbb{L}(y,\cdot,w^{(1)},\ldots,w^{(m-1)},b)$ and $\mathbb{L}(y,w^{(1)},\ldots,w^{(m-1)},\cdot,b)$ are meant respectively.
   }
 \end{proposition}
 
 \begin{proof}
-  Let $y \in \Real^n$, $(w^{(k)})_{k \in \llbracket 1,m-1 \rrbracket} \in (\Real^n)^{m-1}$, $b \in \Real^m$,
-  $i^* \in \llbracket 1,m \rrbracket$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$ and $w \in \Real^n$. \begin{equation*}
+  Let $i^* \in \llbracket 1,m \rrbracket$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$ and $w \in \Real^n$. \begin{equation*}
     \begin{gathered}
       \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)(w) \\
       = \begin{bmatrix}
@@ -644,14 +613,14 @@
     and its gradient is \begin{equation} \label{prop:densel_b_differential}
       \begin{array}{llll}
         \mathcal{J}_{\mathbb{L}(y,W,\cdot)} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
-        &   & y & \longmapsto I_m
+        &   & b & \longmapsto I_m
       \end{array}
     \end{equation}
   }
 \end{proposition}
 
 \begin{proof}
-  Let $y \in \Real^n$, $W \in \mathcal{M}_{m,n}$, $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
+  Let $i \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$
   and $b \in \Real^m$. \begin{equation*}
     \begin{array}{lll}
       \mathbb{L}(y,W,b) = y * W^T + b & \implies \mathbb{L}_i(y,W,b) & = y * W_{i,:}^T + b_i \\
@@ -661,6 +630,8 @@
 \end{proof}
 
 \section{Neural networks}
+
+\subsection{Introduction}
 
 % Neural network notation
 \begin{notation}
@@ -718,7 +689,7 @@
 \begin{definition}
   Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
     \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}} ), \Real^{m_p})$
-    and $(x,y^*) \in \Real^n \times \Real^m$. \par
+    and $(x,y^*) \in \Real^{m_0} \times \Real^{m_p}$. \par
   Let the \textit{Multi-class optimization problem} noted as $\mathcal{P}_{c^+}$ be \begin{mini}
     {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
     {\xi(y,y^*)}{}{(\mathcal{P}_{c^+})\text{ : }}
@@ -733,11 +704,114 @@
   $\xi (\cdot, y^*) \circ \mathcal{N}_{c^+}(x,\cdot,\cdot)$ is named the objective function.
 \end{definition}
 
-% Multi-Class DNN objective function differential
-\begin{theorem}
-  {\normalfont
+\subsection{Main differentials}
 
+% F^upstream circ ReLU differential
+\begin{proposition}
+  {\normalfont
+    Let $\mathcal{F}^{(upstream)} \in \mathcal{D}(\Real^m,\Real)$ and
+    $\mathcal{R} \in \mathcal{F}_{act}(\Real^m,\Real^m)$.
+    $\mathcal{F}^{(upstream)} \circ \mathcal{R} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation}
+      \begin{array}{llll}
+        \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} & : & \Real^m  & \longrightarrow \Real^m \\
+        &   & z & \longmapsto \begin{bmatrix}
+          \nabla_{\mathcal{F}^{(upstream)}}(y)_1 * \mathbb{1}_{\Real^+}(z_1) & \cdots &
+            \nabla_{\mathcal{F}^{(upstream)}}(y)_m * \mathbb{1}_{\Real^+}(z_m)
+        \end{bmatrix}
+      \end{array}
+    \end{equation} \par
+    where \begin{equation*}
+      y = \mathcal{R}(z)
+    \end{equation*}
+
+    \textbf{Note:} It means such a gradient can be computed without matrix multiplication.
   }
-\end{theorem}
+\end{proposition}
+
+\begin{proof}
+  Let $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$.
+  \begin{equation*}
+    \begin{split}
+      \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} \underset{(\ref{theo:chain_rule})}{=}
+        \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z)) * \mathcal{J}_{\mathcal{R}}(z) &
+      \underset{(\ref{prop:relu_differential})}\implies \frac{\partial \mathcal{F}^{(upstream)} \circ \mathcal{R}}{\partial e_j}(z)
+        = \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z))_j * \mathbb{1}_{\Real^+}(z_j)
+    \end{split}
+  \end{equation*}
+\end{proof}
+
+% F^upstream circ Dense layer differential on W
+\begin{proposition}
+  {\normalfont
+    Let $\mathcal{F}^{(upstream)} \in \mathcal{D}(\Real^m,\Real)$,
+      $\mathbb{L} \in \mathcal{F}_{layer}(\Real^n \times (\Real^n)^m \times \Real^m,\Real^m)$,
+      $y \in \Real^n$, $(w^{(k)})_{k \in \llbracket 1,m-1 \rrbracket} \in (\Real^n)^{m-1}$ and $b \in \Real^m$. \par
+    $\forall i^* \in \llbracket 1,m \rrbracket,$
+    $\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\underset{\text{at index $i^*$}}{\cdot},w^{(i^*)},\ldots,w^{(m-1)},b) \in \mathcal{D}(\Real^n, \Real)$
+    and gradients are \begin{equation*}
+      \begin{gathered}
+        \forall i^* \in \llbracket 1,m \rrbracket,
+      \end{gathered}
+    \end{equation*}
+    \begin{equation}
+      \begin{array}{llll}
+        \nabla_{\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \Real^n \\
+        &  & w & \longmapsto \nabla_{\mathcal{F}^{(upstream)}}(z)_{i^*} * y
+      \end{array}
+    \end{equation} \par
+    where \begin{equation*}
+      z = \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},w,w^{(i^*)},\ldots,w^{(m-1)},b)
+    \end{equation*}
+
+    \textbf{Note:} It means these gradients for $i^* \in \llbracket 1,m \rrbracket$ can be computed with a single operation $\nabla_{\mathcal{F}^{(upstream)}}(z)^T * y$.
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $i^* \in \llbracket 1,m \rrbracket$, $j \in \llbracket 1,n \rrbracket$ and $w \in \Real^n$.
+  Let $z = \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},w,w^{(i^*)},\ldots,w^{(m-1)},b)$. \begin{equation*}
+    \begin{gathered}
+      \nabla_{\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}(w)
+        \underset{(\ref{theo:chain_rule})}{=} \nabla_{\mathcal{F}^{(upstream)}}(z) *
+        \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}(w)
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{gathered}
+      \underset{(\ref{prop:densel_W_differential})}{\implies}
+        \frac{\partial \nabla_{\mathcal{F}^{(upstream)} \circ \mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)}}{\partial e_j} (w)
+        = \nabla_{\mathcal{F}^{(upstream)}}(z)_{i^*} * y_j
+    \end{gathered}
+  \end{equation*}
+\end{proof}
+
+% Categorical cross-entropy loss composed with Softmax differential
+\begin{proposition}
+  {\normalfont
+    Let $\mathcal{S} \in \mathcal{F}_{act}(\Real^m,]0,1[^m)$ and $\xi \in \mathcal{F}_{loss}(]0,1[^m \times \{0,1\}^m, \Real)$. \par
+    Let $y^* \in \{0,1\}^m$ with $\norm{y^*}_m = 1$.
+    $\xi(\cdot,y^*) \circ \mathcal{S} \in \mathcal{D}(\Real^m,\Real)$ and its gradient is \begin{equation} \label{prop:cce_softmax_differential}
+      \begin{array}{llll}
+        \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}} & : & \Real^m  & \longrightarrow \Real \\
+        &   & z & \longmapsto \mathcal{S}(z) - y^*
+      \end{array}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $j \in \llbracket 1,m \rrbracket$ and $z \in \Real^m$. \begin{equation*}
+    \begin{gathered}
+      \nabla_{\xi(\cdot,y^*) \circ \mathcal{S}}(z) \underset{(\ref{theo:chain_rule})}{=} \nabla_{\xi(\cdot,y^*)}(\mathcal{S}(z)) * \mathcal{J}_{\mathcal{S}}(z)
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{lll}
+      & \implies \frac{\partial \xi(\cdot,y^*) \circ \mathcal{S}}{\partial e_j} (z)
+        & \underset{(\ref{prop:softmax_differential}) + (\ref{prop:cce_differential})}= - y_j^* + \sum_{k=1}^m {y_k^* * \mathcal{S}_j(z)} \\
+      & & \underset{y^* \in \{0,1\}^m, \norm{y}_m = 1}{=} \mathcal{S}_j(z) - y_j^*
+    \end{array}
+  \end{equation*}
+\end{proof}
 
 \end{document}
