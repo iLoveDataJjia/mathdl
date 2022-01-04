@@ -34,4 +34,5 @@
 - [Convergence Theorems for Gradient Descent](https://gowerrobert.github.io/pdf/M2_statistique_optimisation/grad_conv.pdf)
 - [L1 Analyse : démonstration de la formule de Taylor avec reste intégral](https://www.youtube.com/watch?v=Hr6BaVbrkOw)
 - [COURS OPTIMISATION](http://math.univ-lyon1.fr/~ciuperca/optim-M1-sitn/cours-optim-M1-sitn.pdf)
-- [An Improved Analysis of Stochastic Gradient Descent with Momentum](https://proceedings.neurips.cc/paper/2020/file/d3f5d4de09ea19461dab00590df91e4f-Paper.pdf)
+- [New Convergence Aspects of Stochastic Gradient Algorithms](https://lamnguyen-mltd.github.io/files/new_aspects_sgd.pdf)
+- [An Improved Analysis of Stochastic Gradient Descent with Momentum](https://arxiv.org/pdf/2007.07989.pdf)

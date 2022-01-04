@@ -34,10 +34,11 @@
   easy. They have made this field wide spread for every enthusiast. Implementations only needs an instinctive understanding of deep learning.
   The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
   Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective is to do a collection of the
-  important propositions explaining dense neural network (DNN) theories. These propositions will be mathematically proven. The subject used
-  as reference is a multi-class classification problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic
-  gradient descent optimizer. But all the elements below can be easily re-used or re-defined to cover regressions.
-  \keywords{Dense neural network, Equation, Proof}
+  important propositions and algorithms explaining dense neural network (DNN) theories. All the propositions will be mathematically proven as
+  much as possible and under assumptions if necessary. The subject used as reference is a multi-class classification problem with
+  – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with decay and momentum. But all the
+  elements below can be easily re-used or re-defined to cover regressions.
+  \keywords{Dense neural network, Equation, Proof, Differentiability, Optimization}
 \end{abstract}
 
 \section{Fundamentals}
@@ -712,7 +713,7 @@
 \end{corollary}
 
 \begin{proof}
-  $\mathcal{N}_{c^+}$ is a composition of differentiable applications so $\mathcal{N}_{c^+}$ is differentiable by the \hyperref[theo:chain_rule]{chain rule} theorem.
+  $\mathcal{N}_{c^+}$ is a composition of differentiable applications so it is differentiable by the \hyperref[theo:chain_rule]{chain rule} theorem.
   Let $a \in ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )$
   then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + \sum_{k=1}^{p} m_{k}$ coefficients. \par
 \end{proof}
@@ -735,13 +736,15 @@
   \end{equation*} \par
 
   $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function
-  and will be noted as $\mathcal{O}_{c^+}$.
+  and will be noted as \begin{equation*}
+    \mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot)
+  \end{equation*}
 \end{definition}
 
 % Multi-Class DNN objective function differentiability
 \begin{corollary}
   {\normalfont
-    $\mathcal{O}_{c^+} \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
+    $\mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot) \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
     \textbf{Note:} Its gradients for each variable can be computed recursively using
     $(\ref{prop:jacobians_sum})$, $(\ref{theo:chain_rule_eq})$,
     $(\ref{prop:densel_y_differential})$, $(\ref{prop:densel_W_simplified_differential})$, $(\ref{prop:densel_b_differential})$,
@@ -750,7 +753,7 @@
 \end{corollary}
 
 \begin{proof}
-  $\mathcal{O}_{c^+}$ is a sum and composition of differentiable applications so $\mathcal{O}_{c^+}$ is differentiable by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
+  $\mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot)$ is a sum and composition of differentiable applications so it is differentiable by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
 \end{proof}
 
 \subsection{Simplified differentials}
@@ -862,5 +865,16 @@
     \end{array}
   \end{equation*}
 \end{proof}
+
+% Gradient descent
+\section{Gradient descent}
+
+\subsection{Introduction}
+
+\subsection{Stochastic gradient descent}
+
+\subsection{Decay and momentum}
+
+\section{References}
 
 \end{document}
