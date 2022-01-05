@@ -34,7 +34,7 @@
   easy. They have made this field wide spread for every enthusiast. Implementations only needs an instinctive understanding of deep learning.
   The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
   Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective is to do a collection of the
-  important propositions and algorithms explaining dense neural network (DNN) theories. All the propositions will be mathematically proven as
+  important propositions explaining dense neural network (DNN) theories. All the propositions will be mathematically proven as
   much as possible and under assumptions if necessary. The subject used as reference is a multi-class classification problem with
   – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with decay and momentum. But all the
   elements below can be easily re-used or re-defined to cover regressions.
@@ -136,7 +136,7 @@
 % Differentiable definition
 \begin{definition}
   Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$.
-  Then $f$ differentiable on $E$ is equivalent to \begin{equation}\label{def:differentiable}
+  Then $f$ \textit{differentiable} on $E$ means \begin{equation}\label{def:differentiable}
     \begin{gathered}
       \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m), \\
       \forall h \in \Real^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
@@ -144,7 +144,7 @@
   \end{equation}
 
   $\frac{\partial f}{\partial \cdot}(a)$ is named differential of $f$ on $a$. \par
-  The notation $\mathcal{D}(E,F)$ means the set of differentiable applications from $E$ to $F$.
+  The notation $\mathcal{D}(E,F)$ means the set of \textit{differentiable} applications from $E$ to $F$.
 \end{definition}
 
 % Differentiable properties
@@ -178,7 +178,7 @@
 % Jacobian definition
 \begin{definition}
   Let $E \subseteq \Real^n$, $F \subseteq \Real^m$ and $f = (f_1 \ldots f_m) \in \mathcal{D}(E,F)$.
-  Then $f_i$ is differentiable on $E$ for all $i \in \llbracket 1,m \rrbracket$. The jacobian is defined as \begin{equation}
+  Then $f_i$ is \textit{differentiable} on $E$ for all $i \in \llbracket 1,m \rrbracket$. The jacobian is defined as \begin{equation}
     \begin{array}{llll}
       \mathcal{J}_f & : & \mathring{E} & \longrightarrow \mathcal{M}_{m,n} \\
         &   & a & \longmapsto \begin{bmatrix}
@@ -375,11 +375,11 @@
   \begin{equation*}
     \begin{array}{lllll}
       max(0,\cdot)' & : & \Real & \longrightarrow \Real^+ \\
-      &   & x & \longmapsto \mathbb{1}_{\Real^+}(x)
+      &   & x & \longmapsto \mathbb{1}_{\Real^{+*}}(x)
     \end{array}
   \end{equation*}\par
 
-  \textbf{Note:} $max(0,\cdot)$ is actually not differentiable on $0$. \par
+  \textbf{Note:} $max(0,\cdot)$ is actually not \textit{differentiable} on $0$ and the notation $\Real^{*}$ means $\Real_{\backslash\{0\}}$. \par
 \end{assumption}
 
 % Fixed variable function
@@ -431,10 +431,10 @@
       \begin{array}{llll}
         \mathcal{J}_{\mathcal{R}} & : & \Real^m  & \longrightarrow \mathcal{M}_{m,m} \\
         &   & z & \longmapsto \begin{bmatrix}
-          \mathbb{1}_{\Real^+}(z_1) & 0 & \cdots & 0 \\
-          0 & \mathbb{1}_{\Real^+}(z_2) & \ddots & \vdots \\
+          \mathbb{1}_{\Real^{+*}}(z_1) & 0 & \cdots & 0 \\
+          0 & \mathbb{1}_{\Real^{+*}}(z_2) & \ddots & \vdots \\
           \vdots & \ddots & \ddots & 0 \\
-          0 & \cdots & 0 & \mathbb{1}_{\Real^+}(z_m) \\
+          0 & \cdots & 0 & \mathbb{1}_{\Real^{+*}}(z_m) \\
         \end{bmatrix}
       \end{array}
     \end{equation}
@@ -447,7 +447,7 @@
     \begin{split}
       \mathcal{R}_i(z) = max(0,z_i) & \underset{assump\ref{assump:max_differentiable}}\implies \frac{\partial \mathcal{R}_i}{\partial e_j}(z)
         = \begin{array}{ll}
-          \mathbb{1}_{\Real^+}(z_i) & i = j \\
+          \mathbb{1}_{\Real^{+*}}(z_i) & i = j \\
           0 & i \neq j
       \end{array}
     \end{split}
@@ -713,7 +713,7 @@
 \end{corollary}
 
 \begin{proof}
-  $\mathcal{N}_{c^+}$ is a composition of differentiable applications so it is differentiable by the \hyperref[theo:chain_rule]{chain rule} theorem.
+  $\mathcal{N}_{c^+}$ is a composition of \textit{differentiable} applications so it is \textit{differentiable} by the \hyperref[theo:chain_rule]{chain rule} theorem.
   Let $a \in ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )$
   then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + \sum_{k=1}^{p} m_{k}$ coefficients. \par
 \end{proof}
@@ -721,8 +721,9 @@
 % Multi-Class DNN objective function
 \begin{definition}
   Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
-    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
-    and $((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0} \times \Real^{m_p})^n$. \par
+    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$,
+    $X = (x^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0})^n$
+    and $Y^* = ({y^*}^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\{0,1\}^{m_p})^n$ with $\forall i \in \llbracket 1,n \rrbracket$, $\norm{{y^*}^{(i)}}_{m_p} = 1$. \par
   Let the \textit{Multi-class optimization problem} noted as $(\mathcal{P}_{c^+})$ be \begin{mini}
     {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
     {\sum_{i=1}^{n}{\xi(y^{(i)},{y^*}^{(i)})}}
@@ -736,16 +737,14 @@
   \end{equation*} \par
 
   $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function
-  and will be noted as \begin{equation*}
-    \mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot)
-  \end{equation*}
+  and will be noted as $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$.
 \end{definition}
 
 % Multi-Class DNN objective function differentiability
 \begin{corollary}
   {\normalfont
-    $\mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot) \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$. \par
-    \textbf{Note:} Its gradients for each variable can be computed recursively using
+    $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot) \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real)$. \par
+    \textbf{Note:} Its gradients for each variable can be computed recursively through each composition using
     $(\ref{prop:jacobians_sum})$, $(\ref{theo:chain_rule_eq})$,
     $(\ref{prop:densel_y_differential})$, $(\ref{prop:densel_W_simplified_differential})$, $(\ref{prop:densel_b_differential})$,
     $(\ref{prop:relu_simplified_differential})$ and $(\ref{prop:cce_softmax_differential})$.
@@ -753,7 +752,7 @@
 \end{corollary}
 
 \begin{proof}
-  $\mathcal{O}_{c^+}(((x^{(i)},{y^*}^{(i)}))_{i \in \llbracket 1,n \rrbracket},\cdot,\cdot)$ is a sum and composition of differentiable applications so it is differentiable by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
+  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ is a sum and composition of \textit{differentiable} applications so it is \textit{differentiable} by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
 \end{proof}
 
 \subsection{Simplified differentials}
@@ -767,8 +766,8 @@
       \begin{array}{llll}
         \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} & : & \Real^m  & \longrightarrow \Real^m \\
         &   & z & \longmapsto \begin{bmatrix}
-          \nabla_{\mathcal{F}^{(upstream)}}(y)_1 * \mathbb{1}_{\Real^+}(z_1) & \cdots &
-            \nabla_{\mathcal{F}^{(upstream)}}(y)_m * \mathbb{1}_{\Real^+}(z_m)
+          \nabla_{\mathcal{F}^{(upstream)}}(y)_1 * \mathbb{1}_{\Real^{+*}}(z_1) & \cdots &
+            \nabla_{\mathcal{F}^{(upstream)}}(y)_m * \mathbb{1}_{\Real^{+*}}(z_m)
         \end{bmatrix}
       \end{array}
     \end{equation} \par
@@ -787,7 +786,7 @@
       \nabla_{\mathcal{F}^{(upstream)} \circ \mathcal{R}} \underset{(\ref{theo:chain_rule_eq})}{=}
         \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z)) * \mathcal{J}_{\mathcal{R}}(z) &
       \underset{(\ref{prop:relu_differential})}\implies \frac{\partial \mathcal{F}^{(upstream)} \circ \mathcal{R}}{\partial e_j}(z)
-        = \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z))_j * \mathbb{1}_{\Real^+}(z_j)
+        = \nabla_{\mathcal{F}^{(upstream)}}(\mathcal{R}(z))_j * \mathbb{1}_{\Real^{+*}}(z_j)
     \end{split}
   \end{equation*}
 \end{proof}
@@ -860,7 +859,7 @@
   \begin{equation*}
     \begin{array}{lll}
       & \implies \frac{\partial \xi(\cdot,y^*) \circ \mathcal{S}}{\partial e_j} (z)
-        & \underset{(\ref{prop:softmax_differential}) + (\ref{prop:cce_differential})}= - y_j^* + \sum_{k=1}^m {y_k^* * \mathcal{S}_j(z)} \\
+        & \underset{(\ref{prop:softmax_differential}),(\ref{prop:cce_differential})}= - y_j^* + \sum_{k=1}^m {y_k^* * \mathcal{S}_j(z)} \\
       & & \underset{y^* \in \{0,1\}^m, \norm{y}_m = 1}{=} \mathcal{S}_j(z) - y_j^*
     \end{array}
   \end{equation*}
@@ -869,11 +868,96 @@
 % Gradient descent
 \section{Gradient descent}
 
-\subsection{Introduction}
+\subsection{Optimization fundamentals}
 
-\subsection{Stochastic gradient descent}
+% Subset convex definition
+\begin{definition}
+  Let $E \subseteq \Real^m$. $E$ \textit{convex} means \begin{equation*}
+    \begin{gathered}
+      \forall x \in E, \forall y \in E, \\
+      \forall t \in [0,1], t * x + (1 - t) * y \in E
+    \end{gathered}
+  \end{equation*}
+\end{definition}
 
-\subsection{Decay and momentum}
+% Applicaton convex
+\begin{definition}
+  Let $E \subseteq \Real^m$ \textit{convex} and \textit{open}, $F \subseteq \Real$ and $f \in \mathcal{D}(E,F)$. $f$ \textit{convex} means \begin{equation}\label{def:convex_eq}
+    \begin{gathered}
+      \forall x \in E, \forall y \in E, \\
+      \forall t \in [0,1], f(t * x + (1 - t) * y) \leq t * f(x) + (1 - t) * f(y)
+    \end{gathered}
+  \end{equation}
+\end{definition}
+
+% Application convex equivalent with gradient
+\begin{proposition}
+  {\normalfont
+    Let $E \subseteq \Real^m$ \textit{convex} and \textit{open}, $F \subseteq \Real$ and $f \in \mathcal{D}(E,F)$. $f$ \textit{convex} is equivalent to \begin{equation}\label{prop:convex_grad}
+      \begin{gathered}
+        \forall x \in E, \forall y \in E, \\
+        f(x) + \nabla_f(x) * (y - x)^T \leq f(y)
+      \end{gathered}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Suppose $f$ \textit{convex} $(\ref{def:convex_eq})$. Let $x \in E$ and $y \in E$. \begin{equation*}
+    \begin{gathered}
+      \forall t \in ]0,1[,
+      f(x + t * (y - x)) \underset{\norm{\cdot}_m \in \mathcal{C}(\Real^m,\Real),f \in \mathcal{D}(E,F),(\ref{def:differentiable})}{=}
+        f(x) + \frac{\partial f}{\partial (t * (y - x))}(x) + \underset{t \to 0}o(\norm{t * (y - x)}_m)
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
+      & \underset{(\ref{def:convex_eq})}{\implies}
+        \forall t \in ]0,1[,
+        f(x) + \frac{\partial f}{\partial (t * (y - x))}(x) + \underset{t \to 0}o(\norm{t * (y - x)}_m)
+        \leq t * f(y) + (1 - t) * f(x) \\
+      & \underset{\frac{\partial f}{\partial \cdot} \in \mathcal{L}(\Real^m,\Real)}{\implies}
+        \forall t \in ]0,1[,
+        \frac{\partial f}{\partial (y - x)}(x) + \underset{t \to 0}o(\norm{y - x}_m)
+        \leq f(y) - f(x) \\
+      & \underset{t \to 0}{\implies}
+        \frac{\partial f}{\partial (y - x)}(x) \leq f(y) - f(x) \\
+      & \underset{mat}{\implies}
+        f(x) + \nabla_f(x) * (y - x)^T \leq f(y)
+    \end{array}
+  \end{equation*} \par \par
+
+  Suppose $(\ref{prop:convex_grad})$. Let $x \in E$, $y \in E$ and $t \in [0,1]$. Let $z = t * x + (1 - t) * y$.
+  \begin{equation*}
+    \begin{array}{lll}
+      f(z) - (1 - t) * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (x - z)^T \leq f(x) & (a) \\
+      f(y) + t * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (y - z)^T \leq f(y) & (b)
+    \end{array}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
+      & \underset{t * (a) + (1 - t) * (b)}{\implies} f(z) \leq t * f(x) + (1 - t) f(y)
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+% L-smooth definition
+\begin{definition}
+  Let $E \subseteq \Real^m$, $F \subseteq \Real$, $f \in \mathcal{D}(E,F)$ and $L \in \Real^{+*}$. $f$ \textit{L-smooth} means \begin{equation*}
+    \begin{gathered}
+      \forall x \in E, \forall y \in E, \\
+      \norm{\nabla_f(x) - \nabla_f(y)}_m \leq L * \norm{x - y}_m 
+    \end{gathered}
+  \end{equation*}
+\end{definition}
+
+\subsection{Algorithms}
+
+% Vanilla gradient descent
+
+% Stochastic gradient descent
+
+% SGD with decay and momentum
 
 \section{References}
 
