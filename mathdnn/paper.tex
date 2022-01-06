@@ -32,13 +32,13 @@
 \begin{abstract}
   Frameworks such as \href{https://www.tensorflow.org/?hl=en}{TensorFlow} or \href{https://pytorch.org/}{PyTorch} make deep learning developments
   easy. They have made this field wide spread for every enthusiast. Implementations only needs an instinctive understanding of deep learning.
-  The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion, Matrix,
-  Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective is to do a collection of the
-  important propositions explaining dense neural network (DNN) theories. All the propositions will be mathematically proven as
-  much as possible and under assumptions if necessary. The subject used as reference is a multi-class classification problem with
-  – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with decay and momentum. But all the
-  elements below can be easily re-used or re-defined to cover regressions.
-  \keywords{Dense neural network, Equation, Proof, Differentiability, Optimization}
+  The proper math aspect is little by little forgotten. Topology, Normalized vector space, Limit plus continuity, Taylor series expansion,
+  Riemann integral theory, Matrix, Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective
+  is to do a collection of the important propositions explaining dense neural network (DNN) theories. All the propositions will be
+  mathematically proven as far as possible and under assumptions if necessary. The subject used as reference is a multi-class classification
+  problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with decay and momentum.
+  But all the elements below can be easily re-used or re-defined to cover regressions.
+  \keywords{Dense neural network, Differentiability, Continuous optimization}
 \end{abstract}
 
 \section{Fundamentals}
@@ -666,95 +666,6 @@
 
 \section{Neural networks}
 
-\subsection{Introduction}
-
-% Neural network notation
-\begin{notation}
-  Let $E \subseteq \Real^n \times (\Real^{\cdot})^p$ ($p$ parameter vectors of any sizes) and $F \subseteq \Real^m$. \par
-  The notation $\mathcal{F}_{net}(E,F)$ means the set of neural network functions from $E$ to $F$. \par
-  \textbf{Note:} A neural network is an application defined in this section. \par
-\end{notation}
-
-% Multi-Class DNN definition
-\begin{definition}
-  Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network
-  \textit{Multi-class dense neural network} noted as $\mathcal{N}_{c^+}$ be \begin{equation*}
-    \begin{array}{llll}
-      \mathcal{N}_{c^+} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
-      &   & (x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
-      ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (x)
-    \end{array}
-  \end{equation*} \par
-
-  where \begin{equation*}
-    \begin{array}{ll}
-      & (\mathbb{L}^{(k)})_{k \in \llbracket 1,p \rrbracket} \in
-        \underset{k=1}{\overset{p}{\times}} \mathcal{F}_{layer}(\Real^{m_{k-1}} \times \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}}, \Real^{m_{k}}) \\
-      & (\mathcal{R}^{(k)})_{k \in \llbracket 1,p-1 \rrbracket} \in
-        \underset{k=1}{\overset{p-1}{\times}} \mathcal{F}_{act}(\Real^{m_k}, \Real^{m_k}) \\
-      & \mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})
-    \end{array}
-  \end{equation*}
-  
-  \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
-    \longrightarrow \Real^{m_p}$
-  is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
-  \longrightarrow \Real^{m_p}$.
-\end{definition}
-
-% Multi-Class DNN properties
-\begin{corollary}
-  \normalfont{
-    $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
-    and the total number of parameter is \begin{equation*}
-      \sum_{k=1}^{p} m_{k} * (m_{k-1} + 1)
-    \end{equation*}
-  }
-\end{corollary}
-
-\begin{proof}
-  $\mathcal{N}_{c^+}$ is a composition of \textit{differentiable} applications so it is \textit{differentiable} by the \hyperref[theo:chain_rule]{chain rule} theorem.
-  Let $a \in ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )$
-  then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + \sum_{k=1}^{p} m_{k}$ coefficients. \par
-\end{proof}
-
-% Multi-Class DNN objective function
-\begin{definition}
-  Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
-    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$,
-    $X = (x^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0})^n$
-    and $Y^* = ({y^*}^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\{0,1\}^{m_p})^n$ with $\forall i \in \llbracket 1,n \rrbracket$, $\norm{{y^*}^{(i)}}_{m_p} = 1$. \par
-  Let the \textit{Multi-class optimization problem} noted as $(\mathcal{P}_{c^+})$ be \begin{mini}
-    {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
-    {\sum_{i=1}^{n}{\xi(y^{(i)},{y^*}^{(i)})}}
-    {}{(\mathcal{P}_{c^+})\text{ : }}
-  \end{mini} \par
-  where \begin{equation*}
-    \begin{array}{ll}
-      & \xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real) \\
-      & y^{(i)} = \mathcal{N}_{c^+}(x^{(i)},(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})
-    \end{array}
-  \end{equation*} \par
-
-  $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function
-  and will be noted as $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$.
-\end{definition}
-
-% Multi-Class DNN objective function differentiability
-\begin{corollary}
-  {\normalfont
-    $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot) \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real)$. \par
-    \textbf{Note:} Its gradients for each variable can be computed recursively through each composition using
-    $(\ref{prop:jacobians_sum})$, $(\ref{theo:chain_rule_eq})$,
-    $(\ref{prop:densel_y_differential})$, $(\ref{prop:densel_W_simplified_differential})$, $(\ref{prop:densel_b_differential})$,
-    $(\ref{prop:relu_simplified_differential})$ and $(\ref{prop:cce_softmax_differential})$.
-  }
-\end{corollary}
-
-\begin{proof}
-  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ is a sum and composition of \textit{differentiable} applications so it is \textit{differentiable} by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
-\end{proof}
-
 \subsection{Simplified differentials}
 
 % F^upstream circ ReLU differential
@@ -865,27 +776,106 @@
   \end{equation*}
 \end{proof}
 
+\subsection{Definitions}
+
+% Neural network notation
+\begin{notation}
+  Let $E \subseteq \Real^n \times (\Real^{\cdot})^p$ ($p$ parameter vectors of any sizes) and $F \subseteq \Real^m$. \par
+  The notation $\mathcal{F}_{net}(E,F)$ means the set of neural network functions from $E$ to $F$. \par
+  \textbf{Note:} A neural network is an application defined in this section. \par
+\end{notation}
+
+% Multi-Class DNN definition
+\begin{definition}
+  Let $(m_k)_{k \in \llbracket 0,p \rrbracket} \in (\mathbb{N}^*)^p$. Let the neural network
+  \textit{Multi-class dense neural network} noted as $\mathcal{N}_{c^+}$ be \begin{equation*}
+    \begin{array}{llll}
+      \mathcal{N}_{c^+} & : & \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ) & \longrightarrow \Real^{m_p} \\
+      &   & (x,(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}) & \longmapsto
+      ( \mathcal{S} \circ \mathbb{L}^{(p)}(\cdot, W^{(p)}, b^{(p)}) ) \circ ( \underset{k=1}{\overset{p-1}{\circ}} \mathcal{R}^{(k)} \circ \mathbb{L}^{(k)}(\cdot, W^{(k)}, b^{(k)}) ) (x)
+    \end{array}
+  \end{equation*} \par
+
+  where \begin{equation*}
+    \begin{array}{ll}
+      & (\mathbb{L}^{(k)})_{k \in \llbracket 1,p \rrbracket} \in
+        \underset{k=1}{\overset{p}{\times}} \mathcal{F}_{layer}(\Real^{m_{k-1}} \times \mathcal{M}_{m_{k},m_{k-1}} \times \Real^{m_{k}}, \Real^{m_{k}}) \\
+      & (\mathcal{R}^{(k)})_{k \in \llbracket 1,p-1 \rrbracket} \in
+        \underset{k=1}{\overset{p-1}{\times}} \mathcal{F}_{act}(\Real^{m_k}, \Real^{m_k}) \\
+      & \mathcal{S} \in \mathcal{F}_{act}(\Real^{m_p}, ]0,1[^{m_p})
+    \end{array}
+  \end{equation*}
+  
+  \textbf{Note:} $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
+    \longrightarrow \Real^{m_p}$
+  is equivalent to $\mathcal{N}_{c^+} : \Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )
+  \longrightarrow \Real^{m_p}$.
+\end{definition}
+
+% Multi-Class DNN properties
+\begin{corollary}
+  \normalfont{
+    $\mathcal{N}_{c^+} \in \mathcal{D}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$
+    and the total number of parameter is \begin{equation*}
+      \sum_{k=1}^{p} m_{k} * (m_{k-1} + 1)
+    \end{equation*}
+  }
+\end{corollary}
+
+\begin{proof}
+  $\mathcal{N}_{c^+}$ is a composition of \textit{differentiable} applications so it is \textit{differentiable} by the \hyperref[theo:chain_rule]{chain rule} theorem.
+  Let $a \in ( \underset{k=1}{\overset{p}{\times}} (\Real^{m_{k-1}})^{m_k} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} )$
+  then $a$ has $\sum_{k=1}^{p} m_{k} * m_{k-1} + \sum_{k=1}^{p} m_{k}$ coefficients. \par
+\end{proof}
+
+% Multi-Class DNN objective function
+\begin{definition}
+  Let $(m_k)_{k \in \llbracket 0,p \rrbracket}$, $\mathcal{N}_{c^+} \in
+    \mathcal{F}_{net}(\Real^{m_0} \times ( \underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real^{m_p})$,
+    $X = (x^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\Real^{m_0})^n$
+    and $Y^* = ({y^*}^{(i)})_{i \in \llbracket 1,n \rrbracket} \in (\{0,1\}^{m_p})^n$ with $\forall i \in \llbracket 1,n \rrbracket$, $\norm{{y^*}^{(i)}}_{m_p} = 1$. \par
+  Let the \textit{Multi-class optimization problem} noted as $(\mathcal{P}_{c^+})$ be \begin{mini}
+    {(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket}}
+    {\sum_{i=1}^{n}{\xi(y^{(i)},{y^*}^{(i)})}}
+    {}{(\mathcal{P}_{c^+})\text{ : }}
+  \end{mini} \par
+  where \begin{equation*}
+    \begin{array}{ll}
+      & \xi \in \mathcal{F}_{loss}(]0,1[^{m_p} \times \{0,1\}^{m_p}, \Real) \\
+      & y^{(i)} = \mathcal{N}_{c^+}(x^{(i)},(W^{(k)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})
+    \end{array}
+  \end{equation*} \par
+
+  $\sum_{i=1}^{n} \xi (\cdot, {y^*}^{(i)}) \circ \mathcal{N}_{c^+}(x^{(i)},\cdot,\cdot)$ is named the objective function
+  and will be noted as $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$.
+\end{definition}
+
+% Multi-Class DNN objective function differentiability
+\begin{corollary}
+  {\normalfont
+    $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot) \in \mathcal{D}((\underset{k=1}{\overset{p}{\times}} \mathcal{M}_{m_{k},m_{k-1}} ) \times ( \underset{k=1}{\overset{p}{\times}} \Real^{m_{k}} ), \Real)$. \par
+    \textbf{Note:} Its gradients for each variable can be computed recursively through each composition using
+    $(\ref{prop:jacobians_sum})$, $(\ref{theo:chain_rule_eq})$,
+    $(\ref{prop:densel_y_differential})$, $(\ref{prop:densel_W_simplified_differential})$, $(\ref{prop:densel_b_differential})$,
+    $(\ref{prop:relu_simplified_differential})$ and $(\ref{prop:cce_softmax_differential})$.
+  }
+\end{corollary}
+
+\begin{proof}
+  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ is a sum and composition of \textit{differentiable} applications so it is \textit{differentiable} by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
+\end{proof}
+
 % Gradient descent
 \section{Gradient descent}
 
 \subsection{Optimization fundamentals}
 
-% Subset convex definition
-\begin{definition}
-  Let $E \subseteq \Real^m$. $E$ \textit{convex} means \begin{equation*}
-    \begin{gathered}
-      \forall x \in E, \forall y \in E, \\
-      \forall t \in [0,1], t * x + (1 - t) * y \in E
-    \end{gathered}
-  \end{equation*}
-\end{definition}
-
 % Applicaton convex
 \begin{definition}
-  Let $E \subseteq \Real^m$ \textit{convex} and \textit{open}, $F \subseteq \Real$ and $f \in \mathcal{D}(E,F)$. $f$ \textit{convex} means \begin{equation}\label{def:convex_eq}
+  Let $f \in \mathcal{D}(\Real^m,\Real)$. $f$ \textit{convex} means \begin{equation}\label{def:convex_eq}
     \begin{gathered}
-      \forall x \in E, \forall y \in E, \\
-      \forall t \in [0,1], f(t * x + (1 - t) * y) \leq t * f(x) + (1 - t) * f(y)
+      \forall x \in \Real^m, \forall y \in \Real^m, \\
+      \forall \tau \in [0,1], f(\tau * x + (1 - \tau) * y) \leq \tau * f(x) + (1 - \tau) * f(y)
     \end{gathered}
   \end{equation}
 \end{definition}
@@ -893,9 +883,9 @@
 % Application convex equivalent with gradient
 \begin{proposition}
   {\normalfont
-    Let $E \subseteq \Real^m$ \textit{convex} and \textit{open}, $F \subseteq \Real$ and $f \in \mathcal{D}(E,F)$. $f$ \textit{convex} is equivalent to \begin{equation}\label{prop:convex_grad}
+    Let $f \in \mathcal{D}(\Real^m,\Real)$. $f$ \textit{convex} is equivalent to \begin{equation}\label{prop:convex_grad}
       \begin{gathered}
-        \forall x \in E, \forall y \in E, \\
+        \forall x \in \Real^m, \forall y \in \Real^m, \\
         f(x) + \nabla_f(x) * (y - x)^T \leq f(y)
       \end{gathered}
     \end{equation}
@@ -903,53 +893,122 @@
 \end{proposition}
 
 \begin{proof}
-  Suppose $f$ \textit{convex} $(\ref{def:convex_eq})$. Let $x \in E$ and $y \in E$. \begin{equation*}
+  Suppose $f$ \textit{convex} $(\ref{def:convex_eq})$. Let $x \in \Real^m$ and $y \in \Real^m$. \begin{equation*}
     \begin{gathered}
-      \forall t \in ]0,1[,
-      f(x + t * (y - x)) \underset{\norm{\cdot}_m \in \mathcal{C}(\Real^m,\Real),f \in \mathcal{D}(E,F),(\ref{def:differentiable})}{=}
-        f(x) + \frac{\partial f}{\partial (t * (y - x))}(x) + \underset{t \to 0}o(\norm{t * (y - x)}_m)
+      \forall \tau \in ]0,1[,
+      f(x + \tau * (y - x)) \underset{\norm{\cdot}_m \in \mathcal{C}(\Real^m,\Real),f \in \mathcal{D}(\Real^m,\Real),(\ref{def:differentiable})}{=}
+        f(x) + \frac{\partial f}{\partial (\tau * (y - x))}(x) + \underset{\tau \to 0}o(\norm{\tau * (y - x)}_m)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
     \begin{array}{ll}
       & \underset{(\ref{def:convex_eq})}{\implies}
-        \forall t \in ]0,1[,
-        f(x) + \frac{\partial f}{\partial (t * (y - x))}(x) + \underset{t \to 0}o(\norm{t * (y - x)}_m)
-        \leq t * f(y) + (1 - t) * f(x) \\
+        \forall \tau \in ]0,1[,
+        f(x) + \frac{\partial f}{\partial (\tau * (y - x))}(x) + \underset{\tau \to 0}o(\norm{\tau * (y - x)}_m)
+        \leq \tau * f(y) + (1 - \tau) * f(x) \\
       & \underset{\frac{\partial f}{\partial \cdot} \in \mathcal{L}(\Real^m,\Real)}{\implies}
-        \forall t \in ]0,1[,
-        \frac{\partial f}{\partial (y - x)}(x) + \underset{t \to 0}o(\norm{y - x}_m)
+        \forall \tau \in ]0,1[,
+        \frac{\partial f}{\partial (y - x)}(x) + \underset{\tau \to 0}o(\norm{y - x}_m)
         \leq f(y) - f(x) \\
-      & \underset{t \to 0}{\implies}
+      & \underset{\tau \to 0}{\implies}
         \frac{\partial f}{\partial (y - x)}(x) \leq f(y) - f(x) \\
       & \underset{mat}{\implies}
         f(x) + \nabla_f(x) * (y - x)^T \leq f(y)
     \end{array}
   \end{equation*} \par \par
 
-  Suppose $(\ref{prop:convex_grad})$. Let $x \in E$, $y \in E$ and $t \in [0,1]$. Let $z = t * x + (1 - t) * y$.
+  Suppose $(\ref{prop:convex_grad})$. Let $x \in \Real^m$, $y \in \Real^m$ and $\tau \in [0,1]$. Let $z = \tau * x + (1 - \tau) * y$.
   \begin{equation*}
     \begin{array}{lll}
-      f(z) - (1 - t) * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (x - z)^T \leq f(x) & (a) \\
-      f(y) + t * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (y - z)^T \leq f(y) & (b)
+      (a) : & f(z) - (1 - \tau) * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (x - z)^T \leq f(x) \\
+      (b) : & f(y) + \tau * \nabla_f(z) * (y - x)^T & \underset{(\ref{prop:convex_grad})}{=} f(z) + \nabla_f(z) * (y - z)^T \leq f(y)
     \end{array}
   \end{equation*}
   \begin{equation*}
-    \begin{array}{ll}
-      & \underset{t * (a) + (1 - t) * (b)}{\implies} f(z) \leq t * f(x) + (1 - t) f(y)
-    \end{array}
+    \underset{\tau * (a) + (1 - \tau) * (b)}{\implies} f(z) \leq \tau * f(x) + (1 - \tau) f(y)
   \end{equation*}
 \end{proof}
 
 % L-smooth definition
 \begin{definition}
-  Let $E \subseteq \Real^m$, $F \subseteq \Real$, $f \in \mathcal{D}(E,F)$ and $L \in \Real^{+*}$. $f$ \textit{L-smooth} means \begin{equation*}
+  Let $f \in \mathcal{D}(\Real^m,\Real)$ and $L \in \Real^{+*}$. $f$ \textit{L-smooth} means \begin{equation}\label{def:lsmooth_eq}
     \begin{gathered}
-      \forall x \in E, \forall y \in E, \\
+      \forall x \in \Real^m, \forall y \in \Real^m, \\
       \norm{\nabla_f(x) - \nabla_f(y)}_m \leq L * \norm{x - y}_m 
     \end{gathered}
-  \end{equation*}
+  \end{equation}
 \end{definition}
+
+% L-smooth proposition
+\begin{proposition}
+  {\normalfont
+    Let $f \in \mathcal{D}(\Real^m,\Real)$ and $L \in \Real^{+*}$. If $f$ \textit{L-smooth} then \begin{equation}\label{prop:lsmooth_implies}
+      \begin{gathered}
+        \forall x \in \Real^m, \forall y \in \Real^m, \\
+        f(y) \leq f(x) + \nabla_f(x) * (y - x)^T + \frac{L}{2} * \norm{y - x}_m^2
+      \end{gathered}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $x \in \Real^m$ and $y \in \Real^m$. Let \begin{equation*}
+    \begin{array}{llll}
+      g & : & [0,1] & \longrightarrow \Real^m \\
+      & & \tau & \longrightarrow x + \tau * (y - x)
+    \end{array}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
+      \forall \tau \in [0,1], (f \circ g)(\tau) = f(x + \tau * (y - x)) & \underset{(\ref{theo:chain_rule_eq})}{\implies}
+        \forall \tau \in [0,1], (f \circ g)'(\tau) = \nabla_f(g(\tau)) * (y - x)^T \\
+      & \underset{\int_{}^{}}{\implies} f(y) - f(x) = \int_{0}^{1}{\nabla_f(g(\tau)) * (y - x)^T d\tau}
+    \end{array}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
+      f(y) & = f(x) + \int_{0}^{1}{\nabla_f(g(\tau)) * (y - x)^T d\tau} \\
+      & = f(x) + \nabla_f(x) * (y - x)^T + \int_{0}^{1}{(\nabla_f(g(\tau)) - \nabla_f(x)) * (y - x)^T d\tau} \\
+      & \underset{Cauchy-Schwarz}{\leq} f(x) + \nabla_f(x) * (y - x)^T + \int_{0}^{1}{\norm{\nabla_f(g(\tau)) - \nabla_f(x)}_m * \norm{y - x}_m d\tau} \\
+      & \underset{(\ref{def:lsmooth_eq})}{\leq} f(x) + \nabla_f(x) * (y - x)^T + L * \norm{y - x}_m^2 * \int_{0}^{1}{\tau d\tau}
+    \end{array}
+  \end{equation*}
+\end{proof}
+
+% Co-coercivity for gradient
+\begin{proposition}
+  {\normalfont
+    Let $L \in \Real^{+*}$ and $f \in \mathcal{D}(\Real^m,\Real)$. If $f$ \textit{convex} and \textit{L-smooth} then \begin{equation}\label{prop:grad_cocoercivity}
+      \begin{gathered}
+        \forall x \in \Real^m, \forall y \in \Real^m, \\
+        \frac{1}{L} * \norm{\nabla_f(y) - \nabla_f(x)}_m^2 \leq (\nabla_f(y) - \nabla_f(x)) * (y - x)^T
+      \end{gathered}
+    \end{equation} \par
+    \textbf{Notes:} This proposition is named the gradient co-coercivity.
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $x \in \Real^m$, $y \in \Real^m$ and $z = x - \frac{1}{L}(\nabla_f(y) - \nabla_f(x))$.
+  \begin{equation*}
+    \begin{array}{ll}
+      f(y) - f(x) & = f(y) - f(z) + f(z) - f(x) \\
+      & \underset{(\ref{prop:convex_grad}),(\ref{prop:lsmooth_implies})}{\leq} \nabla_f(y) * (y - z)^T + \nabla_f(x) * (z - x) + \frac{L}{2} * \norm{z - x}_m^2 \\
+      & \leq \nabla_f(y) * (y - x)^T - \frac{1}{2L} * \norm{\nabla_f(x) - \nabla_f(y)}^2_m
+    \end{array}
+  \end{equation*} \par
+  It means the inequality is true for all $x \in \Real^m$ and $y \in \Real^m$.
+
+  Let $x \in \Real^m$ and $y \in \Real^m$. The previous inequality gives \begin{equation*}
+    \begin{array}{lll}
+      (a) : & f(y) - f(x) \leq \nabla_f(y) * (y - x)^T - \frac{1}{2L} * \norm{\nabla_f(x) - \nabla_f(y)}^2_m \\
+      (b) : & f(x) - f(y) \leq \nabla_f(x) * (x - y)^T - \frac{1}{2L} * \norm{\nabla_f(y) - \nabla_f(x)}^2_m
+    \end{array}
+  \end{equation*}
+  \begin{equation*}
+    \underset{(a) + (b)}{\implies} 0 \leq (\nabla_f(y) - \nabla_f(x)) * (y - x)^T - \frac{1}{L} * \norm{\nabla_f(y) - \nabla_f(x)}^2_m
+  \end{equation*}
+\end{proof}
 
 \subsection{Algorithms}
 
