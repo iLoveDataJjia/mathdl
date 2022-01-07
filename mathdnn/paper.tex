@@ -125,12 +125,13 @@
 
 % Base notations
 \begin{notation}
-  Let $E \subseteq \Real^n$ and $F \subseteq \Real^m$. \par
+  Let $E \subseteq \Real^n$, $F \subseteq \Real^m$, $a \in \Real^n$ and $r \in \Real^+*$. \par
   The notation $\mathring{E}$ means the interior of $E$. \par
   The notation $f : E \longrightarrow F$ means the application from $E$ to $F$. \par
   The notation $\mathcal{F}(E,F)$ means the set of applications from $E$ to $F$. \par
   The notation $\mathcal{C}(E,F)$ means the set of continuous applications from $E$ to $F$. \par
-  The notation $\mathcal{L}(E,F)$ means the set of linear applications from $E$ to $F$.
+  The notation $\mathcal{L}(E,F)$ means the set of linear applications from $E$ to $F$. \par
+  The notation $\mathcal{B}(a,r)$ means the set $\{x \in \Real^n | \norm{x - a}_n \leq r\}$.
 \end{notation}
 
 % Differentiable definition
@@ -139,7 +140,8 @@
   Then $f$ \textit{differentiable} on $E$ means \begin{equation}\label{def:differentiable}
     \begin{gathered}
       \forall a \in \mathring{E}, \exists \frac{\partial f}{\partial \cdot}(a) \in \mathcal{L}(\Real^n,\Real^m), \\
-      \forall h \in \Real^n, f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
+      \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta),
+        f(a+h) = f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)
     \end{gathered}
   \end{equation}
 
@@ -156,13 +158,13 @@
 \begin{proof}
   Suppose $\phi_1$ and $\phi_2$ two differentials of $f$ on $a$. \begin{equation*}
     \begin{gathered}
-      \forall h \in \Real^n, \phi_2(h) - \phi_1(h) \underset{(\ref{def:differentiable})} = \underset{h \to 0}o(\norm h _n)
+      \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta), \phi_2(h) - \phi_1(h) \underset{(\ref{def:differentiable})} = \underset{h \to 0}o(\norm h _n)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
     \begin{split}
-      & \underset{def} \implies \forall \epsilon > 0, \exists \eta > 0, \forall h \in \Real^n, (\norm h _n \leq \eta \Rightarrow \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon) \\
-      & \underset{\phi_2 - \phi_1 \in \mathcal{L}(\Real^n,\Real^m)} \implies \forall \epsilon > 0, \forall h \in \Real^n, \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
+      & \underset{def} \implies \forall \epsilon \in \Real^{+*}, \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta), \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
+      & \underset{\phi_2 - \phi_1 \in \mathcal{L}(\Real^n,\Real^m)} \implies \forall \epsilon \in \Real^{+*}, \forall h \in \Real^n, \norm{\phi_2(h) - \phi_1(h)}_m \leq 2 * \norm h _n * \epsilon \\
       & \underset{\epsilon \to 0} \implies \forall h \in \Real^n, \phi_2(h) = \phi_1(h)
     \end{split}
   \end{equation*}
@@ -200,16 +202,21 @@
 \end{definition}
 
 \begin{proof}
-  Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$ and $h \in \Real^n$.
+  Let $i \in \llbracket 1,m \rrbracket$, $a \in \mathring{E}$.
   \begin{equation*}
-    \begin{split}
+    \begin{gathered}
+      \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta),
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
       f_i (a + h) & = f(a + h)_i \\
       & = f(a)_i + \frac{\partial f}{\partial h}(a)_i + \underset{h \to 0}o(\norm h _n)_i \\
       & = f_i(a) + \frac{\partial f}{\partial h}(a)_i + \underset{h \to 0}o(\norm h _n)_i
-    \end{split}
+    \end{array}
   \end{equation*}
   \begin{equation*}
-    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\Real^n,\Real) \underset{prop\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial h}(a) = \frac{\partial f}{\partial h}(a)_i
+    \frac{\partial f}{\partial \cdot}(a)_i \in \mathcal{L}(\Real^n,\Real) \underset{prop\ref{prop:differential_unique}}\implies \frac{\partial f_i}{\partial \cdot}(a) = \frac{\partial f}{\partial \cdot}(a)_i
   \end{equation*}
 \end{proof}
 
@@ -240,7 +247,12 @@
 \end{proposition}
 
 \begin{proof}
-  Let $a \in \mathring{E}$ and $h \in \Real^n$.
+  Let $a \in \mathring{E}$.
+  \begin{equation*}
+    \begin{gathered}
+      \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta),
+    \end{gathered}
+  \end{equation*}
   \begin{equation*}
     \begin{split}
       (g + f)(a+h) & = g(a+h) + f(a+h) \\
@@ -294,7 +306,12 @@
 \end{theorem}
 
 \begin{proof}
-  Let $a \in \mathring{E}$ and $h \in \Real^n$.
+  Let $a \in \mathring{E}$.
+  \begin{equation*}
+    \begin{gathered}
+      \exists \eta \in \Real^{+*}, \forall h \in \mathcal{B}(0_{\Real^n},\eta),
+    \end{gathered}
+  \end{equation*}
   \begin{equation*}
     \begin{split}
       (g \circ f)(a+h) & = g(f(a) + \frac{\partial f}{\partial h}(a) + \underset{h \to 0}o(\norm h _n)) \\
@@ -314,9 +331,7 @@
       & \underset{prop\ref{prop:differential_unique}}\implies g \circ f \in \mathcal{D}(E,G), \frac{\partial (g \circ f)}{\partial \cdot}(a) = \frac{\partial g}{\partial \cdot}(f(a)) \circ \frac{\partial f}{\partial \cdot}(a) \\
       & \underset{mat}\implies \mathcal{J}_{g \circ f}(a) = \mathcal{J}_{g}(f(a)) * \mathcal{J}_{f}(a)
     \end{split}
-  \end{equation*} \par
-
-  \textbf{Note:} $mat$ indicates in canonical associated matrix way. \par
+  \end{equation*}
 \end{proof}
 
 \subsection{Others}
@@ -895,19 +910,21 @@
 \begin{proof}
   Suppose $f$ \textit{convex} $(\ref{def:convex_eq})$. Let $x \in \Real^m$ and $y \in \Real^m$. \begin{equation*}
     \begin{gathered}
-      \forall \tau \in ]0,1[,
-      f(x + \tau * (y - x)) \underset{\norm{\cdot}_m \in \mathcal{C}(\Real^m,\Real),f \in \mathcal{D}(\Real^m,\Real),(\ref{def:differentiable})}{=}
+      \exists \eta \in \Real^{+*}, \forall \tau \in [-\eta,\eta], \\
+      f(x + \tau * (y - x)) \underset{\norm{\cdot}_m \in \mathcal{C}(\Real^m,\Real),(\ref{def:differentiable})}{=}
         f(x) + \frac{\partial f}{\partial (\tau * (y - x))}(x) + \underset{\tau \to 0}o(\norm{\tau * (y - x)}_m)
     \end{gathered}
   \end{equation*}
   \begin{equation*}
     \begin{array}{ll}
       & \underset{(\ref{def:convex_eq})}{\implies}
-        \forall \tau \in ]0,1[,
-        f(x) + \frac{\partial f}{\partial (\tau * (y - x))}(x) + \underset{\tau \to 0}o(\norm{\tau * (y - x)}_m)
-        \leq \tau * f(y) + (1 - \tau) * f(x) \\
+        \begin{gathered}
+          \exists \eta \in \Real^{+*}, \forall \tau \in [-\eta,\eta], \\
+          f(x) + \frac{\partial f}{\partial (\tau * (y - x))}(x) + \underset{\tau \to 0}o(\norm{\tau * (y - x)}_m)
+          \leq \tau * f(y) + (1 - \tau) * f(x)
+        \end{gathered} \\
       & \underset{\frac{\partial f}{\partial \cdot} \in \mathcal{L}(\Real^m,\Real)}{\implies}
-        \forall \tau \in ]0,1[,
+        \exists \eta \in \Real^{+*}, \forall \tau \in [-\eta,\eta],
         \frac{\partial f}{\partial (y - x)}(x) + \underset{\tau \to 0}o(\norm{y - x}_m)
         \leq f(y) - f(x) \\
       & \underset{\tau \to 0}{\implies}
@@ -955,7 +972,7 @@
   Let $x \in \Real^m$ and $y \in \Real^m$. Let \begin{equation*}
     \begin{array}{llll}
       g & : & [0,1] & \longrightarrow \Real^m \\
-      & & \tau & \longrightarrow x + \tau * (y - x)
+      & & \tau & \longmapsto x + \tau * (y - x)
     \end{array}
   \end{equation*}
   \begin{equation*}
@@ -1010,9 +1027,111 @@
   \end{equation*}
 \end{proof}
 
+% Global min definition
+\begin{definition}
+  Let $f \in \mathcal{F}(\Real^m,\Real)$ and $x^* \in \Real^m$. $a$ \textit{global minimum} of $f$ means \begin{equation}\label{def:glob_min}
+    \forall x \in \Real^m, f(x^*) \leq f(x)
+  \end{equation}
+\end{definition}
+
+% Global min proposition
+\begin{proposition}
+  {\normalfont
+    Let $f \in \mathcal{D}(\Real^m,\Real)$ and $x^* \in \Real^m$. If $x^*$ \textit{global minimum} of $f$ then \begin{equation}\label{prop:glob_min}
+      \nabla_f(x^*) = 0_{\Real^m}
+    \end{equation}
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $x^*$ \textit{global minimum} of $f$, $v \in \Real^m$ and \begin{equation*}
+    \begin{array}{llll}
+      g & : & \Real & \longrightarrow \Real^m \\
+      & & \tau & \longmapsto x^* + \tau * v
+    \end{array}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{array}{lll}
+      \forall \tau \in \Real, (f \circ g)(\tau) = f(x^* + \tau * v) & \implies & \begin{array}{l}
+        (f \circ g)'(0) \underset{(\ref{theo:chain_rule_eq})}{=} \nabla_f(x^*) * v^T \\
+        \forall \tau \in \Real, (f \circ g)(0) \underset{(\ref{def:glob_min})}{\leq} (f \circ g)(\tau)
+      \end{array}
+    \end{array}
+  \end{equation*}
+
+  \begin{equation*}
+    \begin{gathered}
+      \forall \tau \in \Real, (f \circ g)(0) \leq (f \circ g)(\tau) 
+      \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    \begin{array}{ll}
+      & \underset{(\ref{def:differentiable}),mat}\implies \exists \eta \in \Real^{+*}, \forall \tau \in ]0,\eta], \begin{array}{l}
+        0 \leq (f \circ g)'(0) * \tau + \underset{\tau \to 0}{o} (\tau) \\
+        0 \leq (f \circ g)'(0) * (- \tau) + \underset{\tau \to 0}{o} (\tau)
+      \end{array} \\
+      & \implies \exists \eta \in \Real^{+*}, \forall \tau \in ]0,\eta], \underset{\tau \to 0}{o} (\tau) \leq (f \circ g)'(0) \leq \underset{\tau \to 0}{o} (\tau) \\
+      & \underset{\tau \to 0}\implies \nabla_f(x^*) * v^T = (f \circ g)'(0) = 0
+    \end{array}
+  \end{equation*} \par
+
+  The equality is true for all $v \in \Real^m$
+  in particular for the vectors $(e_i)_{i \in \llbracket 1,n \rrbracket}$ corresponding to $\Real^m$ standard basis thus \begin{equation*}
+    \nabla_f(x^*) = 0_{\Real^m}
+  \end{equation*}
+\end{proof}
+
 \subsection{Algorithms}
 
+% Gradient descent algorithm notation
+\begin{notation}
+  The notation $\Real^{\mathbb{N}}$ means the set of numerical sequences. \par
+  The notation $\mathcal{G}_{descent}$ means the set of gradient descent sequences. \par
+  \textbf{Note:} $\mathcal{G}_{descent} \subset \Real^{\mathbb{N}}$ and a gradient descent sequence is a
+  numerical sequence defined in this section.
+\end{notation}
+
 % Vanilla gradient descent
+\begin{definition}
+  Let $\alpha \in \Real^{+*}$ and $f \in \mathcal{D}(\Real^m,\Real)$. Let the \textit{Vanilla gradient descent}
+  be the numerical sequence \begin{equation*}
+    (x^{(n)})_{n \in \mathbb{N}} = \left\{
+      \begin{array}{ll}
+        x^{(0)} \in \Real^m & n = 0 \\
+        x^{(n+1)} = x^{(n)} - \alpha \nabla_f(x^{(n)}) & n \in \mathbb{N}^*
+      \end{array}
+    \right.
+  \end{equation*} \par
+
+  $\alpha$ is named the learning rate. \par
+  $n \in \mathbb{N}$ is named an epoch.
+\end{definition}
+
+% Vanilla gradient descent convergence
+\begin{proposition}
+  {\normalfont
+    Let $\alpha \in \Real^{+*}$, $L \in \Real^{+*}$, $f \in \mathcal{D}(\Real^m,\Real)$ and $(x^{(n)})_{n \in \mathbb{N}} \in \mathcal{G}_{descent}$.
+    If $f$ \textit{convex}, \textit{L-smooth} and admits a \textit{global minimum} $x^*$ then \begin{equation*}
+      \begin{gathered}
+        \forall n \in \mathbb{N}, f(x^{(n)}) - f(x^*) \leq \frac{2L\norm{x^{(0)} - x^*}^2_m}{n - 1}
+      \end{gathered}
+    \end{equation*}
+  
+    \textbf{Note:} It means $(x^{(n)})_{n \in \mathbb{N}}$ converge to the global minimum $x^*$.
+  }
+\end{proposition}
+
+\begin{proof}
+  Let $f$ \textit{convex}, \textit{L-smooth}, admits a \textit{global minimum} $x^*$ and $n \in \mathbb{N}$.
+  \begin{equation*}
+    \begin{array}{ll}
+      \norm{x^{(n+1)} - x^*}^2_m  & = \norm{x^{(n)} - x^* - \frac{1}{L}{\nabla_f(x^{(n)})}}^2_m \\
+      & = \norm{x^{(n+1)} - x^*}^2_m - \frac{2}{L}(x^{(n)} - x^*)*{\nabla_f(x^{(n)})}^T + \frac{1}{L^2}{\norm{\nabla_f(x^{(n)})}^2_m} \\
+      & \underset{(\ref{prop:grad_cocoercivity})}{\leq} \norm{x^{(n+1)} - x^*}^2_m - \frac{1}{L^2}{\norm{\nabla_f(x^{(n)})}^2_m}
+    \end{array}
+  \end{equation*} \par
+\end{proof}
 
 % Stochastic gradient descent
 
