@@ -1108,13 +1108,13 @@
   $n \in \mathbb{N}$ fixed is named an epoch.
 \end{definition}
 
-% Vanilla gradient descent convergence
+% Vanilla gradient descent convergence and rate
 \begin{proposition}
   {\normalfont
     Let $\alpha \in \Real^{+*}$, $L \in \Real^{+*}$, $f \in \mathcal{D}(\Real^m,\Real)$ and $(x^{(n)})_{n \in \mathbb{N}} \in \mathcal{G}_{descent}$.
     If $f$ \textit{convex}, \textit{L-smooth}, admits $x^*$ as a \textit{global minimum} and $\alpha < \frac{2}{L}$ then \begin{equation*}
       \begin{gathered}
-        \forall n \in \mathbb{N}^*, f(x^{(n)}) - f(x^*) \leq \frac{\norm{x^{(0)} - x^*}^2_m}{\beta(n - 1)}
+        \forall n \in \mathbb{N}^*, f(x^{(n)}) - f(x^*) \leq \frac{\norm{x^{(0)} - x^*}^2_m}{n\beta}
       \end{gathered}
     \end{equation*} \par where \begin{equation*}
       \beta = \alpha - \frac{L\alpha^2}{2}
@@ -1125,7 +1125,7 @@
 \end{proposition}
 
 \begin{proof}
-  Let $f$ \textit{convex}, \textit{L-smooth}, admits $x^*$ as a \textit{global minimum} and $\alpha < \frac{2}{L}$ and $n \in \mathbb{N}$.
+  Let $f$ \textit{convex}, \textit{L-smooth}, admits a \textit{global minimum} $x^*$ and $\alpha < \frac{2}{L}$ and $n \in \mathbb{N}$.
   \begin{equation*}
     \begin{array}{ll}
       \norm{x^{(n+1)} - x^*}^2_m  & = \norm{x^{(n)} - x^* - \alpha {\nabla_f(x^{(n)})}}^2_m \\
@@ -1136,6 +1136,7 @@
     \end{array}
   \end{equation*} \par
   It also means $(\norm{x^{(n)} - x^*}_m)_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence}. \par
+  \textbf{Note:} $rec$ means by applying recursively.
 
   \begin{equation*}
     \begin{array}{ll}
@@ -1145,11 +1146,13 @@
   \end{equation*}
   \begin{equation*}
     \begin{array}{llll}
-      & \implies & (a) : & f(x^{(n+1)}) - f(x^*) \leq f(x^{(n)}) - f(x^*) - \beta \norm{\nabla_f(x^{(n)})}^2
+      & \implies & (a) : & 0 \underset{(\ref{def:glob_min})}{\leq} f(x^{(n+1)}) - f(x^*) \leq f(x^{(n)}) - f(x^*) - \beta \norm{\nabla_f(x^{(n)})}^2
     \end{array}
   \end{equation*} \par
-  Let $\forall n \in \mathbb{N}$, $\delta^{(n)} = f(x^{(n)}) - f(x^*)$. It also means $(\delta^{(n)})_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence}.
+  Let $\forall n \in \mathbb{N}$, $\delta^{(n)} = f(x^{(n)}) - f(x^*)$.
+  It also means $(\delta^{(n)})_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence} with a lower bound of $0$. \par
 
+  If $\forall k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} \neq 0$ and $\norm{x^{(0)} - x^*}_m \neq 0$ then
   \begin{equation*}
     \begin{array}{ll}
       f(x^{(n)}) - f(x^*) & \underset{(\ref{prop:convex_grad})}{\leq} \nabla_f(x^{(n)}) * (x^{(n)} - x^*)^T \\
@@ -1168,10 +1171,35 @@
         \underset{(\ref{def:glob_min})}{\leq} \frac{1}{\delta^{(n+1)}}
     \end{array}
   \end{equation*} \par
-  \textbf{Note:} $\sum_{0}^n$ means a sum from $0$ to $n$ and $tel$ means telescopic cancellation.
+  \textbf{Note:} $\sum_{0}^n$ means a sum from $0$ to $n$ and $tel$ means telescopic cancellation. \par
+
+  Else $\exists k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} = 0$ or $\norm{x^{(0)} - x^*}_m = 0$.
+  Let \begin{equation*}
+    r = \left\{ \begin{array}{ll}
+      \text{min} \{k \in \llbracket 0,n+1 \rrbracket | \delta^{(k)} = 0\} & \norm{x^{(0)} - x^*}_m \neq 0 \\
+      0 & \norm{x^{(0)} - x^*}_m = 0
+    \end{array} \right.
+  \end{equation*} \par
+  If $r \neq 0$ the exact same reasoning can be done on $\llbracket 0,r-1 \rrbracket$ to obtain the inequality.
+  For the rest from $r$ to $n+1$ the inequality is also true because $\forall k \in \llbracket r,n+1 \rrbracket, \delta^{(k)} = 0$ \par
+
 \end{proof}
 
 % Stochastic gradient descent
+\begin{definition}
+  Let $\alpha \in \Real^{+*}$ and $f \in \mathcal{D}(\Real^m,\Real)$. Let the \textit{Stochastic gradient descent}
+  be the numerical sequence \begin{equation}\label{def:stochastic_grad_descent}
+    (x^{(n)})_{n \in \mathbb{N}} = \left\{
+      \begin{array}{ll}
+        x^{(0)} \in \Real^m & n = 0 \\
+        x^{(n+1)} = x^{(n)} - \alpha \nabla_f(x^{(n)}) & n \in \mathbb{N}^*
+      \end{array}
+    \right.
+  \end{equation} \par
+
+  $\alpha$ is named the learning rate. \par
+  $n \in \mathbb{N}$ fixed is named an epoch.
+\end{definition}
 
 % SGD with decay and momentum
 
