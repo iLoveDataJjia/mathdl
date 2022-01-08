@@ -36,7 +36,7 @@
   Riemann integral theory, Matrix, Finite dimensional linear algebra and Linear application matrix theories are supposed known. The objective
   is to do a collection of the important propositions explaining dense neural network (DNN) theories. All the propositions will be
   mathematically proven as far as possible and under assumptions if necessary. The subject used as reference is a multi-class classification
-  problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with decay and momentum.
+  problem with – dense layers, activation layers, Categorical cross-entropy loss and Stochastic gradient descent optimizer with momentum.
   But all the elements below can be easily re-used or re-defined to cover regressions.
   \keywords{Dense neural network, Differentiability, Continuous optimization}
 \end{abstract}
@@ -1094,12 +1094,12 @@
 
 % Vanilla gradient descent
 \begin{definition}
-  Let $\alpha \in \Real^{+*}$ and $f \in \mathcal{D}(\Real^m,\Real)$. Let the \textit{Vanilla gradient descent}
+  Let $f \in \mathcal{D}(\Real^m,\Real)$ and $\alpha \in \Real^{+*}$. Let the \textit{Gradient descent}
   be the numerical sequence \begin{equation}\label{def:vanilla_grad_descent}
-    (x^{(n)})_{n \in \mathbb{N}} = \left\{
+    (x_v^{(n)})_{n \in \mathbb{N}} = \left\{
       \begin{array}{ll}
-        x^{(0)} \in \Real^m & n = 0 \\
-        x^{(n+1)} = x^{(n)} - \alpha \nabla_f(x^{(n)}) & n \in \mathbb{N}^*
+        x_v^{(0)} \in \Real^m & n = 0 \\
+        x_v^{(n+1)} = x_v^{(n)} - \alpha \nabla_f(x_v^{(n)}) & n \in \mathbb{N}^*
       \end{array}
     \right.
   \end{equation} \par
@@ -1111,73 +1111,73 @@
 % Vanilla gradient descent convergence and rate
 \begin{proposition}
   {\normalfont
-    Let $\alpha \in \Real^{+*}$, $L \in \Real^{+*}$, $f \in \mathcal{D}(\Real^m,\Real)$ and $(x^{(n)})_{n \in \mathbb{N}} \in \mathcal{G}_{descent}$.
-    If $f$ \textit{convex}, \textit{L-smooth}, admits $x^*$ as a \textit{global minimum} and $\alpha < \frac{2}{L}$ then \begin{equation*}
+    Let $\alpha \in \Real^{+*}$, $L \in \Real^{+*}$, $f \in \mathcal{D}(\Real^m,\Real)$ and $(x_v^{(n)})_{n \in \mathbb{N}} \in \mathcal{G}_{descent}$.
+    If $f$ \textit{convex}, \textit{L-smooth}, admits $x_v^*$ as a \textit{global minimum} and $\alpha < \frac{2}{L}$ then \begin{equation*}
       \begin{gathered}
-        \forall n \in \mathbb{N}^*, f(x^{(n)}) - f(x^*) \leq \frac{\norm{x^{(0)} - x^*}^2_m}{n\beta}
+        \forall n \in \mathbb{N}^*, f(x_v^{(n)}) - f(x_v^*) \leq \frac{\norm{x_v^{(0)} - x_v^*}^2_m}{nC}
       \end{gathered}
     \end{equation*} \par where \begin{equation*}
-      \beta = \alpha - \frac{L\alpha^2}{2}
+      C = \alpha - \frac{L\alpha^2}{2}
     \end{equation*}
   
-    \textbf{Note:} It means $(x^{(n)})_{n \in \mathbb{N}}$ converge to the global minimum $x^*$ with a rate of $\underset{n \to 0}{o}(n^{-1})$.
+    \textbf{Note:} It means $(x_v^{(n)})_{n \in \mathbb{N}}$ converge to the global minimum $x_v^*$ with a rate of $\underset{n \to 0}{o}(n^{-1})$.
   }
 \end{proposition}
 
 \begin{proof}
-  Let $f$ \textit{convex}, \textit{L-smooth}, admits a \textit{global minimum} $x^*$ and $\alpha < \frac{2}{L}$ and $n \in \mathbb{N}$.
+  Let $f$ \textit{convex}, \textit{L-smooth}, admits a \textit{global minimum} $x_v^*$ and $\alpha < \frac{2}{L}$ and $n \in \mathbb{N}$.
   \begin{equation*}
     \begin{array}{ll}
-      \norm{x^{(n+1)} - x^*}^2_m  & = \norm{x^{(n)} - x^* - \alpha {\nabla_f(x^{(n)})}}^2_m \\
-      & = \norm{x^{(n)} - x^*}^2_m - 2\alpha (x^{(n)} - x^*)*{\nabla_f(x^{(n)})}^T + \alpha^2 {\norm{\nabla_f(x^{(n)})}^2_m} \\
-      & \underset{(\ref{prop:grad_cocoercivity})}{\leq} \norm{x^{(n)} - x^*}^2_m
-        - \underbrace{(\frac{2\alpha}{L} - \alpha^2)}_{\in \Real^{+*}} {\norm{\nabla_f(x^{(n)})}^2_m} \\
-      & \underset{rec}{\leq} \norm{x^{(0)} - x^*}^2_m
+      \norm{x_v^{(n+1)} - x_v^*}^2_m  & = \norm{x_v^{(n)} - x_v^* - \alpha {\nabla_f(x_v^{(n)})}}^2_m \\
+      & = \norm{x_v^{(n)} - x_v^*}^2_m - 2\alpha (x_v^{(n)} - x_v^*)*{\nabla_f(x_v^{(n)})}^T + \alpha^2 {\norm{\nabla_f(x_v^{(n)})}^2_m} \\
+      & \underset{(\ref{prop:grad_cocoercivity})}{\leq} \norm{x_v^{(n)} - x_v^*}^2_m
+        - \underbrace{(\frac{2\alpha}{L} - \alpha^2)}_{\in \Real^{+*}} {\norm{\nabla_f(x_v^{(n)})}^2_m} \\
+      & \underset{rec}{\leq} \norm{x_v^{(0)} - x_v^*}^2_m
     \end{array}
   \end{equation*} \par
-  It also means $(\norm{x^{(n)} - x^*}_m)_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence}. \par
+  It also means $(\norm{x_v^{(n)} - x_v^*}_m)_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence}. \par
   \textbf{Note:} $rec$ means by applying recursively.
 
   \begin{equation*}
     \begin{array}{ll}
-      f(x^{(n+1)}) & \underset{(\ref{def:vanilla_grad_descent}),(\ref{prop:lsmooth_implies})}{\leq} f(x^{(n)}) + \nabla_f(x^{(n)}) * (-\alpha \nabla_f(x^{(n)}))^T + \frac{L}{2} \norm{- \alpha \nabla_f(x^{(n)})}_m^2 \\
-      & \leq f(x^{(n)}) - \underbrace{(\alpha - \frac{L \alpha^2}{2})}_{\in \Real^{+*}} \norm{\nabla_f(x^{(n)})}^2
+      f(x_v^{(n+1)}) & \underset{(\ref{def:vanilla_grad_descent}),(\ref{prop:lsmooth_implies})}{\leq} f(x_v^{(n)}) + \nabla_f(x_v^{(n)}) * (-\alpha \nabla_f(x_v^{(n)}))^T + \frac{L}{2} \norm{- \alpha \nabla_f(x_v^{(n)})}_m^2 \\
+      & \leq f(x_v^{(n)}) - \underbrace{(\alpha - \frac{L \alpha^2}{2})}_{\in \Real^{+*}} \norm{\nabla_f(x_v^{(n)})}^2
     \end{array}
   \end{equation*}
   \begin{equation*}
     \begin{array}{llll}
-      & \implies & (a) : & 0 \underset{(\ref{def:glob_min})}{\leq} f(x^{(n+1)}) - f(x^*) \leq f(x^{(n)}) - f(x^*) - \beta \norm{\nabla_f(x^{(n)})}^2
+      & \implies & (a) : & 0 \underset{(\ref{def:glob_min})}{\leq} f(x_v^{(n+1)}) - f(x_v^*) \leq f(x_v^{(n)}) - f(x_v^*) - C \norm{\nabla_f(x_v^{(n)})}^2
     \end{array}
   \end{equation*} \par
-  Let $\forall n \in \mathbb{N}$, $\delta^{(n)} = f(x^{(n)}) - f(x^*)$.
+  Let $\forall n \in \mathbb{N}$, $\delta^{(n)} = f(x_v^{(n)}) - f(x_v^*)$.
   It also means $(\delta^{(n)})_{n \in \mathbb{N}}$ is a \textit{decreasing numerical sequence} with a lower bound of $0$. \par
 
-  If $\forall k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} \neq 0$ and $\norm{x^{(0)} - x^*}_m \neq 0$ then
+  If $\forall k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} \neq 0$ and $\norm{x_v^{(0)} - x_v^*}_m \neq 0$ then
   \begin{equation*}
     \begin{array}{ll}
-      f(x^{(n)}) - f(x^*) & \underset{(\ref{prop:convex_grad})}{\leq} \nabla_f(x^{(n)}) * (x^{(n)} - x^*)^T \\
-      & \underset{Cauchy-Schwarz}{\leq} \norm{\nabla_f(x^{(n)})}_m \norm{x^{(n)} - x^*}_m \\
-      & \leq \norm{\nabla_f(x^{(n)})}_m \norm{x^{(0)} - x^*}_m
+      f(x_v^{(n)}) - f(x_v^*) & \underset{(\ref{prop:convex_grad})}{\leq} \nabla_f(x_v^{(n)}) * (x_v^{(n)} - x_v^*)^T \\
+      & \underset{Cauchy-Schwarz}{\leq} \norm{\nabla_f(x_v^{(n)})}_m \norm{x_v^{(n)} - x_v^*}_m \\
+      & \leq \norm{\nabla_f(x_v^{(n)})}_m \norm{x_v^{(0)} - x_v^*}_m
     \end{array}
   \end{equation*}
   \begin{equation*}
     \begin{array}{ll}
-      & \underset{(a)}{\implies} \delta^{(n+1)} \leq \delta^{(n)} - \frac{\beta}{\norm{x^{(0)} - x^*}_m^2} * {\delta^{(n)}}^2 \\
-      & \implies \frac{\beta}{\norm{x^{(0)} - x^*}_m^2}
-        \leq \frac{\beta}{\norm{x^{(0)} - x^*}_m^2} \frac{\delta^{(n)}}{\delta^{(n+1)}}
+      & \underset{(a)}{\implies} \delta^{(n+1)} \leq \delta^{(n)} - \frac{C}{\norm{x_v^{(0)} - x_v^*}_m^2} * {\delta^{(n)}}^2 \\
+      & \implies \frac{C}{\norm{x_v^{(0)} - x_v^*}_m^2}
+        \leq \frac{C}{\norm{x_v^{(0)} - x_v^*}_m^2} \frac{\delta^{(n)}}{\delta^{(n+1)}}
         \leq \frac{1}{\delta^{(n+1)}} - \frac{1}{\delta^{(n)}} \\
-      & \underset{\sum_{0}^n,tel}\implies \frac{(n+1) \beta}{\norm{x^{(0)} - x^*}_m^2}
+      & \underset{\sum_{0}^n,tel}\implies \frac{(n+1) C}{\norm{x_v^{(0)} - x_v^*}_m^2}
         \leq \frac{1}{\delta^{(n+1)}} - \frac{1}{\delta^{(0)}}
         \underset{(\ref{def:glob_min})}{\leq} \frac{1}{\delta^{(n+1)}}
     \end{array}
   \end{equation*} \par
   \textbf{Note:} $\sum_{0}^n$ means a sum from $0$ to $n$ and $tel$ means telescopic cancellation. \par
 
-  Else $\exists k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} = 0$ or $\norm{x^{(0)} - x^*}_m = 0$.
+  Else $\exists k \in \llbracket 0,n+1 \rrbracket$, $\delta^{(k)} = 0$ or $\norm{x_v^{(0)} - x_v^*}_m = 0$.
   Let \begin{equation*}
     r = \left\{ \begin{array}{ll}
-      \text{min} \{k \in \llbracket 0,n+1 \rrbracket | \delta^{(k)} = 0\} & \norm{x^{(0)} - x^*}_m \neq 0 \\
-      0 & \norm{x^{(0)} - x^*}_m = 0
+      \text{min} \{k \in \llbracket 0,n+1 \rrbracket | \delta^{(k)} = 0\} & \norm{x_v^{(0)} - x_v^*}_m \neq 0 \\
+      0 & \norm{x_v^{(0)} - x_v^*}_m = 0
     \end{array} \right.
   \end{equation*} \par
   If $r \neq 0$ the exact same reasoning can be done on $\llbracket 0,r-1 \rrbracket$ to obtain the inequality.
@@ -1185,23 +1185,31 @@
 
 \end{proof}
 
-% Stochastic gradient descent
+% Vanilla gradient descent with momentum
 \begin{definition}
-  Let $\alpha \in \Real^{+*}$ and $f \in \mathcal{D}(\Real^m,\Real)$. Let the \textit{Stochastic gradient descent}
+  Let $f \in \mathcal{D}(\Real^m,\Real)$, $\alpha \in \Real^{+*}$ and $\beta \in [0,1]$. Let the \textit{Gradient descent with momentum}
   be the numerical sequence \begin{equation}\label{def:stochastic_grad_descent}
-    (x^{(n)})_{n \in \mathbb{N}} = \left\{
+    (x_m^{(n)})_{n \in \mathbb{N}} = \left\{
       \begin{array}{ll}
-        x^{(0)} \in \Real^m & n = 0 \\
-        x^{(n+1)} = x^{(n)} - \alpha \nabla_f(x^{(n)}) & n \in \mathbb{N}^*
+        x_m^{(0)} \in \Real^m & n = 0 \\
+        x_m^{(n+1)} = x_m^{(n)} - \alpha m^{(n)} & n \in \mathbb{N}^*
       \end{array}
     \right.
   \end{equation} \par
 
-  $\alpha$ is named the learning rate. \par
-  $n \in \mathbb{N}$ fixed is named an epoch.
+  where \begin{equation*}
+    (m^{(n)})_{n \in \mathbb{N}} = \left\{
+      \begin{array}{ll}
+        0_{\Real^m} & n = 0 \\
+        m^{(n+1)} = \beta m^{(n)} + (1 - \beta) \nabla_f(x_m^{(n)}) & n \in \mathbb{N}^*
+      \end{array}
+    \right.
+  \end{equation*} \par
+
+  $(m^{(n)})_{n \in \mathbb{N}}$ is named the momentum.
 \end{definition}
 
-% SGD with decay and momentum
+% Stochastic gradient descent with momentum
 
 \section{References}
 
