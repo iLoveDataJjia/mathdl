@@ -19,6 +19,7 @@
 
 - [Neural Networks from Scratch in Python](https://nnfs.io/)
 - [Convergence Theorems for Gradient Descent](https://gowerrobert.github.io/pdf/M2_statistique_optimisation/grad_conv.pdf)
+- [Why Momentum Really Works](https://distill.pub/2017/momentum/)
 
 # Draft references
 
