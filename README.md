@@ -2,11 +2,17 @@
 
 [![Generic badge](https://img.shields.io/badge/TeXLive-3.141592653-brightgreen.svg?style=plastic)](https://www.tug.org/texlive/)
 
-![](docs/mathdl-front-img.jpg)
+![](docs/mathdnn-front-img.jpg)
 
 🤓📐 An explanation of dense neural networks (DNN) in a complete mathematical approach. The purpose of this project is using the open source software `LaTeX` to do a theoretical explanation with - definitions, propositions, theorems and proofs.
 
-# Want to edit the document yourself ?
+# Extract
+
+![](docs/mathdnn-extract.jpg)
+
+The [**link**](https://github.com/iLoveDataJjia/mathdnn/raw/main/mathdnn/paper.pdf) 😍 for the complete document in PDF format.
+
+# Want to contribute ?
 
 - I am using `Visual Code Studio` as my editor and `TeX Live` as my TeX distribution.
 - Download the VS extension `LaTeX Workshop` by James Yu.
@@ -15,24 +21,25 @@
 - You are ready to edit the document! 🎉🎉
 - To export as PDF from the [`paper.tex`](mathdnn/paper.tex) file click on the icon ▶️ on top right of your VS UI.
 
-# References
+# Using MathDNN as a reference ?
 
+```
+@misc{ilovedatajjiamathdnn,
+  author = {James Jiang and Alex Jiang},
+  title = {MathDNN - A deep mathematical understanding of DNNs},
+  year = {2022},
+  url = {https://github.com/iLoveDataJjia/mathdnn}
+}
+```
+
+# Main references
+
+- [ElegantPaper](https://github.com/ElegantLaTeX/ElegantPaper)
 - [Neural Networks from Scratch in Python](https://nnfs.io/)
 - [Convergence Theorems for Gradient Descent](https://gowerrobert.github.io/pdf/M2_statistique_optimisation/grad_conv.pdf)
-- [Why Momentum Really Works](https://distill.pub/2017/momentum/)
 
-# Draft references
+# Other references
 
-## Differentiability
-
-- [Cours de calcul différentiel Licence de mathématiques, 3ème année](https://perso.math.u-pem.fr/danchin.raphael/cours/calculdiff10.pdf)
-- [2.3 Dérivabilité en plusieurs variables](https://www.ljll.math.upmc.fr/~nardoni/polyagrl3/2017/chapt3.pdf)
-- [Matrix Differentiation](https://atmos.washington.edu/~dennis/MatrixCalculus.pdf)
-- [Jacobian and Chain Rule](https://www.youtube.com/watch?v=GvwsCscqAjk)
-
-## Optimization
-
-- [L1 Analyse : démonstration de la formule de Taylor avec reste intégral](https://www.youtube.com/watch?v=Hr6BaVbrkOw)
-- [COURS OPTIMISATION](http://math.univ-lyon1.fr/~ciuperca/optim-M1-sitn/cours-optim-M1-sitn.pdf)
 - [New Convergence Aspects of Stochastic Gradient Algorithms](https://lamnguyen-mltd.github.io/files/new_aspects_sgd.pdf)
 - [An Improved Analysis of Stochastic Gradient Descent with Momentum](https://arxiv.org/pdf/2007.07989.pdf)
+- [Why Momentum Really Works](https://distill.pub/2017/momentum/)
