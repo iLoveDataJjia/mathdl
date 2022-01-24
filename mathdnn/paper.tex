@@ -679,7 +679,7 @@
   \end{equation*}
 \end{proof}
 
-\section{Neural networks}
+\section{Neural network}
 
 \subsection{Simplified jacobian matrices}
 
@@ -1084,7 +1084,7 @@
 
 \subsection{Algorithms}
 
-% Gradient descent algorithm notation
+% Gradient descents algorithm notation
 \begin{notation}
   The notation $\Real^{\mathbb{N}}$ means the set of numerical sequences. \par
   The notation $\mathcal{G}_{descent}$ means the set of gradient descent sequences. \par
@@ -1092,7 +1092,7 @@
   numerical sequence defined in this section.
 \end{notation}
 
-% Vanilla gradient descent
+% Gradient descent
 \begin{definition}
   Let $f \in \mathcal{D}(\Real^m,\Real)$ and $\alpha \in \Real^{+*}$. Let the \textit{Gradient descent}
   be the numerical sequence \begin{equation}\label{def:vanilla_grad_descent}
@@ -1108,7 +1108,7 @@
   $n \in \mathbb{N}$ fixed is named an epoch.
 \end{definition}
 
-% Vanilla gradient descent convergence and rate
+% Gradient descent convergence and rate
 \begin{proposition}
   {\normalfont
     Let $\alpha \in \Real^{+*}$, $L \in \Real^{+*}$, $f \in \mathcal{D}(\Real^m,\Real)$ and $(x_v^{(n)})_{n \in \mathbb{N}} \in \mathcal{G}_{descent}$.
@@ -1182,10 +1182,9 @@
   \end{equation*} \par
   If $r \neq 0$ the exact same reasoning can be done on $\llbracket 0,r-1 \rrbracket$ to obtain the inequality.
   For the rest from $r$ to $n+1$ the inequality is also true because $\forall k \in \llbracket r,n+1 \rrbracket, \delta^{(k)} = 0$ \par
-
 \end{proof}
 
-% Vanilla gradient descent with momentum
+% Gradient descent with momentum
 \begin{definition}
   Let $f \in \mathcal{D}(\Real^m,\Real)$, $\alpha \in \Real^{+*}$ and $\beta \in [0,1]$. Let the \textit{Gradient descent with momentum}
   be the numerical sequence \begin{equation}\label{def:stochastic_grad_descent}
@@ -1209,8 +1208,8 @@
   $(m^{(n)})_{n \in \mathbb{N}}$ is named the momentum.
 \end{definition}
 
-% Stochastic gradient descent with momentum
-
-\section{References}
+% Bibliography
+\nocite{*}
+\bibliography{paper}
 
 \end{document}
