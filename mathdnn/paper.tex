@@ -1106,6 +1106,12 @@
 
   $\alpha$ is named the learning rate. \par
   $n \in \mathbb{N}$ fixed is named an epoch.
+
+  \textbf{Note:} For the multi-class classification problem $(\mathcal{P}_{c^+})$,
+  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ with all parameters fixed but one $W^{(k)}$ or $b^{(k)}$ will be $f$
+  and $W^{(k)}$ or $b^{(k)}$ will be the numerical sequence $(x_v^{(n)})_{n \in \mathbb{N}}$.
+  This is only for one parameter $W^{(k)}$ or $b^{(k)}$ but all the parameters are actually optimized simultaneously.
+  It means for each iteration $n$ all $W^{(k)}$ or $b^{(k)}$ receive an update.
 \end{definition}
 
 % Gradient descent convergence and rate
