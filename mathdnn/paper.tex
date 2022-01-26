@@ -1107,11 +1107,19 @@
   $\alpha$ is named the learning rate. \par
   $n \in \mathbb{N}$ fixed is named an epoch.
 
-  \textbf{Note:} For the multi-class classification problem $(\mathcal{P}_{c^+})$,
-  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ with all parameters fixed but one $W^{(k)}$ or $b^{(k)}$ will be $f$
-  and $W^{(k)}$ or $b^{(k)}$ will be the numerical sequence $(x_v^{(n)})_{n \in \mathbb{N}}$.
+  \textbf{Note:} For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$,
+  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ with all parameters fixed but one $W^{(k)}_{i^*,:}$ or $b^{(k)}$ will be $f$
+  and $W^{(k)}_{i^*,:}$ or $b^{(k)}$ will be the numerical sequence $(x_v^{(n)})_{n \in \mathbb{N}}$.
   This is only for one parameter $W^{(k)}$ or $b^{(k)}$ but all the parameters are actually optimized simultaneously.
   It means for each iteration $n$ all $W^{(k)}$ or $b^{(k)}$ receive an update.
+
+  \textbf{Note:} The \textit{Stochastic gradient descent} numerical sequence is similar to the \textit{Gradient descent} sequence but instead of
+  having $\nabla_f(x_v^{(n)})$ it uses $\nabla_f(x_v^{(n)} | \mathcal{x})$ an estimate of the actual gradient.
+  For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, the computations
+  can be intensives with large matrices $X$ and $Y^*$. For this reason, several sub-samples (of size $b=32$ generally) of $X$ and $Y^*$ called
+  \textit{batches} are used when computing the gradient estimate. More precisely, a \textit{batch} results from a sampling without remplacement
+  by couple of rows $X$ and $Y^*$. The last batch can be of size inferior or equal to $b$. $\nabla_f(x_v^{(n)} | \mathcal{x})$
+  the estimate is equal to the mean of the gradients of each batch.
 \end{definition}
 
 % Gradient descent convergence and rate
@@ -1127,6 +1135,8 @@
     \end{equation*}
   
     \textbf{Note:} It means $(x_v^{(n)})_{n \in \mathbb{N}}$ converge to the global minimum $x_v^*$ with a rate of $\underset{n \to 0}{o}(n^{-1})$.
+    In case of $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, \textit{Stochastic gradient descent} convergence is still an active research subject
+    nowadays \citep{gradconv_stochastic:0}.
   }
 \end{proposition}
 
@@ -1212,6 +1222,10 @@
   \end{equation*} \par
 
   $(m^{(n)})_{n \in \mathbb{N}}$ is named the momentum.
+
+  \textbf{Note:} In case of $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, an estimate $\nabla_f(x_v^{(n)} | \mathcal{x})$ of the actual gradient
+  is mostly used. This defines the \textit{Stochastic gradient descent with momentum} numerical sequence. Its convergence is still an active
+  research subject nowadays \citep{gradconv_momentum:1}.
 \end{definition}
 
 % Bibliography
