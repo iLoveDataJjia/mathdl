@@ -617,7 +617,7 @@
     \end{equation*}
     \begin{equation}\label{prop:densel_W_differential}
       \begin{array}{llll}
-        \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \mathcal{M}^{m,n} \\
+        \mathcal{J}_{\mathbb{L}(y,w^{(1)},\ldots,w^{(i^*-1)},\cdot,w^{(i^*)},\ldots,w^{(m-1)},b)} & : & \Real^n  & \longrightarrow \mathcal{M}_{m,n} \\
         &   & w & \longmapsto \begin{bmatrix}
           & (0) & \\
           y_1 & \cdots & y_n \\
@@ -877,8 +877,15 @@
 \end{corollary}
 
 \begin{proof}
-  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ is a sum and composition of \textit{differentiable} applications so it is \textit{differentiable} by the proposition $\ref{prop:jacobians_sum}$ and \hyperref[theo:chain_rule]{chain rule} theorem. \par
+  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ is a sum and composition of \textit{differentiable} applications so it is \textit{differentiable} by the proposition $\ref{prop:jacobians_sum}$ and the \hyperref[theo:chain_rule]{chain rule} theorem. \par
 \end{proof}
+
+\begin{notation}
+  {\normalfont
+    The following notation is considered $\overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(p)},\ldots,W^{(k+1)},\cdot,W^{(k-1)},\ldots,W^{(1)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})}$ for $k \in \llbracket 1,p \rrbracket$.
+    It means the vertical stack of the gradients according each $W^{(k)}_{i^{*},:}$ for $i^{*} \in \llbracket 1,m_{k+1} \rrbracket$. \par
+  }
+\end{notation}
 
 % Gradient descent
 \section{Gradient descent}
@@ -1106,20 +1113,6 @@
 
   $\alpha$ is named the learning rate. \par
   $n \in \mathbb{N}$ fixed is named an epoch.
-
-  \textbf{Note:} For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$,
-  $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$ with all parameters fixed but one $W^{(k)}_{i^*,:}$ or $b^{(k)}$ will be $f$
-  and $W^{(k)}_{i^*,:}$ or $b^{(k)}$ will be the numerical sequence $(x_v^{(n)})_{n \in \mathbb{N}}$.
-  This is only for one parameter $W^{(k)}$ or $b^{(k)}$ but all the parameters are actually optimized simultaneously.
-  It means for each iteration $n$ all $W^{(k)}$ or $b^{(k)}$ receive an update.
-
-  \textbf{Note:} The \textit{Stochastic gradient descent} numerical sequence is similar to the \textit{Gradient descent} sequence but instead of
-  having $\nabla_f(x_v^{(n)})$ it uses $\nabla_f(x_v^{(n)} | \mathcal{x})$ an estimate of the actual gradient.
-  For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, the computations
-  can be intensives with large matrices $X$ and $Y^*$. For this reason, several sub-samples (of size $b=32$ generally) of $X$ and $Y^*$ called
-  \textit{batches} are used when computing the gradient estimate. More precisely, a \textit{batch} results from a sampling without remplacement
-  by couple of rows $X$ and $Y^*$. The last batch can be of size inferior or equal to $b$. $\nabla_f(x_v^{(n)} | \mathcal{x})$
-  the estimate is equal to the mean of the gradients of each batch.
 \end{definition}
 
 % Gradient descent convergence and rate
@@ -1135,8 +1128,6 @@
     \end{equation*}
   
     \textbf{Note:} It means $(x_v^{(n)})_{n \in \mathbb{N}}$ converge to the global minimum $x_v^*$ with a rate of $\underset{n \to 0}{o}(n^{-1})$.
-    In case of $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, \textit{Stochastic gradient descent} convergence is still an active research subject
-    nowadays \citep{gradconv_stochastic:0}.
   }
 \end{proposition}
 
@@ -1203,7 +1194,7 @@
 % Gradient descent with momentum
 \begin{definition}
   Let $f \in \mathcal{D}(\Real^m,\Real)$, $\alpha \in \Real^{+*}$ and $\beta \in [0,1]$. Let the \textit{Gradient descent with momentum}
-  be the numerical sequence \begin{equation}\label{def:stochastic_grad_descent}
+  be the numerical sequence \begin{equation}
     (x_m^{(n)})_{n \in \mathbb{N}} = \left\{
       \begin{array}{ll}
         x_m^{(0)} \in \Real^m & n = 0 \\
@@ -1223,9 +1214,79 @@
 
   $(m^{(n)})_{n \in \mathbb{N}}$ is named the momentum.
 
-  \textbf{Note:} In case of $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, an estimate $\nabla_f(x_v^{(n)} | \mathcal{x})$ of the actual gradient
-  is mostly used. This defines the \textit{Stochastic gradient descent with momentum} numerical sequence. Its convergence is still an active
-  research subject nowadays \citep{gradconv_momentum:1}.
+  \textbf{Note:} Its convergence is still an active research subject nowadays \citep{gradconv_momentum:1}.
+\end{definition}
+
+% Backpropagation gradient descent
+\begin{definition}
+  Let the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$,
+  $\alpha \in \Real^{+*}$ and $\beta \in [0,1]$. Let the \textit{Backpropagation gradient descent} be the numerical sequence 
+  \begin{equation*}
+    \begin{gathered}
+      ((W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})_{n \in \mathbb{N}}
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    = \left\{
+      \begin{array}{lll}
+        (W^{(k)(0)}, b^{(k)(0)}) \in \mathcal{M}_{m_{k+1},m_k} \times \Real^{m_{k+1}} & k \in \llbracket 1,p \rrbracket & n = 0 \\
+        W^{(k)(n+1)} = W^{(k)(n)} - \alpha
+          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} &
+          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+        b^{(k)(n+1)} = b^{(k)(n)} - \alpha
+          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} &
+          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^*
+      \end{array}
+    \right.
+  \end{equation*} \par
+
+  \textbf{Note:} The \textit{Backpropagation stochastic gradient descent} numerical sequence is similar to the \textit{Backpropagation gradient descent} sequence but instead of
+  computing actual gradients it uses estimates.
+  For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, the computations
+  can be intensives with large matrices $X$ and $Y^*$. For this reason, several sub-samples (of size $b=32$ generally) of $X$ and $Y^*$ called
+  \textit{batches} are used when computing the gradient estimate. More precisely, a \textit{batch} results from a sampling without remplacement
+  by couple of rows from $X$ and $Y^*$. The last batch can be of size inferior or equal to $b$. The estimated gradient is equal
+  to the mean of the gradients of each batch.
+\end{definition}
+
+% Backpropagation gradient descent with momentum
+\begin{definition}
+  Let the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$,
+  $\alpha \in \Real^{+*}$ and $\beta \in [0,1]$. Let the \textit{Backpropagation gradient descent with momentum}
+  be the numerical sequence 
+  \begin{equation*}
+    \begin{gathered}
+      ((W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})_{n \in \mathbb{N}}
+    \end{gathered}
+  \end{equation*}
+  \begin{equation*}
+    = \left\{
+      \begin{array}{lll}
+        (W^{(k)(0)}, b^{(k)(0)}) \in \mathcal{M}_{m_{k+1},m_k} \times \Real^{m_{k+1}} & k \in \llbracket 1,p \rrbracket & n = 0 \\
+        W^{(k)(n+1)} = W^{(k)(n)} - \alpha m_{W^{(k)}}^{(n)} & k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+        b^{(k)(n+1)} = b^{(k)(n)} - \alpha m_{b^{(k)}}^{(n)} & k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^*
+      \end{array}
+    \right.
+  \end{equation*} \par
+
+  where \begin{equation*}
+    \begin{gathered}
+      ((m_{W^{(k)}}^{(n)})_{k \in \llbracket 1,p \rrbracket},(m_{b^{(k)}}^{(n)})_{k \in \llbracket 1,p \rrbracket})_{n \in \mathbb{N}}
+    \end{gathered}
+  \end{equation*}
+    \begin{equation*}
+    = \left\{
+      \begin{array}{lll}
+        (0_{\mathcal{M}_{m_{k+1},m_k}}, 0_{\Real^{m_{k+1}}}) & k \in \llbracket 1,p \rrbracket & n = 0 \\
+        m_{W^{(k)}}^{(n+1)} = \beta m_{W^{(k)}}^{(n)} + (1 - \beta)
+          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} &
+          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+        m_{b^{(k)}}^{(n+1)} = \beta m_{b^{(k)}}^{(n)} + (1 - \beta)
+          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} &
+          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+      \end{array}
+    \right.
+  \end{equation*} \par
 \end{definition}
 
 % Bibliography
