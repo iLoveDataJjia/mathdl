@@ -882,8 +882,27 @@
 
 \begin{notation}
   {\normalfont
-    The following notation is considered $\overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(p)},\ldots,W^{(k+1)},\cdot,W^{(k-1)},\ldots,W^{(1)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})}$ for $k \in \llbracket 1,p \rrbracket$.
-    It means the vertical stack of the gradients according each $W^{(k)}_{i^{*},:}$ for $i^{*} \in \llbracket 1,m_{k+1} \rrbracket$. \par
+    The following notation is considered \begin{equation*}
+      \begin{gathered}
+        \forall k \in \llbracket 1,p \rrbracket, \\
+        \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(p)},\ldots,W^{(k+1)},\cdot,W^{(k-1)},\ldots,W^{(1)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})}
+      \end{gathered}
+    \end{equation*}
+    \begin{equation*}
+      \begin{array}{lllll}
+          & : & \mathcal{M}_{m_{k+1},m_k} & \longrightarrow & \mathcal{M}_{m_{k+1},m_k} \\
+          &   & W & \longmapsto & \begin{bmatrix}
+            \nabla_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)},\ldots,W^{(k-1)},\cdot,W_{2,:},\ldots,W_{m_{k+1},:},W^{(k+1)},\ldots,W^{(p)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})} (W_{1,:}) \\
+            \vdots \\
+            \nabla_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)},\ldots,W^{(k-1)},W_{1,:},\ldots,W_{i^{*}-1,:},\cdot,W_{i^{*}+1,:},\ldots,W_{m_{k+1},:},W^{(k+1)},\ldots,W^{(p)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})} (W_{i^{*},:}) \\
+            \vdots \\
+            \nabla_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)},\ldots,W^{(k-1)},W_{1,:},\ldots,W_{m_{k},:},\cdot,W^{(k+1)},\ldots,W^{(p)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})} (W_{m_{k+1},:})
+          \end{bmatrix}
+      \end{array}
+    \end{equation*} \par
+
+    It means the vertical stack of the gradients according each $W^{(k)}_{i^{*},:}$
+    for $i^{*} \in \llbracket 1,m_{k+1} \rrbracket$ and a given layer $k$. \par
   }
 \end{notation}
 
@@ -1094,7 +1113,7 @@
 % Gradient descents algorithm notation
 \begin{notation}
   The notation $\Real^{\mathbb{N}}$ means the set of numerical sequences. \par
-  The notation $\mathcal{G}_{descent}$ means the set of gradient descent sequences. \par
+  The notation $\mathcal{G}_{descent}$ means the set of any gradient descent sequences. \par
   \textbf{Note:} $\mathcal{G}_{descent} \subset \Real^{\mathbb{N}}$ and a gradient descent sequence is a
   numerical sequence defined in this section.
 \end{notation}
@@ -1231,20 +1250,20 @@
       \begin{array}{lll}
         (W^{(k)(0)}, b^{(k)(0)}) \in \mathcal{M}_{m_{k+1},m_k} \times \Real^{m_{k+1}} & k \in \llbracket 1,p \rrbracket & n = 0 \\
         W^{(k)(n+1)} = W^{(k)(n)} - \alpha
-          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} &
+          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
           k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
         b^{(k)(n+1)} = b^{(k)(n)} - \alpha
-          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} &
+          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
           k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^*
       \end{array}
     \right.
   \end{equation*} \par
 
-  \textbf{Note:} The \textit{Backpropagation stochastic gradient descent} numerical sequence is similar to the \textit{Backpropagation gradient descent} sequence but instead of
-  computing actual gradients it uses estimates.
+  \textbf{Note:} The \textit{Backpropagation stochastic gradient descent} numerical sequence is similar to the
+  \textit{Backpropagation gradient descent} sequence, but instead of computing actual gradients it uses estimates.
   For the \textit{Multi-class classification problem} $(\mathcal{P}_{c^+})$ with $\mathcal{O}_{c^+}(X,Y^*,\cdot,\cdot)$, the computations
   can be intensives with large matrices $X$ and $Y^*$. For this reason, several sub-samples (of size $b=32$ generally) of $X$ and $Y^*$ called
-  \textit{batches} are used when computing the gradient estimate. More precisely, a \textit{batch} results from a sampling without remplacement
+  \textit{batches} are used when computing the gradient estimate. More precisely, a \textit{batch} results from a sampling without replacement
   by couple of rows from $X$ and $Y^*$. The last batch can be of size inferior or equal to $b$. The estimated gradient is equal
   to the mean of the gradients of each batch.
 \end{definition}
@@ -1279,10 +1298,10 @@
       \begin{array}{lll}
         (0_{\mathcal{M}_{m_{k+1},m_k}}, 0_{\Real^{m_{k+1}}}) & k \in \llbracket 1,p \rrbracket & n = 0 \\
         m_{W^{(k)}}^{(n+1)} = \beta m_{W^{(k)}}^{(n)} + (1 - \beta)
-          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} &
+          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
           k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
         m_{b^{(k)}}^{(n+1)} = \beta m_{b^{(k)}}^{(n)} + (1 - \beta)
-          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} &
+          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
           k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
       \end{array}
     \right.
