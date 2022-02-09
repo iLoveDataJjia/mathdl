@@ -885,7 +885,7 @@
     The following notation is considered \begin{equation*}
       \begin{gathered}
         \forall k \in \llbracket 1,p \rrbracket, \\
-        \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(p)},\ldots,W^{(k+1)},\cdot,W^{(k-1)},\ldots,W^{(1)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})}
+        \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)},\ldots,W^{(k-1)},\cdot,W^{(k+1)},\ldots,W^{(p)},(b^{(k)})_{k \in \llbracket 1,p \rrbracket})}
       \end{gathered}
     \end{equation*}
     \begin{equation*}
@@ -1246,17 +1246,19 @@
     \end{gathered}
   \end{equation*}
   \begin{equation*}
-    = \left\{
-      \begin{array}{lll}
-        (W^{(k)(0)}, b^{(k)(0)}) \in \mathcal{M}_{m_{k+1},m_k} \times \Real^{m_{k+1}} & k \in \llbracket 1,p \rrbracket & n = 0 \\
-        W^{(k)(n+1)} = W^{(k)(n)} - \alpha
-          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
-          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
-        b^{(k)(n+1)} = b^{(k)(n)} - \alpha
-          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
-          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^*
-      \end{array}
-    \right.
+    \resizebox{\hsize}{!}{$
+      = \left\{
+        \begin{array}{lll}
+          (W^{(k)(0)}, b^{(k)(0)}) \in \mathcal{M}_{m_{k+1},m_k} \times \Real^{m_{k+1}} & k \in \llbracket 1,p \rrbracket & n = 0 \\
+          W^{(k)(n+1)} = W^{(k)(n)} - \alpha
+            \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
+            k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+          b^{(k)(n+1)} = b^{(k)(n)} - \alpha
+            {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
+            k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^*
+        \end{array}
+      \right.
+    $}
   \end{equation*} \par
 
   \textbf{Note:} The \textit{Backpropagation stochastic gradient descent} numerical sequence is similar to the
@@ -1293,18 +1295,20 @@
       ((m_{W^{(k)}}^{(n)})_{k \in \llbracket 1,p \rrbracket},(m_{b^{(k)}}^{(n)})_{k \in \llbracket 1,p \rrbracket})_{n \in \mathbb{N}}
     \end{gathered}
   \end{equation*}
-    \begin{equation*}
-    = \left\{
-      \begin{array}{lll}
-        (0_{\mathcal{M}_{m_{k+1},m_k}}, 0_{\Real^{m_{k+1}}}) & k \in \llbracket 1,p \rrbracket & n = 0 \\
-        m_{W^{(k)}}^{(n+1)} = \beta m_{W^{(k)}}^{(n)} + (1 - \beta)
-          \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
-          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
-        m_{b^{(k)}}^{(n+1)} = \beta m_{b^{(k)}}^{(n)} + (1 - \beta)
-          {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(W)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
-          k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
-      \end{array}
-    \right.
+  \begin{equation*}
+    \resizebox{\hsize}{!}{$
+      = \left\{
+        \begin{array}{lll}
+          (0_{\mathcal{M}_{m_{k+1},m_k}}, 0_{\Real^{m_{k+1}}}) & k \in \llbracket 1,p \rrbracket & n = 0 \\
+          m_{W^{(k)}}^{(n+1)} = \beta m_{W^{(k)}}^{(n)} + (1 - \beta)
+            \overset{\sim}{\nabla}_{\mathcal{O}_{c^+}(X,Y^*,W^{(1)(n)},\ldots,W^{(k-1)(n)},\cdot,W^{(k+1)(n)},\ldots,W^{(p)(n)},(b^{(k)(n)})_{k \in \llbracket 1,p \rrbracket})} (W^{(k)(n)}) &
+            k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+          m_{b^{(k)}}^{(n+1)} = \beta m_{b^{(k)}}^{(n)} + (1 - \beta)
+            {\nabla}_{\mathcal{O}_{c^+}(X,Y^*,(W^{(k)(n)})_{k \in \llbracket 1,p \rrbracket},b^{(1)(n)},\ldots,b^{(k-1)(n)},\cdot,b^{(k+1)(n)},\ldots,b^{(p)(n)})} (b^{(k)(n)}) &
+            k \in \llbracket 1,p \rrbracket & n \in \mathbb{N}^* \\
+        \end{array}
+      \right.
+    $}
   \end{equation*} \par
 \end{definition}
 
